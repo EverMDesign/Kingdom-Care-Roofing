@@ -13,7 +13,7 @@ const projects = [
   },
   {
     title: 'Storm Damage Restoration',
-    location: 'Keller, TX',
+    location: 'Crowley, TX',
     detail: 'Hail damage repair & seamless gutters',
     image: 'https://images.unsplash.com/photo-1632154939226-f89d380e0c52?auto=format&fit=crop&w=150&q=80',
   },
