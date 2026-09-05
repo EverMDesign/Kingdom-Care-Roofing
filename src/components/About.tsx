@@ -5,7 +5,7 @@ export function About() {
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
           <div className="w-full lg:w-1/2">
             <span className="text-brand-gold font-bold tracking-wider uppercase text-sm mb-4 block">About Us</span>
-            <h2 className="font-serif text-3xl md:text-[40px] text-brand-charcoal mb-6 leading-tight">KingdomCare Roofing & Construction LLC: Our Story</h2>
+            <h2 className="section-heading text-brand-charcoal mb-6 leading-tight">KingdomCare Roofing & Construction LLC: Our Story</h2>
 
             <div className="text-brand-muted space-y-4">
               <p className="mb-4">Kingdom Care Roofing & Construction LLC was founded by Ben Antone on a simple belief: every family deserves a roof they can trust. From humble beginnings serving Fort Worth neighborhoods, our company has grown into a full-service roofing and construction team — all while keeping the same family-first values that started it all.</p>

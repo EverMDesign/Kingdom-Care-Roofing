@@ -1,6 +1,6 @@
 export function TopBar() {
   return (
-    <div className="bg-brand-gold text-white h-[36px] flex items-center px-4 md:px-8 text-sm font-medium">
+    <div className="bg-brand-gold text-white h-topbar flex items-center px-4 md:px-8 text-sm font-medium">
       <div className="max-w-wide mx-auto w-full flex justify-between items-center">
         <span className="hidden sm:inline">Serving Fort Worth & The Surrounding DFW Area</span>
         <span className="sm:hidden">Serving Fort Worth & DFW</span>

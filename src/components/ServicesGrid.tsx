@@ -79,7 +79,7 @@ const services = [
     category: 'Emergency',
     description: 'Swiftly restoring homes to pre-storm condition with expert care.',
     image: `${IK}/image_681a3e9a432c476416e20b35.jpeg`,
-    badgeBg: 'bg-[#B91C1C]',
+    badgeBg: 'bg-brand-emergency',
   },
   {
     slug: 'emergency-roof-repair',
@@ -87,7 +87,7 @@ const services = [
     category: 'Emergency',
     description: 'Fast response to safeguard your home from further damage.',
     image: `${IK}/image_681a3e9a432c476416e20a91.jpeg`,
-    badgeBg: 'bg-[#B91C1C]',
+    badgeBg: 'bg-brand-emergency',
   },
   {
     slug: 'storm-damage-repair',
@@ -95,7 +95,7 @@ const services = [
     category: 'Emergency',
     description: 'Reliable Roof Repair to Shield Your Home This Storm Season.',
     image: `${IK}/image_681a3e99432c476416e20649.jpeg`,
-    badgeBg: 'bg-[#B91C1C]',
+    badgeBg: 'bg-brand-emergency',
   },
   {
     slug: 'roof-inspections',
@@ -200,17 +200,17 @@ export function ServicesGrid() {
     <section className="py-section-mb md:py-section-dt bg-brand-charcoal text-white">
       <div className="max-w-content mx-auto px-4 md:px-8">
         <div className="mb-12">
-          <h2 className="font-serif text-3xl md:text-[40px] mb-4">Our Roofing & Construction Services</h2>
-          <p className="text-lg text-white/80 max-w-[600px]">From complete roof replacements to expert exterior construction, our experienced crews deliver protection and craftsmanship you can trust.</p>
+          <h2 className="section-heading mb-4">Our Roofing & Construction Services</h2>
+          <p className="text-lg text-white/80 max-w-prose-sm">From complete roof replacements to expert exterior construction, our experienced crews deliver protection and craftsmanship you can trust.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
           {services.map((service) => (
-            <a key={service.slug} href={`/services/${service.slug}`} className="group relative h-[300px] rounded-card overflow-hidden cursor-pointer block border border-white/10">
+            <a key={service.slug} href={`/services/${service.slug}`} className="group relative h-service-card rounded-card overflow-hidden cursor-pointer block border border-white/10">
               <img src={service.image} alt={service.title} className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-brand-charcoal/40 to-transparent opacity-90 group-hover:opacity-95 transition-opacity" />
               <div className="absolute inset-0 p-5 flex flex-col justify-end">
-                <span className={`${service.badgeBg} text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full w-max mb-3`}>
+                <span className={`badge ${service.badgeBg} mb-3`}>
                   {service.category}
                 </span>
                 <h3 className="text-base font-bold mb-1.5 text-white group-hover:text-brand-cta transition-colors leading-snug">

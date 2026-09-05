@@ -14,7 +14,7 @@ const reviews = [
     featured: true,
   },
   {
-    text: 'Ben is a man of integrity who consistently looks out for what\'s best for his customers. He goes above and beyond to make sure your roof is done correctly. His team is professional and the work is top-notch. I highly recommend Kingdom Care for any roofing needs.',
+    text: "Ben is a man of integrity who consistently looks out for what's best for his customers. He goes above and beyond to make sure your roof is done correctly. His team is professional and the work is top-notch. I highly recommend Kingdom Care for any roofing needs.",
     name: 'Bryant Parrales',
     location: 'Fort Worth, TX',
     featured: false,
@@ -31,18 +31,18 @@ export function Testimonials() {
   return (
     <section className="py-section-mb md:py-section-dt bg-brand-cream">
       <div className="max-w-content mx-auto px-4 md:px-8">
-        <h2 className="font-serif text-3xl md:text-[40px] text-brand-charcoal text-center mb-12">Why Homeowners Trust Us</h2>
+        <h2 className="section-heading text-brand-charcoal text-center mb-12">Why Homeowners Trust Us</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {reviews.map((review) => (
-            <div key={review.name} className={`rounded-card p-6 md:p-8 shadow-lg flex flex-col justify-between ${review.featured ? 'bg-brand-brown text-white' : 'bg-white border border-brand-border'}`}>
+            <div key={review.name} className={`${review.featured ? 'card-featured' : 'card shadow-card'} p-6 md:p-8 flex flex-col justify-between`}>
               <div>
-                <div className={`flex mb-4 ${review.featured ? 'text-brand-cta' : 'text-brand-cta'}`}>
+                <div className="flex text-brand-cta mb-4">
                   {[...Array(5)].map((_, i) => (
                     <StarIcon key={i} />
                   ))}
                 </div>
-                <p className={`text-[16px] leading-relaxed mb-6 ${review.featured ? 'font-medium' : 'text-brand-muted'}`}>"{review.text}"</p>
+                <p className={`text-body leading-relaxed mb-6 ${review.featured ? 'font-medium' : 'text-brand-muted'}`}>"{review.text}"</p>
               </div>
               <div className="flex items-center justify-between">
                 <div>

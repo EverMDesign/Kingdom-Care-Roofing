@@ -31,7 +31,7 @@ export function Projects() {
   return (
     <section className="py-section-mb md:py-section-dt bg-white">
       <div className="max-w-wide mx-auto px-4 md:px-8">
-        <h2 className="font-serif text-3xl md:text-[40px] text-brand-charcoal mb-12 max-w-content mx-auto">Explore Our Recent Projects</h2>
+        <h2 className="section-heading text-brand-charcoal mb-12 max-w-content mx-auto">Explore Our Recent Projects</h2>
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 max-w-content mx-auto">
           <div className="w-full lg:w-[45%] flex flex-col gap-6">

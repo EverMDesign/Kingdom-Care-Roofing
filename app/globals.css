@@ -6,16 +6,78 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ─── Component Classes ──────────────────────────────────────────────────────
+   Reusable patterns built on design tokens. Add layout utilities (flex,
+   padding, sizing) per-use in components; only shared style is captured here.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@layer components {
+
+  /* Buttons ---------------------------------------------------------------- */
+
+  /* Primary CTA — yellow fill */
+  .btn-cta {
+    @apply bg-brand-cta text-brand-charcoal rounded-btn font-bold
+           hover:bg-brand-ctaHover transition-colors;
+  }
+
+  /* Outline on dark backgrounds — white border */
+  .btn-outline-white {
+    @apply text-white border-2 rounded-btn font-bold
+           hover:bg-white/10 transition-colors;
+  }
+
+  /* Outline on light backgrounds — brown border */
+  .btn-outline-brown {
+    @apply border-2 border-brand-brown text-brand-brown rounded-btn font-bold
+           hover:bg-brand-brown hover:text-white transition-colors;
+  }
+
+
+  /* Cards ------------------------------------------------------------------ */
+
+  /* Standard white card */
+  .card {
+    @apply bg-white rounded-card border border-brand-border;
+  }
+
+  /* Dark featured card (brown) */
+  .card-featured {
+    @apply bg-brand-brown text-white rounded-card shadow-card-lg;
+  }
+
+
+  /* Badges ----------------------------------------------------------------- */
+
+  /* Category / label pill */
+  .badge {
+    @apply text-white text-xs font-bold uppercase tracking-wider
+           px-3 py-1 rounded-full w-max;
+  }
+
+
+  /* Typography ------------------------------------------------------------- */
+
+  /* Standard section h2: serif, responsive 3xl → 40px */
+  .section-heading {
+    @apply font-serif text-3xl md:text-heading;
+  }
+
+}
+
+
+/* ─── Utility Overrides ──────────────────────────────────────────────────── */
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
-
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
 
+  /* Dashed coupon border effect used in Offers cards */
   .coupon-border {
     background-image:
       linear-gradient(to right, #E9E6E1 50%, transparent 50%),

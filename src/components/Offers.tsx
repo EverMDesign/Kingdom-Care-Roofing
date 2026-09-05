@@ -3,12 +3,12 @@ export function Offers() {
     <section className="py-section-mb md:py-section-dt bg-brand-brown text-white">
       <div className="max-w-content mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-serif text-3xl md:text-[40px] mb-4">Special Offers from KingdomCare</h2>
-          <p className="text-white/80 max-w-[600px] mx-auto text-lg">Take advantage of our current seasonal promotions to add even more value to your next roofing or painting project.</p>
+          <h2 className="section-heading mb-4">Special Offers from KingdomCare</h2>
+          <p className="text-white/80 max-w-prose-sm mx-auto text-lg">Take advantage of our current seasonal promotions to add even more value to your next roofing or painting project.</p>
         </div>
 
         <div className="flex flex-col md:flex-row justify-center gap-6 md:gap-8">
-          <div className="bg-white text-brand-charcoal p-2 rounded-card shadow-xl w-full max-w-[500px]">
+          <div className="bg-white text-brand-charcoal p-2 rounded-card shadow-card-xl w-full max-w-offer">
             <div className="coupon-border h-full p-8 flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-brand-cream rounded-full flex items-center justify-center mb-4 text-brand-brown">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -17,14 +17,14 @@ export function Offers() {
               </div>
               <h3 className="font-serif text-2xl font-bold mb-2 text-brand-brown">Free Shingle Upgrade</h3>
               <p className="text-brand-muted mb-6">Upgrade to Class 4 Impact Resistant shingles at no extra cost on any full roof replacement. Mention code <strong>FreeUp</strong> when you call.</p>
-              <a href="#" className="bg-brand-cta text-brand-charcoal px-6 py-2.5 rounded-btn font-bold hover:bg-[#D9B92E] transition-colors w-full sm:w-auto mt-auto">
+              <a href="#" className="btn-cta px-6 py-2.5 w-full sm:w-auto mt-auto flex items-center justify-center">
                 Claim Offer
               </a>
               <span className="text-xs text-brand-muted mt-4 block">*Use code FreeUp. Restrictions apply. Mention during estimate.</span>
             </div>
           </div>
 
-          <div className="bg-white text-brand-charcoal p-2 rounded-card shadow-xl w-full max-w-[500px]">
+          <div className="bg-white text-brand-charcoal p-2 rounded-card shadow-card-xl w-full max-w-offer">
             <div className="coupon-border h-full p-8 flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-brand-cream rounded-full flex items-center justify-center mb-4 text-brand-brown">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -33,7 +33,7 @@ export function Offers() {
               </div>
               <h3 className="font-serif text-2xl font-bold mb-2 text-brand-brown">$500 Referral Fee</h3>
               <p className="text-brand-muted mb-6">Refer a friend or neighbor to KingdomCare! When they complete a project, you'll receive a $500 referral fee. Use code <strong>SAVE500</strong>.</p>
-              <a href="#" className="bg-brand-cta text-brand-charcoal px-6 py-2.5 rounded-btn font-bold hover:bg-[#D9B92E] transition-colors w-full sm:w-auto mt-auto">
+              <a href="#" className="btn-cta px-6 py-2.5 w-full sm:w-auto mt-auto flex items-center justify-center">
                 Submit a Referral
               </a>
               <span className="text-xs text-brand-muted mt-4 block">*Use code SAVE500. Reward issued upon job completion & final payment.</span>
