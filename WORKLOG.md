@@ -54,3 +54,13 @@ Scraped all 201 project pages from kingdomcareroofingandconstruction.com, extrac
 **Next Steps:** Build site, then import projects-enriched.json into Neon database
 
 ---
+
+## 2026-09-05 — 07:19
+
+Renamed and organized all homepage images — benefits, CTAs, brands, hero, favicon, video, Our Story, and 30 service area pages. Moved service area images to images/service-area/. All images/homepage/ files now have descriptive kingdom-care- prefixed names.
+
+**Files:** images/homepage/, images/service-area/
+
+**Status:** ✅ Complete
+
+---
