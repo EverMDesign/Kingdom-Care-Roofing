@@ -88,3 +88,22 @@ Expanded ServicesGrid from 8 placeholder cards to all 24 real services scraped f
 **Status:** ✅ Complete
 
 ---
+
+## 2026-09-05 — 17:37
+
+added projects archive and detail
+
+**Status:** ✅ Complete
+
+---
+
+## 2026-09-05 — 17:38
+
+added projects archive and detail
+
+**Files:** app/projects/page.tsx, app/projects/[slug]/page.tsx, src/components/ComparisonSlider.tsx, src/lib/projects.ts, src/components/index.ts, src/components/Header.tsx
+
+**Status:** ✅ Complete
+**Next Steps:** Connect projects to DB, add real before/after images to comparison slider, build mobile menu dropdown, wire remaining header links
+
+---
