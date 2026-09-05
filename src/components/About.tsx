@@ -8,22 +8,22 @@ export function About() {
             <h2 className="font-serif text-3xl md:text-[40px] text-brand-charcoal mb-6 leading-tight">KingdomCare Roofing & Construction LLC: Our Story</h2>
 
             <div className="text-brand-muted space-y-4">
-              <p className="mb-4">At KingdomCare, we believe that a strong roof does more than protect a house—it protects a family. Founded on principles of integrity, quality workmanship, and deep-rooted family values, we have dedicated ourselves to serving the Fort Worth community with excellence.</p>
+              <p className="mb-4">Kingdom Care Roofing & Construction LLC was founded by Ben Antone on a simple belief: every family deserves a roof they can trust. From humble beginnings serving Fort Worth neighborhoods, our company has grown into a full-service roofing and construction team — all while keeping the same family-first values that started it all.</p>
 
-              <p className="mb-4">Unlike large, impersonal corporations, we are a locally owned business that treats every project as if it were our own home. From the initial inspection to the final sweep of the yard, our commitment to the homeowner is unwavering.</p>
+              <p className="mb-4">With a combined 150 years of experience among our crew, we bring unmatched craftsmanship to every job — from residential shingle replacements to commercial flat roofing and full exterior construction. We also proudly partner with Freedpeople.org to give back to the communities we serve.</p>
 
-              <p className="font-medium text-brand-charcoal">We don't just build roofs; we build relationships built on trust, transparency, and a job done right the first time.</p>
+              <p className="font-medium text-brand-charcoal">We don't just build roofs — we build lasting relationships rooted in trust, transparency, and a commitment to getting it right the first time.</p>
             </div>
 
             <div className="mt-8 flex items-center gap-6">
               <div className="flex flex-col">
-                <span className="text-3xl font-bold text-brand-brown">15+</span>
-                <span className="text-sm font-medium text-brand-muted">Years Experience</span>
+                <span className="text-3xl font-bold text-brand-brown">150+</span>
+                <span className="text-sm font-medium text-brand-muted">Years Combined Exp.</span>
               </div>
               <div className="w-px h-12 bg-brand-border" />
               <div className="flex flex-col">
-                <span className="text-3xl font-bold text-brand-brown">100%</span>
-                <span className="text-sm font-medium text-brand-muted">Satisfaction Focus</span>
+                <span className="text-3xl font-bold text-brand-brown">5★</span>
+                <span className="text-sm font-medium text-brand-muted">Google Rating</span>
               </div>
             </div>
           </div>

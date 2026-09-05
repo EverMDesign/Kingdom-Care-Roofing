@@ -17,7 +17,7 @@ export function QuoteSection() {
         </svg>
 
         <p className="font-serif text-2xl md:text-3xl text-white leading-relaxed mb-8">
-          "We had several quotes, but KingdomCare stood out immediately. They weren't just trying to sell us a roof; they genuinely wanted to solve our problem. The crew was professional, fast, and the final result completely transformed the look of our home."
+          "I'm a realtor. My client wanted the entire roof replaced last minute before closing — Ben's team had a new roof up in a couple of hours! He is fast, affordable, and does quality work. Kingdom Care is now my go-to for all my clients' roofing needs."
         </p>
 
         <div className="flex justify-center text-brand-cta mb-4">
@@ -26,8 +26,8 @@ export function QuoteSection() {
           ))}
         </div>
 
-        <p className="text-white font-bold text-lg">The Martinez Family</p>
-        <p className="text-white/70 text-sm">Fort Worth, TX • Verified Customer</p>
+        <p className="text-white font-bold text-lg">Ijeoma Love Obiajulu</p>
+        <p className="text-white/70 text-sm">Fort Worth, TX • Google Review</p>
       </div>
     </section>
   )

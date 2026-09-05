@@ -29,7 +29,7 @@ export function Hero() {
                 <StarIcon key={i} />
               ))}
             </div>
-            <span className="text-white text-sm font-medium">4.9/5 Google Rating | Trusted by Homeowners</span>
+            <span className="text-white text-sm font-medium">5/5 Google Rating | 80+ Reviews</span>
           </div>
 
           <h1 className="text-white font-sans font-extrabold text-4xl lg:text-[58px] leading-[1.1] mb-6">
@@ -44,7 +44,7 @@ export function Hero() {
             <a href="#" className="bg-brand-cta text-brand-charcoal h-[52px] px-8 rounded-btn font-bold text-lg flex items-center justify-center hover:bg-[#D9B92E] transition-colors shadow-lg">
               Get a Free Estimate
             </a>
-            <a href="tel:8175550198" className="bg-transparent text-white border-2 border-white h-[52px] px-8 rounded-btn font-bold text-lg flex items-center justify-center hover:bg-white/10 transition-colors">
+            <a href="tel:8178888282" className="bg-transparent text-white border-2 border-white h-[52px] px-8 rounded-btn font-bold text-lg flex items-center justify-center hover:bg-white/10 transition-colors">
               Call Now
             </a>
           </div>

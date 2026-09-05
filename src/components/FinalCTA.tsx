@@ -14,7 +14,7 @@ export function FinalCTA() {
           <a href="#" className="bg-brand-cta text-brand-charcoal h-[56px] px-10 rounded-btn font-bold text-lg flex items-center justify-center hover:bg-[#D9B92E] transition-colors shadow-lg">
             Get an Estimate
           </a>
-          <a href="tel:8175550198" className="bg-transparent text-white border-2 border-white/60 h-[56px] px-10 rounded-btn font-bold text-lg flex items-center justify-center hover:bg-white/10 hover:border-white transition-colors">
+          <a href="tel:8178888282" className="bg-transparent text-white border-2 border-white/60 h-[56px] px-10 rounded-btn font-bold text-lg flex items-center justify-center hover:bg-white/10 hover:border-white transition-colors">
             Call Us
           </a>
         </div>

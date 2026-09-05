@@ -4,21 +4,21 @@ export function Footer() {
       <div className="max-w-content mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="flex flex-col">
-            <a href="#" className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-brand-brown rounded-btn flex items-center justify-center text-brand-cta font-serif font-bold text-xl">KC</div>
-              <div className="flex flex-col">
-                <span className="font-serif font-bold text-[18px] leading-tight text-white">KingdomCare</span>
-                <span className="text-[11px] font-semibold text-brand-gold uppercase tracking-wider">Roofing & Construction</span>
-              </div>
+            <a href="/" className="flex items-center gap-2 mb-6">
+              <img
+                src="https://ik.imagekit.io/4wu305uo4/image_681a3f34432c476416e58469.png"
+                alt="KingdomCare Roofing & Construction"
+                className="h-10 w-auto object-contain"
+              />
             </a>
             <p className="text-sm text-white/70 mb-6 leading-relaxed">Providing top-tier roofing, painting, and exterior construction services with integrity and craftsmanship built to protect your family.</p>
 
             <div className="flex flex-col gap-3 text-sm text-white/90 mb-6">
-              <a href="tel:8175550198" className="flex items-center gap-2 hover:text-brand-cta transition-colors">
+              <a href="tel:8178888282" className="flex items-center gap-2 hover:text-brand-cta transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                (817) 555-0198
+                (817) 888-8282
               </a>
               <a href="mailto:info@kingdomcare.com" className="flex items-center gap-2 hover:text-brand-cta transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -86,7 +86,7 @@ export function Footer() {
           <div className="flex gap-4">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <span className="hidden md:inline">Lic: #RC-123456</span>
+            <span className="hidden md:inline">Fort Worth, TX</span>
           </div>
         </div>
       </div>

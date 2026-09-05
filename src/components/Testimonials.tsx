@@ -6,6 +6,27 @@ function StarIcon() {
   )
 }
 
+const reviews = [
+  {
+    text: 'We recently used Kingdom Care Roofing and Construction to repair storm damage to our home, and they completely exceeded our expectations. Ben and his team were professional, efficient, and incredibly knowledgeable. They completed the job ahead of schedule and the quality of work was outstanding. Highly recommend!',
+    name: 'Philip Ferrara',
+    location: 'Fort Worth, TX',
+    featured: true,
+  },
+  {
+    text: 'Ben is a man of integrity who consistently looks out for what\'s best for his customers. He goes above and beyond to make sure your roof is done correctly. His team is professional and the work is top-notch. I highly recommend Kingdom Care for any roofing needs.',
+    name: 'Bryant Parrales',
+    location: 'Fort Worth, TX',
+    featured: false,
+  },
+  {
+    text: "We are incredibly grateful for Ben and his crew. After a plumbing issue flooded our house, Kingdom Care helped build us back better than new. Ben's attention to detail and commitment to quality was apparent throughout the entire process. We highly recommend them!",
+    name: 'The Ward Family',
+    location: 'Arlington, TX',
+    featured: false,
+  },
+]
+
 export function Testimonials() {
   return (
     <section className="py-section-mb md:py-section-dt bg-brand-cream">
@@ -13,59 +34,25 @@ export function Testimonials() {
         <h2 className="font-serif text-3xl md:text-[40px] text-brand-charcoal text-center mb-12">Why Homeowners Trust Us</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-brand-brown rounded-card p-6 md:p-8 text-white shadow-lg flex flex-col justify-between">
-            <div>
-              <div className="flex text-brand-cta mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <StarIcon key={i} />
-                ))}
-              </div>
-              <p className="text-[16px] leading-relaxed mb-6 font-medium">"KingdomCare was absolutely phenomenal. After the hail storm, they came out immediately, gave a fair estimate, and completed the roof replacement in two days. The crew was respectful and cleaned up perfectly. Highly recommend their family to yours."</p>
-            </div>
-            <div className="flex items-center justify-between">
+          {reviews.map((review) => (
+            <div key={review.name} className={`rounded-card p-6 md:p-8 shadow-lg flex flex-col justify-between ${review.featured ? 'bg-brand-brown text-white' : 'bg-white border border-brand-border'}`}>
               <div>
-                <p className="font-bold">Michael T.</p>
-                <p className="text-sm text-white/80">Fort Worth, TX</p>
+                <div className={`flex mb-4 ${review.featured ? 'text-brand-cta' : 'text-brand-cta'}`}>
+                  {[...Array(5)].map((_, i) => (
+                    <StarIcon key={i} />
+                  ))}
+                </div>
+                <p className={`text-[16px] leading-relaxed mb-6 ${review.featured ? 'font-medium' : 'text-brand-muted'}`}>"{review.text}"</p>
               </div>
-              <span className="text-sm font-semibold opacity-90">Google</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-card p-6 md:p-8 border border-brand-border shadow-sm flex flex-col justify-between">
-            <div>
-              <div className="flex text-brand-cta mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <StarIcon key={i} />
-                ))}
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className={`font-bold ${review.featured ? '' : 'text-brand-charcoal'}`}>{review.name}</p>
+                  <p className={`text-sm ${review.featured ? 'text-white/80' : 'text-brand-muted'}`}>{review.location}</p>
+                </div>
+                <span className={`text-sm font-semibold ${review.featured ? 'opacity-90' : 'text-brand-muted'}`}>Google</span>
               </div>
-              <p className="text-[16px] text-brand-muted leading-relaxed mb-6">"We hired them for a full exterior paint job and some minor construction repairs on our siding. The attention to detail was incredible. Our house looks brand new. Great communication throughout."</p>
             </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-bold text-brand-charcoal">Sarah Jenkins</p>
-                <p className="text-sm text-brand-muted">Arlington, TX</p>
-              </div>
-              <span className="text-sm font-semibold text-brand-muted">Yelp</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-card p-6 md:p-8 border border-brand-border shadow-sm flex flex-col justify-between hidden md:flex">
-            <div>
-              <div className="flex text-brand-cta mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <StarIcon key={i} />
-                ))}
-              </div>
-              <p className="text-[16px] text-brand-muted leading-relaxed mb-6">"Honest and reliable. They inspected my roof and told me I only needed minor repairs instead of a full replacement like another company claimed. You don't find that kind of integrity often."</p>
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-bold text-brand-charcoal">David R.</p>
-                <p className="text-sm text-brand-muted">Keller, TX</p>
-              </div>
-              <span className="text-sm font-semibold text-brand-muted">Google</span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
