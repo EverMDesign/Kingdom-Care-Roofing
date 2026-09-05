@@ -2,7 +2,7 @@ export function FinalCTA() {
   return (
     <section className="relative py-32 bg-brand-charcoal">
       <div className="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1613553474179-e1da80d75a14?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Roof at sunset" className="w-full h-full object-cover object-center" />
+        <img src="https://ik.imagekit.io/4wu305uo4/image_681a3e99432c476416e2040a.jpeg" alt="Secure your home with KingdomCare" className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 bg-brand-deep/85" />
       </div>
 

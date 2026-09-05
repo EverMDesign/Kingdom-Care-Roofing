@@ -21,10 +21,13 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: 'Kingdom Care Roofing & Construction - Fort Worth, TX',
   description: 'Professional roofing and construction services in Fort Worth and surrounding DFW area. Free estimates, fully insured, warranty backed.',
+  icons: {
+    icon: 'https://ik.imagekit.io/4wu305uo4/image_681a3f71432c476416e6aa4b.png',
+  },
   openGraph: {
     title: 'Kingdom Care Roofing & Construction',
     description: 'Professional roofing and construction services in Fort Worth',
-    images: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'],
+    images: ['https://ik.imagekit.io/4wu305uo4/image_681a3e99432c476416e2040a.jpeg'],
   },
 };
 

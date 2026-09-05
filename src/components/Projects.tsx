@@ -1,27 +1,29 @@
+const IK = 'https://ik.imagekit.io/4wu305uo4'
+
 const projects = [
   {
     title: 'Complete Roof Replacement',
     location: 'Fort Worth, TX',
     detail: 'Owens Corning Architectural Shingles',
-    image: 'https://images.unsplash.com/photo-1594818379496-da1e345b0ded?auto=format&fit=crop&w=150&q=80',
+    image: `${IK}/surge_media_1765854956990_sDItO6RQj.jpeg`,
   },
   {
     title: 'Exterior Home Painting',
     location: 'Arlington, TX',
     detail: 'Full exterior prep & premium paint',
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=150&q=80',
+    image: `${IK}/image_681a3e98432c476416e20251.jpeg`,
   },
   {
     title: 'Storm Damage Restoration',
     location: 'Crowley, TX',
     detail: 'Hail damage repair & seamless gutters',
-    image: 'https://images.unsplash.com/photo-1632154939226-f89d380e0c52?auto=format&fit=crop&w=150&q=80',
+    image: `${IK}/surge_media_1764101248917_cQ1DzlTAJ.jpeg`,
   },
   {
     title: 'Commercial Flat Roof',
     location: 'Dallas, TX',
     detail: 'TPO system installation',
-    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=150&q=80',
+    image: `${IK}/surge_media_1763071047948_1-GiZJzRX.jpeg`,
   },
 ]
 

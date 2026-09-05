@@ -64,3 +64,27 @@ Renamed and organized all homepage images — benefits, CTAs, brands, hero, favi
 **Status:** ✅ Complete
 
 ---
+
+## 2026-09-05 — 10:02
+
+test global log script from Kingdom Care project
+
+**Status:** ✅ Complete
+
+---
+
+## 2026-09-05 — 11:32
+
+Connected all homepage components to real Kingdom Care ImageKit images. Created src/lib/images.ts with all confirmed URLs. Updated Hero (video bg), About (Our Story), Brands (3 real logos + Google badge), FinalCTA (real bg), ServicesGrid (8 service photos), Projects (4 surge_media thumbnails). Updated layout.tsx favicon + OG image. Remaining Unsplash: 2 map placeholder images in Projects + ServiceAreas (no real equivalent in IK library).
+
+**Status:** ✅ Complete
+
+---
+
+## 2026-09-05 — 11:41
+
+Expanded ServicesGrid from 8 placeholder cards to all 24 real services scraped from kingdomcareroofingandconstruction.com. Each service maps to its correct ImageKit hero image, real subheader description, slug, and category badge. Grid: 1/2/3/4 cols responsive. Cards at 300px height. Services cover roofing, commercial, emergency, inspection, painting, and construction categories.
+
+**Status:** ✅ Complete
+
+---

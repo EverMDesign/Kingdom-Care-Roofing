@@ -1,66 +1,196 @@
+const IK = 'https://ik.imagekit.io/4wu305uo4'
+
 const services = [
   {
-    id: 1,
-    title: 'Residential Roof Replacement',
+    slug: 'shingle-roofing',
+    title: 'Professional Shingle Roofing Services',
     category: 'Roofing',
-    description: 'Complete tear-offs and expert installation of premium architectural shingles protecting your home for decades.',
-    image: 'https://images.unsplash.com/photo-1632154939226-f89d380e0c52?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    description: 'Weather-resistant and durable roofing for long-lasting home protection.',
+    image: `${IK}/image_681a3e9b432c476416e215e6.jpeg`,
     badgeBg: 'bg-brand-brown',
   },
   {
-    id: 2,
-    title: 'Targeted Roof Repair',
+    slug: 'roof-installation',
+    title: 'Expert Roof Installation Services',
     category: 'Roofing',
-    description: 'Fast, reliable leak detection and repair to extend the life of your current roofing system.',
-    image: 'https://images.unsplash.com/photo-1594818379496-da1e345b0ded?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    description: 'Expert installation ensures lasting protection and peace of mind.',
+    image: `${IK}/image_681a40f5432c476416f05809.webp`,
     badgeBg: 'bg-brand-brown',
   },
   {
-    id: 3,
-    title: 'Exterior House Painting',
-    category: 'Painting',
-    description: 'Complete exterior transformations including siding repair, thorough prep work, and premium finishes.',
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    badgeBg: 'bg-brand-gold',
+    slug: 'leak-detection-repair',
+    title: 'Professional Leak Detection & Repair Services',
+    category: 'Roofing',
+    description: 'Offering exceptional Leak Detection & Repair solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_681a40d5432c476416eff27b.jpeg`,
+    badgeBg: 'bg-brand-brown',
   },
   {
-    id: 4,
-    title: 'Commercial Roofing Systems',
+    slug: 'tile-roofing',
+    title: 'Professional Tile Roofing Services',
+    category: 'Roofing',
+    description: 'Durable, stunning protection for your home with expert installation.',
+    image: `${IK}/image_681a3e99432c476416e2084c.jpeg`,
+    badgeBg: 'bg-brand-brown',
+  },
+  {
+    slug: 'metal-roofing',
+    title: 'Expert Metal Roofing Solutions',
+    category: 'Roofing',
+    description: 'Durable and energy-efficient roofs that stand the test in any weather.',
+    image: `${IK}/image_681a3e9a432c476416e20a80.jpeg`,
+    badgeBg: 'bg-brand-brown',
+  },
+  {
+    slug: 'flat-roofing',
+    title: 'Professional Flat Roofing Services',
+    category: 'Roofing',
+    description: 'Offering exceptional Flat Roofing solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_681a3e99432c476416e205c7.jpeg`,
+    badgeBg: 'bg-brand-brown',
+  },
+  {
+    slug: 'slate-roofing',
+    title: 'Elegant Slate Roofing Services',
+    category: 'Roofing',
+    description: 'Experience timeless elegance and unmatched durability with our top-quality slate roofing.',
+    image: `${IK}/image_68c47d105c7cd75eb80c8bf5.jpeg`,
+    badgeBg: 'bg-brand-brown',
+  },
+  {
+    slug: 'tpo-roofing',
+    title: 'Professional TPO Roofing Services',
+    category: 'Roofing',
+    description: 'Offering exceptional TPO Roofing solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_681a3e99432c476416e205c7.jpeg`,
+    badgeBg: 'bg-brand-brown',
+  },
+  {
+    slug: 'commercial-roofing',
+    title: 'Professional Commercial Roofing Services',
     category: 'Commercial',
-    description: 'Durable flat roof solutions including TPO, EPDM, and modified bitumen for local businesses.',
-    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    badgeBg: 'bg-brand-brown',
+    description: 'Offering exceptional Commercial Roofing solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_681a3e98432c476416e1fbf6.jpeg`,
+    badgeBg: 'bg-brand-muted',
   },
   {
-    id: 5,
-    title: 'Storm & Hail Damage',
+    slug: 'storm-restroation',
+    title: 'Expert Storm Restoration Services',
     category: 'Emergency',
-    description: 'Comprehensive inspections and insurance claim assistance after severe Texas weather hits.',
-    image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    description: 'Swiftly restoring homes to pre-storm condition with expert care.',
+    image: `${IK}/image_681a3e9a432c476416e20b35.jpeg`,
     badgeBg: 'bg-[#B91C1C]',
   },
   {
-    id: 6,
-    title: 'Interior Painting',
-    category: 'Painting',
-    description: 'Refresh your living spaces with meticulous interior painting, drywall repair, and trim work.',
-    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    slug: 'emergency-roof-repair',
+    title: 'Emergency Roof Repair Experts',
+    category: 'Emergency',
+    description: 'Fast response to safeguard your home from further damage.',
+    image: `${IK}/image_681a3e9a432c476416e20a91.jpeg`,
+    badgeBg: 'bg-[#B91C1C]',
+  },
+  {
+    slug: 'storm-damage-repair',
+    title: 'Expert Storm Damage Repair Services',
+    category: 'Emergency',
+    description: 'Reliable Roof Repair to Shield Your Home This Storm Season.',
+    image: `${IK}/image_681a3e99432c476416e20649.jpeg`,
+    badgeBg: 'bg-[#B91C1C]',
+  },
+  {
+    slug: 'roof-inspections',
+    title: 'Professional Roof Inspection Services',
+    category: 'Inspection',
+    description: 'Ensure your roof\'s longevity with expert evaluation and care from experienced professionals.',
+    image: `${IK}/image_681a3e9a432c476416e20c24.jpeg`,
     badgeBg: 'bg-brand-gold',
   },
   {
-    id: 7,
-    title: 'Metal Roofing',
+    slug: 'roof-maintenance',
+    title: 'Professional Roof Maintenance Services',
+    category: 'Inspection',
+    description: 'Offering exceptional Roof Maintenance solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_681a3e9a432c476416e20b14.jpeg`,
+    badgeBg: 'bg-brand-gold',
+  },
+  {
+    slug: 'roof-ventilation-installation',
+    title: 'Professional Roof Ventilation Installation Services',
     category: 'Roofing',
-    description: 'Standing seam and metal panel installations for ultimate longevity and energy efficiency.',
-    image: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    description: 'Enhance comfort and energy efficiency with expert roof ventilation.',
+    image: `${IK}/image_681a3e98432c476416e1feba.jpeg`,
     badgeBg: 'bg-brand-brown',
   },
   {
-    id: 8,
-    title: 'Gutters & Construction',
+    slug: 'roof-coatings-sealants',
+    title: 'Professional Roof Coatings & Sealants Services',
+    category: 'Roofing',
+    description: 'Offering exceptional Roof Coatings & Sealants solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_681a3e99432c476416e205fc.jpeg`,
+    badgeBg: 'bg-brand-brown',
+  },
+  {
+    slug: 'chimney-flashing-repair',
+    title: 'Professional Chimney Flashing Repair Services',
+    category: 'Roofing',
+    description: 'Offering exceptional Chimney Flashing Repair solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_68c454615c7cd75eb8053201.jpeg`,
+    badgeBg: 'bg-brand-brown',
+  },
+  {
+    slug: 'interior-and-exterior-painting',
+    title: 'Professional Interior and Exterior Painting Services',
+    category: 'Painting',
+    description: 'Offering exceptional Interior and Exterior Painting solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_681a3e98432c476416e20251.jpeg`,
+    badgeBg: 'bg-brand-gold',
+  },
+  {
+    slug: 'siding-installation-and-repair',
+    title: 'Professional Siding Installation and Repair Services',
     category: 'Construction',
-    description: 'Seamless gutter installation, siding replacement, flashing, and general exterior repairs.',
-    image: 'https://images.unsplash.com/photo-1540914949437-017e923e597c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+    description: 'Offering exceptional Siding Installation and Repair solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_68c4518a5c7cd75eb8edb18a.jpeg`,
+    badgeBg: 'bg-brand-muted',
+  },
+  {
+    slug: 'gutter-installation-repair',
+    title: 'Professional Gutter Installation & Repair Services',
+    category: 'Construction',
+    description: 'Offering exceptional Gutter Installation & Repair solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_68c453985c7cd75eb8fab6c8.jpeg`,
+    badgeBg: 'bg-brand-muted',
+  },
+  {
+    slug: 'deck-repair-and-install',
+    title: 'Professional Deck Repair and Install Services',
+    category: 'Construction',
+    description: 'Offering exceptional Deck Repair and Install solutions, our team is committed to providing top-quality service.',
+    image: `${IK}/image_68c47dc45c7cd75eb8129681.jpeg`,
+    badgeBg: 'bg-brand-muted',
+  },
+  {
+    slug: 'pergola-repair-and-install',
+    title: 'Professional Pergola Repair and Install Services',
+    category: 'Construction',
+    description: 'Transform your outdoor space with exceptional pergola solutions from our dedicated team.',
+    image: `${IK}/image_681a3e98432c476416e1fe2f.jpeg`,
+    badgeBg: 'bg-brand-muted',
+  },
+  {
+    slug: 'framing-services',
+    title: 'Expert Framing Services by Kingdom Care Roofing',
+    category: 'Construction',
+    description: 'Quality Craftsmanship Ensuring Strength and Precision for Every Structure.',
+    image: `${IK}/image_681a3e9a432c476416e20ba4.jpeg`,
+    badgeBg: 'bg-brand-muted',
+  },
+  {
+    slug: 'fencing-repair-and-install',
+    title: 'Expert Fencing Repair and Install Services',
+    category: 'Construction',
+    description: 'Ensuring your property\'s security and beauty with professional fencing solutions.',
+    image: `${IK}/image_681a3e9a432c476416e20a6b.jpeg`,
     badgeBg: 'bg-brand-muted',
   },
 ]
@@ -70,42 +200,30 @@ export function ServicesGrid() {
     <section className="py-section-mb md:py-section-dt bg-brand-charcoal text-white">
       <div className="max-w-content mx-auto px-4 md:px-8">
         <div className="mb-12">
-          <h2 className="font-serif text-3xl md:text-[40px] mb-4">Our Roofing & Painting Services</h2>
-          <p className="text-lg text-white/80 max-w-[600px]">From complete roof replacements to meticulous exterior painting, our experienced crews deliver protection and curb appeal you can trust.</p>
+          <h2 className="font-serif text-3xl md:text-[40px] mb-4">Our Roofing & Construction Services</h2>
+          <p className="text-lg text-white/80 max-w-[600px]">From complete roof replacements to expert exterior construction, our experienced crews deliver protection and craftsmanship you can trust.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
           {services.map((service) => (
-            <a key={service.id} href="#" className="group relative h-[360px] rounded-card overflow-hidden cursor-pointer block border border-white/10">
+            <a key={service.slug} href={`/services/${service.slug}`} className="group relative h-[300px] rounded-card overflow-hidden cursor-pointer block border border-white/10">
               <img src={service.image} alt={service.title} className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-brand-charcoal/40 to-transparent opacity-90 group-hover:opacity-95 transition-opacity" />
-              <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                <span className={`${service.badgeBg} text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full w-max mb-4`}>
+              <div className="absolute inset-0 p-5 flex flex-col justify-end">
+                <span className={`${service.badgeBg} text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full w-max mb-3`}>
                   {service.category}
                 </span>
-                <h3 className="text-xl font-bold mb-2 text-white group-hover:text-brand-cta transition-colors">
+                <h3 className="text-base font-bold mb-1.5 text-white group-hover:text-brand-cta transition-colors leading-snug">
                   {service.title}
                 </h3>
-                <p className="text-sm text-white/80 mb-4 line-clamp-2">
+                <p className="text-xs text-white/75 line-clamp-2">
                   {service.description}
                 </p>
-                <div className="mt-auto flex justify-end">
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-brand-cta group-hover:text-brand-charcoal transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transform group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </div>
-                </div>
               </div>
             </a>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
-          <a href="#" className="inline-block border-2 border-brand-cta text-brand-cta font-bold px-8 py-3 rounded-btn hover:bg-brand-cta hover:text-brand-charcoal transition-colors">
-            View All Services
-          </a>
-        </div>
       </div>
     </section>
   )

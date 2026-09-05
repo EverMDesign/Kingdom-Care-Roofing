@@ -30,7 +30,7 @@ export function About() {
 
           <div className="w-full lg:w-1/2">
             <div className="relative aspect-[4/5] rounded-img overflow-hidden shadow-xl border-4 border-brand-cream">
-              <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="KingdomCare Team" className="w-full h-full object-cover" />
+              <img src="https://ik.imagekit.io/4wu305uo4/image_69a5dfd05c7cd75eb80822d2.jpg" alt="KingdomCare - Our Story" className="w-full h-full object-cover" />
               <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-brand-gold rounded-full opacity-20 blur-2xl" />
             </div>
           </div>

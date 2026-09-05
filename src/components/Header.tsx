@@ -8,14 +8,12 @@ export function Header() {
   return (
     <header className="bg-white border-b border-brand-border sticky top-0 z-50 h-[84px] shadow-sm flex items-center">
       <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex justify-between items-center">
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-brand-brown rounded-btn flex items-center justify-center text-brand-cta font-serif font-bold text-xl group-hover:bg-brand-deep transition-colors">
-            KC
-          </div>
-          <div className="flex flex-col">
-            <span className="font-serif font-bold text-[18px] leading-tight text-brand-charcoal">KingdomCare</span>
-            <span className="text-[11px] font-semibold text-brand-gold uppercase tracking-wider">Roofing & Construction</span>
-          </div>
+        <a href="#" className="flex items-center gap-3 group">
+          <img
+            src="https://ik.imagekit.io/4wu305uo4/image_681a3f34432c476416e58469.png"
+            alt="KingdomCare Roofing & Construction"
+            className="h-10 w-auto object-contain"
+          />
         </a>
 
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-medium text-[15px]">
