@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { TopBar, Header, Footer, FloatingCTA, ComparisonSlider } from '@/components'
 import { ProjectGallery } from '@/components/ProjectGallery'
+import ServiceAreaMap from '@/components/ServiceAreaMap'
 import { getProject, getProjects, getProjectPhotos } from '@/lib/workpress-api'
 import { generateProjectSchema } from '@/lib/workpress-schema'
 import type { Project, Photo } from '@/lib/workpress-types'
@@ -188,6 +189,22 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
           </div>
         </section>
+
+        {/* ── Project Location Map ──────────────────────────────────────── */}
+        {project.coordinates && (
+          <section className="bg-brand-cream border-t border-brand-border">
+            <div className="max-w-content mx-auto px-4 md:px-8 py-section-mb md:py-section-dt">
+              <span className="text-brand-gold font-bold tracking-wider uppercase text-xs-fine mb-2 block">Location</span>
+              <h2 className="font-serif text-3xl text-brand-charcoal mb-8">Project Site</h2>
+              <div className="rounded-map overflow-hidden shadow-sm border border-brand-border h-[400px]">
+                <ServiceAreaMap
+                  projects={[project]}
+                  mapStyle="mapbox://styles/mapbox/light-v11"
+                />
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ── Related Projects ──────────────────────────────────────────── */}
         {related.length > 0 && (

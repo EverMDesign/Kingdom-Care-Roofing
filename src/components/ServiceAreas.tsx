@@ -1,3 +1,6 @@
+import { getProjects } from '@/lib/workpress-api'
+import ServiceAreaMap from './ServiceAreaMap'
+
 const areas = [
   'Burleson',
   'Cleburne',
@@ -13,7 +16,9 @@ const areas = [
   'Dallas',
 ]
 
-export function ServiceAreas() {
+export async function ServiceAreas() {
+  const projects = await getProjects()
+
   return (
     <section className="py-section-mb md:py-section-dt bg-brand-cream relative">
       <div className="max-w-wide mx-auto px-4 md:px-8">
@@ -48,14 +53,8 @@ export function ServiceAreas() {
             </div>
           </div>
 
-          <div className="w-full lg:flex-1 h-[400px] lg:h-auto relative bg-brand-cream">
-            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Service Area Map" className="w-full h-full object-cover opacity-50" />
-
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-3/4 h-3/4 bg-brand-gold/20 border-2 border-brand-gold rounded-[40px] flex items-center justify-center backdrop-blur-[1px]">
-                <div className="bg-white/90 px-4 py-2 rounded shadow text-brand-brown font-bold text-sm">DFW Service Area</div>
-              </div>
-            </div>
+          <div className="w-full lg:flex-1 h-[400px] lg:h-auto min-h-[500px] relative">
+            <ServiceAreaMap projects={projects} mapStyle="mapbox://styles/mapbox/light-v11" />
           </div>
         </div>
       </div>

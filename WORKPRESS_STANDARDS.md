@@ -220,6 +220,18 @@ When building a new visual layout:
 
 ---
 
+## 12. Service Area Map
+
+`src/components/ServiceAreaMap.tsx` ships with every project via `setup.sh`. Pass it a `projects` array from a server component.
+
+**Locked** (same on every project): Mapbox GL JS v2.15.0, `dark-v11` style, zoom 8 / min 7 / max 15, cluster max zoom 13, cluster radius 50, teardrop pin shape.
+
+**Customize per project** — update the 5 color constants at the top of the file and the `center` coordinates if the client is outside DFW. Nothing else should change.
+
+Popup links follow the standard URL pattern: `/{city-slug}/{slug}`. Requires `NEXT_PUBLIC_MAPBOX_TOKEN` in env — renders an error state if missing, not a crash.
+
+---
+
 ## Files Reference
 
 | File | Purpose |
@@ -228,5 +240,6 @@ When building a new visual layout:
 | `src/lib/workpress-types.ts` | TypeScript interfaces |
 | `src/lib/workpress-schema.ts` | Schema.org generator |
 | `src/lib/metadata.ts` | SEO metadata helpers |
+| `src/components/ServiceAreaMap.tsx` | Mapbox map with pins and project popups |
 | `src/app/api/revalidate/route.ts` | Webhook endpoint |
 | `WORKPRESS_INTEGRATION.md` | Setup and connection guide |

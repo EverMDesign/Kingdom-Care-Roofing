@@ -57,6 +57,9 @@ const config: Config = {
         hero:           '600px',  // hero section mobile
         'hero-lg':      '660px',  // hero section desktop
       },
+      minHeight: {
+        hero: '600px',  // hero min-height on mobile (grows with content)
+      },
 
       // ─── Max widths ────────────────────────────────────────────────────────
       maxWidth: {

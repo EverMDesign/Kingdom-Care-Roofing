@@ -4,7 +4,7 @@ These WorkPress data fields were not wired during setup because no existing UI c
 
 ## Project Fields
 
-- `coordinates.lat / coordinates.lon` — No interactive map component exists. The homepage and projects-archive map sections use a static Unsplash image with hardcoded pin positions. Consider replacing with a real Mapbox or Google Maps embed that plots live project coordinates.
+- `coordinates.lat / coordinates.lon` — `ServiceAreas.tsx` has a `{/* Map goes here */}` placeholder ready for a Mapbox rewrite. The API returns coords as strings — must `parseFloat()` before use. API confirmed 3 live projects with coords (Cleburne, Venus, Burleson). City-level fallback coords needed for projects without stored coordinates.
 
 - `metaDescription` — Wired into `app/projects/[slug]/page.tsx` via `generateMetadata`. Not used on the archive page (`app/projects/page.tsx`) — if you add a `generateMetadata` export there, pull it from this field.
 
@@ -16,7 +16,7 @@ These WorkPress data fields were not wired during setup because no existing UI c
 
 - `company_name` — Header and Footer have "KingdomCare" hardcoded as logo alt text and in the layout metadata. Wire this if the company name is dynamic across tenants, otherwise leave as-is.
 
-- `company_phone` ✅ — Wired into `TopBar.tsx` and `Footer.tsx`. CTA buttons (`FinalCTA.tsx`, `ServiceAreas.tsx`, detail page, archive CTA) still use hardcoded `tel:8178888282` — wire those when ready.
+- `company_phone` ✅ — Wired into `TopBar.tsx`, `Footer.tsx`, and `Hero.tsx`. CTA buttons (`FinalCTA.tsx`, `ServiceAreas.tsx`, detail page, archive CTA) still use hardcoded `tel:8178888282` — wire those when ready.
 
 - `company_address` ✅ — Wired into `Footer.tsx`.
 

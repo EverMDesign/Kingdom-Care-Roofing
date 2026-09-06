@@ -7,6 +7,17 @@ function apiUrl(path: string) {
   return `${BASE}/api/public/organizations/${ORG}${path}`;
 }
 
+/** Normalize coordinates to numbers — the API returns them as strings */
+function normalizeProject(project: Project): Project {
+  if (project.coordinates) {
+    project.coordinates = {
+      lat: typeof project.coordinates.lat === 'string' ? parseFloat(project.coordinates.lat) : project.coordinates.lat,
+      lon: typeof project.coordinates.lon === 'string' ? parseFloat(project.coordinates.lon) : project.coordinates.lon,
+    };
+  }
+  return project;
+}
+
 /** Company details for schema.org markup — cached 1 hour */
 export async function getCompanySettings(): Promise<CompanySettings | null> {
   if (!BASE || !ORG) {
@@ -29,7 +40,8 @@ export async function getProjects(): Promise<Project[]> {
   try {
     const res = await fetch(apiUrl('/projects'), { next: { revalidate: 300 } });
     if (!res.ok) return [];
-    return res.json();
+    const projects: Project[] = await res.json();
+    return projects.map(normalizeProject);
   } catch (err) {
     console.error('[WorkPress] getProjects error:', err);
     return [];
@@ -42,7 +54,8 @@ export async function getProject(slug: string): Promise<Project | null> {
   try {
     const res = await fetch(apiUrl(`/projects/${slug}`), { next: { revalidate: 3600 } });
     if (!res.ok) return null;
-    return res.json();
+    const project: Project = await res.json();
+    return normalizeProject(project);
   } catch (err) {
     console.error('[WorkPress] getProject error:', err);
     return null;
