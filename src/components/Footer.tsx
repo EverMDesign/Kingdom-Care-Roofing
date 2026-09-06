@@ -1,4 +1,5 @@
 import { getCompanySettings } from '@/lib/workpress-api'
+import { serviceAreas } from '@/lib/service-areas-data'
 
 export async function Footer() {
   const settings = await getCompanySettings()
@@ -78,11 +79,13 @@ export async function Footer() {
           <div className="flex flex-col">
             <h3 className="font-bold text-lg mb-6 border-b border-white/10 pb-2 inline-block w-max">Service Areas</h3>
             <ul className="flex flex-col gap-3 text-sm text-white/80">
-              {['Fort Worth Roofing', 'Arlington Roofing', 'Keller Roofing', 'Southlake Roofing', 'Grapevine Roofing', 'North Richland Hills Roofing'].map((area) => (
-                <li key={area}>
-                  <a href="#" className="hover:text-brand-cta transition-colors">{area}</a>
-                </li>
-              ))}
+              {serviceAreas.map((area) => (
+                  <li key={area.slug}>
+                    <a href={`/service-areas/${area.slug}`} className="hover:text-brand-cta transition-colors">
+                      {area.city}
+                    </a>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>

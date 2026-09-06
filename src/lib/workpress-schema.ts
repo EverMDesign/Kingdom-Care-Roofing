@@ -1,5 +1,6 @@
 import { Project } from './workpress-types';
-import { CompanySettings, getCompanySettings } from './workpress-api';
+import { CompanySettings } from './workpress-types';
+import { getCompanySettings } from './workpress-api';
 
 /**
  * WorkPress Schema.org Generator
