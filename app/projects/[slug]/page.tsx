@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { TopBar, Header, Footer, FloatingCTA, ComparisonSlider } from '@/components'
 import { getProject, getProjects, getProjectPhotos } from '@/lib/workpress-api'
+import { generateProjectSchema } from '@/lib/workpress-schema'
 import type { Project, Photo } from '@/lib/workpress-types'
 
 export async function generateStaticParams() {
@@ -35,6 +36,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
     .slice(0, 3)
 
   const city = project.address.city
+  const schemas = await generateProjectSchema(project, city)
   const services = project.services ?? []
   const projectType = services[0] ?? 'General Construction'
 
@@ -66,6 +68,13 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
   return (
     <div className="bg-white text-brand-charcoal antialiased">
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <TopBar />
       <Header />
 

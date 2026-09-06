@@ -6,7 +6,7 @@ These WorkPress data fields were not wired during setup because no existing UI c
 
 - `coordinates.lat / coordinates.lon` — No interactive map component exists. The homepage and projects-archive map sections use a static Unsplash image with hardcoded pin positions. Consider replacing with a real Mapbox or Google Maps embed that plots live project coordinates.
 
-- `metaDescription` — Already wired into `app/projects/[slug]/page.tsx` via `generateMetadata`. Not used on the archive page (`app/projects/page.tsx`) — if you add a `generateMetadata` export there, pull it from this field.
+- `metaDescription` — Wired into `app/projects/[slug]/page.tsx` via `generateMetadata`. Not used on the archive page (`app/projects/page.tsx`) — if you add a `generateMetadata` export there, pull it from this field.
 
 - `created_at` — No "published date" element exists in any card or detail view. Consider adding a subtle date badge to `ProjectCard` in `app/projects/client.tsx` or to the detail page sidebar.
 
@@ -14,13 +14,13 @@ These WorkPress data fields were not wired during setup because no existing UI c
 
 ## Company Fields (from `getCompanySettings()`)
 
-- `company_name` — Header and Footer have "KingdomCare" hardcoded as text and in the logo. Wire this if the company name is dynamic across multiple tenants, otherwise leave as-is.
+- `company_name` — Header and Footer have "KingdomCare" hardcoded as logo alt text and in the layout metadata. Wire this if the company name is dynamic across tenants, otherwise leave as-is.
 
-- `company_phone` — Footer and CTA buttons have `(817) 888-8282` hardcoded. Consider replacing `href="tel:8178888282"` and display text with `settings.company_phone` fetched in layout or individual sections.
+- `company_phone` ✅ — Wired into `TopBar.tsx` and `Footer.tsx`. CTA buttons (`FinalCTA.tsx`, `ServiceAreas.tsx`, detail page, archive CTA) still use hardcoded `tel:8178888282` — wire those when ready.
 
-- `company_address` — Footer still shows a placeholder address (`1234 Contractor Way, Suite 100`). Wire `settings.company_address` into the Footer component once the real address is in WorkPress.
+- `company_address` ✅ — Wired into `Footer.tsx`.
 
-- `website_url` — Unused on the front end. Relevant for schema.org markup if you add a `LocalBusiness` or `Service` JSON-LD block to the layout.
+- `website_url` — Unused on the front end. Relevant for schema.org JSON-LD if you add a `LocalBusiness` block to the layout. Already used internally by `generateProjectSchema()`.
 
 ## How to use these fields
 
