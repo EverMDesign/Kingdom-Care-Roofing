@@ -117,3 +117,21 @@ Kingdom Care site session: updated ServiceAreaMap with mapStyle prop and light-v
 **Status:** ✅ Complete
 
 ---
+
+## 2026-09-06 — 17:35
+
+Added LocalBusiness and BreadcrumbList schema to all service area pages. Created generateServiceAreaSchema() in src/lib/service-areas-data.ts — outputs RoofingContractor + HomeAndConstructionBusiness with phone (+1-817-888-8282), Burleson address, city-specific areaServed, county containedInPlace, and hasOfferCatalog matching the 6 services shown in the page sidebar (Roof Replacement, Storm Damage Repair, Roof Inspection, Exterior Painting, Gutter Installation, Leak Detection & Repair). BreadcrumbList: Home → Service Areas → {city}, TX. Consistent @id across all pages for entity trust. Wired into app/service-areas/[slug]/page.tsx as inline script tag.
+
+**Files:** src/lib/service-areas-data.ts, app/service-areas/[slug]/page.tsx
+
+**Status:** ✅ Complete
+
+---
+
+## 2026-09-06 — 18:02
+
+Converted all JPEG/JPG/PNG images in public/images/ to WebP format using cwebp (quality 80) and ImageMagick. SVGs, MP4 hero video, and favicon.png left unchanged. Reduced total image folder size from 829MB to 444MB (~46% reduction, 385MB saved). Updated all source file references from .jpeg/.jpg/.png to .webp across images.ts, projects.ts, services-data.ts, ServicesGrid.tsx, and layout.tsx.
+
+**Status:** ✅ Complete
+
+---

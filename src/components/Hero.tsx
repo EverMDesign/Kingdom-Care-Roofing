@@ -1,4 +1,5 @@
 import { getCompanySettings } from '@/lib/workpress-api'
+import { IMAGES } from '@/lib/images'
 import { HeroForm } from './HeroForm'
 
 function StarIcon() {
@@ -26,7 +27,7 @@ export async function Hero() {
     <section className="relative w-full min-h-hero lg:h-hero-lg bg-brand-charcoal flex items-center py-16 lg:py-0">
       <div className="absolute inset-0 z-0">
         <video
-          src="https://ik.imagekit.io/4wu305uo4/video_681a3f8d432c476416e74d63.mp4"
+          src={IMAGES.heroVideo}
           autoPlay
           muted
           loop

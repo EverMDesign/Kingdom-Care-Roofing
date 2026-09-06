@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { IMAGES } from '@/lib/images'
 
 const services = [
   { label: 'Roof Replacement', slug: 'roof-replacement' },
@@ -26,9 +27,9 @@ export function Header() {
       <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex justify-between items-center">
         <a href="/" className="flex items-center gap-3 group">
           <img
-            src="https://ik.imagekit.io/4wu305uo4/image_681a3f34432c476416e58469.png"
+            src={IMAGES.logo}
             alt="KingdomCare Roofing & Construction"
-            className="h-10 w-auto object-contain"
+            className="h-14 w-auto object-contain"
           />
         </a>
 

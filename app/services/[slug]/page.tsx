@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { TopBar, Header, Footer, FloatingCTA } from '@/components'
 import { getServiceBySlug, SERVICES, SERVICES_NAV } from '@/lib/services-data'
-import { PROJECTS } from '@/lib/projects'
+import { getProjects } from '@/lib/workpress-api'
 import ServiceFAQ from './ServiceFAQ'
 
 export async function generateStaticParams() {
@@ -44,8 +44,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   const service = getServiceBySlug(slug)
   if (!service) notFound()
 
-  const relatedProjects = PROJECTS
-    .filter((p) => p.tags.some((tag) => service.projectTags.includes(tag)))
+  const allProjects = await getProjects()
+  const relatedProjects = allProjects
+    .filter((p) => (p.services ?? []).some((s) => service.projectTags.some((tag) => s.toLowerCase().includes(tag.toLowerCase()))))
     .slice(0, 3)
 
   return (
@@ -176,21 +177,21 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                   >
                     <div className="relative h-service-card overflow-hidden">
                       <img
-                        src={project.image}
-                        alt={project.title}
+                        src={project.cover_photo_url}
+                        alt={project.seoTitle}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute top-4 left-4">
+                      <div className="absolute top-4 left-4 flex gap-2">
                         <span className="bg-brand-brown/90 text-white text-xs-fine font-bold uppercase tracking-widest px-3 py-1 rounded-btn">
-                          {project.city}
+                          {project.address.city}
                         </span>
                       </div>
                     </div>
                     <div className="p-6">
                       <h3 className="font-bold text-brand-charcoal mb-2 group-hover:text-brand-brown transition-colors leading-snug">
-                        {project.title}
+                        {project.seoTitle}
                       </h3>
-                      <p className="text-sm text-brand-muted">{project.tags.join(' · ')}</p>
+                      <p className="text-sm text-brand-muted">{(project.services ?? []).join(' · ')}</p>
                     </div>
                   </a>
                 ))}

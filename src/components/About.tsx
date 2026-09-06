@@ -1,3 +1,5 @@
+import { IMAGES } from '@/lib/images'
+
 export function About() {
   return (
     <section className="py-section-mb md:py-section-dt bg-white">
@@ -30,7 +32,7 @@ export function About() {
 
           <div className="w-full lg:w-1/2">
             <div className="relative aspect-[4/5] rounded-img overflow-hidden shadow-xl border-4 border-brand-cream">
-              <img src="https://ik.imagekit.io/4wu305uo4/image_69a5dfd05c7cd75eb80822d2.jpg" alt="KingdomCare - Our Story" className="w-full h-full object-cover" />
+              <img src={IMAGES.ourStory} alt="KingdomCare - Our Story" className="w-full h-full object-cover" />
               <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-brand-gold rounded-full opacity-20 blur-2xl" />
             </div>
           </div>

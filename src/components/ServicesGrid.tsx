@@ -1,4 +1,4 @@
-const IK = 'https://ik.imagekit.io/4wu305uo4'
+const S = '/images/services'
 
 const services = [
   {
@@ -6,7 +6,7 @@ const services = [
     title: 'Roof Replacement',
     category: 'Roofing',
     description: 'Shingle, tile, slate, or TPO — full roof replacements backed by manufacturer warranties.',
-    image: `${IK}/image_681a3e9b432c476416e215e6.jpeg`,
+    image: `${S}/kingdom-care-shingle-roofing.webp`,
     badgeBg: 'bg-brand-brown',
   },
   {
@@ -14,7 +14,7 @@ const services = [
     title: 'Metal Roofing',
     category: 'Roofing',
     description: 'Long-lasting metal roofs built to handle Texas heat, hail, and high winds.',
-    image: `${IK}/image_681a3e9a432c476416e20a80.jpeg`,
+    image: `${S}/kingdom-care-metal-roofing.webp`,
     badgeBg: 'bg-brand-brown',
   },
   {
@@ -22,7 +22,7 @@ const services = [
     title: 'Flat Roofing',
     category: 'Roofing',
     description: 'Watertight flat and low-slope roofing systems for residential and commercial properties.',
-    image: `${IK}/image_681a3e99432c476416e205c7.jpeg`,
+    image: `${S}/kingdom-care-flat-roofing.webp`,
     badgeBg: 'bg-brand-brown',
   },
   {
@@ -30,7 +30,7 @@ const services = [
     title: 'Roof Installation',
     category: 'Roofing',
     description: 'New roof installations for new construction and additions, built to code and built to last.',
-    image: `${IK}/image_681a40f5432c476416f05809.webp`,
+    image: `${S}/kingdom-care-roof-installation.webp`,
     badgeBg: 'bg-brand-brown',
   },
   {
@@ -38,7 +38,7 @@ const services = [
     title: 'Storm Damage & Restoration',
     category: 'Emergency',
     description: 'Hail, wind, or water damage — we respond fast, restore right, and work with your insurance.',
-    image: `${IK}/image_681a3e9a432c476416e20b35.jpeg`,
+    image: `${S}/kingdom-care-storm-restroation.webp`,
     badgeBg: 'bg-brand-emergency',
   },
   {
@@ -46,7 +46,7 @@ const services = [
     title: 'Leak Detection & Repair',
     category: 'Roofing',
     description: 'We find the source and fix it right the first time, no guesswork.',
-    image: `${IK}/image_681a40d5432c476416eff27b.jpeg`,
+    image: `${S}/kingdom-care-leak-detection-repair.webp`,
     badgeBg: 'bg-brand-brown',
   },
   {
@@ -54,7 +54,7 @@ const services = [
     title: 'Roof Inspection & Maintenance',
     category: 'Inspection',
     description: 'Catch problems early and keep your roof in shape year-round with a thorough inspection.',
-    image: `${IK}/image_681a3e9a432c476416e20c24.jpeg`,
+    image: `${S}/kingdom-care-roof-inspections.webp`,
     badgeBg: 'bg-brand-gold',
   },
   {
@@ -62,7 +62,7 @@ const services = [
     title: 'Commercial Roofing',
     category: 'Commercial',
     description: 'Commercial roofing systems designed for durability and minimal business disruption.',
-    image: `${IK}/image_681a3e98432c476416e1fbf6.jpeg`,
+    image: `${S}/kingdom-care-commercial-roofing.webp`,
     badgeBg: 'bg-brand-muted',
   },
   {
@@ -70,7 +70,7 @@ const services = [
     title: 'Interior & Exterior Painting',
     category: 'Painting',
     description: 'Clean, even finishes inside and out using premium materials that hold up to Texas weather.',
-    image: `${IK}/image_681a3e98432c476416e20251.jpeg`,
+    image: `${S}/kingdom-care-interior-and-exterior-painting.webp`,
     badgeBg: 'bg-brand-gold',
   },
   {
@@ -78,7 +78,7 @@ const services = [
     title: 'Siding Installation & Repair',
     category: 'Construction',
     description: 'Protect and refresh your home\'s exterior with quality siding installed to last.',
-    image: `${IK}/image_68c4518a5c7cd75eb8edb18a.jpeg`,
+    image: `${S}/kingdom-care-siding-installation-and-repair.webp`,
     badgeBg: 'bg-brand-muted',
   },
   {
@@ -86,7 +86,7 @@ const services = [
     title: 'Gutter Installation & Repair',
     category: 'Construction',
     description: 'Properly installed gutters keep water moving away from your foundation and siding.',
-    image: `${IK}/image_68c453985c7cd75eb8fab6c8.jpeg`,
+    image: `${S}/kingdom-care-gutter-installation-repair.webp`,
     badgeBg: 'bg-brand-muted',
   },
   {
@@ -94,7 +94,7 @@ const services = [
     title: 'Outdoor Structures',
     category: 'Construction',
     description: 'Decks, pergolas, fencing, and framing — outdoor spaces built to your specs.',
-    image: `${IK}/image_681a3e98432c476416e1fe2f.jpeg`,
+    image: `${S}/kingdom-care-pergola-repair-and-install.webp`,
     badgeBg: 'bg-brand-muted',
   },
 ]

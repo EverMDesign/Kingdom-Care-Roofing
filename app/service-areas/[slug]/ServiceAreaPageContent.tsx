@@ -17,7 +17,7 @@ function HeroSection({ area, onOpenModal }: { area: ServiceArea; onOpenModal: ()
     <section className="relative w-full h-[550px] lg:h-[600px] bg-brand-charcoal flex items-center pb-16">
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+          src={`/images/service-area/kingdom-care-area-${area.slug}.webp`}
           alt={`Roofing services in ${area.city}, ${area.state}`}
           className="w-full h-full object-cover object-center"
         />

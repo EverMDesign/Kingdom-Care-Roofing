@@ -1,4 +1,4 @@
-const IK = 'https://ik.imagekit.io/4wu305uo4'
+const S = '/images/services'
 
 export interface FAQ {
   q: string
@@ -37,7 +37,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Roof Replacement',
     category: 'Roofing',
     tagline: 'Shingle, tile, slate, or TPO — full replacements done right, backed by manufacturer warranties.',
-    image: `${IK}/image_681a3e9b432c476416e215e6.jpeg`,
+    image: `${S}/kingdom-care-shingle-roofing.webp`,
     body: [
       'A roof replacement is one of the biggest investments a homeowner makes, and it deserves to be done right the first time. KingdomCare installs roofing systems across DFW using materials from GAF, Owens Corning, and other top manufacturers, so you get both performance and warranty coverage.',
       'We handle every type of residential roof: architectural shingles, tile, slate, and TPO. Whatever your home needs, our crews do a full tear-off, inspect the deck for soft spots or rot, and install a complete roofing system from ice and water shield to ridge cap.',
@@ -57,7 +57,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Metal Roofing',
     category: 'Roofing',
     tagline: 'Long-lasting metal roofs built to handle Texas heat, hail, and high winds.',
-    image: `${IK}/image_681a3e9a432c476416e20a80.jpeg`,
+    image: `${S}/kingdom-care-metal-roofing.webp`,
     body: [
       'Metal roofing has become one of the most requested upgrades in DFW. It holds up against hail, resists heat transfer, and can last 40 to 70 years with minimal maintenance. For homeowners who want to install a roof and never think about it again, metal is the right call.',
       'KingdomCare installs standing seam and exposed fastener metal panels for both residential and commercial properties. We match the panel profile, color, and finish to the structure so the result looks as good as it performs.',
@@ -77,7 +77,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Flat Roofing',
     category: 'Roofing',
     tagline: 'Watertight flat and low-slope roofing systems for residential and commercial properties.',
-    image: `${IK}/image_681a3e99432c476416e205c7.jpeg`,
+    image: `${S}/kingdom-care-flat-roofing.webp`,
     body: [
       'Flat and low-slope roofing requires a different approach than pitched roofs. Water does not shed naturally, so the membrane and drainage design have to be right. A poorly installed flat roof will leak. A well-installed one will protect your structure for decades.',
       'KingdomCare installs TPO, EPDM, and modified bitumen flat roofing systems. We assess the existing structure, ensure proper drainage, and select the right membrane for your specific application, whether it is a residential addition, a commercial building, or a flat section on a steep-slope roof.',
@@ -97,7 +97,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Roof Installation',
     category: 'Roofing',
     tagline: 'New roof installations for new construction and additions, built to code and built to last.',
-    image: `${IK}/image_681a40f5432c476416f05809.webp`,
+    image: `${S}/kingdom-care-roof-installation.webp`,
     body: [
       'New construction roofing is a different job than replacement. There is no tear-off, but the coordination with builders, framers, and inspectors requires experience. KingdomCare works with builders and general contractors across DFW to install roofing systems on new homes, additions, and custom builds.',
       'We follow IRC and local jurisdiction requirements, use manufacturer-approved installation methods, and show up when the build schedule calls for it. Builders trust us because we do not create delays and we do the job correctly the first time.',
@@ -117,7 +117,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Storm Damage & Restoration',
     category: 'Emergency',
     tagline: 'Hail, wind, or water damage — we respond fast, restore right, and work with your insurance.',
-    image: `${IK}/image_681a3e9a432c476416e20b35.jpeg`,
+    image: `${S}/kingdom-care-storm-restroation.webp`,
     body: [
       'When a storm hits DFW, it rarely hits just one house on the block. KingdomCare mobilizes quickly after major storm events to help homeowners assess damage, get covered under their insurance policies, and get their roofs restored before further damage occurs.',
       'Our inspectors document every impact point, including hail strikes on shingles, dented flashing, damaged gutters, and any structural issues the storm exposed. We prepare a complete damage report that insurance adjusters accept, and we walk you through every step of the claims process.',
@@ -137,7 +137,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Leak Detection & Repair',
     category: 'Roofing',
     tagline: 'We find the source and fix it right the first time.',
-    image: `${IK}/image_681a40d5432c476416eff27b.jpeg`,
+    image: `${S}/kingdom-care-leak-detection-repair.webp`,
     body: [
       'A roof leak is rarely where it appears to be. Water travels along sheathing, rafters, and insulation before it shows up on your ceiling. Guessing at the source is expensive and rarely works. Our leak detection process traces water intrusion back to the actual entry point.',
       'Common culprits include failed flashing around chimneys, vents, and skylights; cracked pipe boots; worn valley material; and shingles that have lifted or lost their seal. We identify the issue, explain it to you, and repair it properly.',
@@ -157,7 +157,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Roof Inspection & Maintenance',
     category: 'Inspection',
     tagline: 'Catch problems early and keep your roof in shape year-round.',
-    image: `${IK}/image_681a3e9a432c476416e20c24.jpeg`,
+    image: `${S}/kingdom-care-roof-inspections.webp`,
     body: [
       'Most roofing problems start small and get expensive because no one caught them early. An annual inspection gives you a clear picture of your roof\'s condition before issues turn into leaks, before leaks turn into structural damage, and before a minor repair becomes a full replacement.',
       'Our inspections cover the full roofing system: shingle condition and granule retention, flashing at all penetrations and transitions, ridge and soffit ventilation, gutter attachment and drainage, and any visible deck or fascia concerns. You receive a written report with photos.',
@@ -177,7 +177,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Commercial Roofing',
     category: 'Commercial',
     tagline: 'Commercial roofing systems designed for durability and minimal business disruption.',
-    image: `${IK}/image_681a3e98432c476416e1fbf6.jpeg`,
+    image: `${S}/kingdom-care-commercial-roofing.webp`,
     body: [
       'Commercial roofing is a different job than residential. Larger surface areas, different structural loads, different drainage systems, and a business that cannot have its operations interrupted. KingdomCare has completed commercial roofing projects across DFW ranging from retail centers to large industrial facilities.',
       'We work with building owners, property managers, and facility directors to schedule work around business hours, minimize disruption, and meet project deadlines. Our crews handle large-scale jobs with the same care and quality control we bring to every project.',
@@ -197,7 +197,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Interior & Exterior Painting',
     category: 'Painting',
     tagline: 'Clean, even finishes inside and out using materials that hold up to Texas weather.',
-    image: `${IK}/image_681a3e98432c476416e20251.jpeg`,
+    image: `${S}/kingdom-care-interior-and-exterior-painting.webp`,
     body: [
       'A good paint job is not just about color. It is about surface preparation, primer application, and putting the right coating on the right surface. Skipping prep work is the reason exterior paint peels and fades in two or three years instead of eight. KingdomCare does the prep before the paint.',
       'Exterior painting services include full pressure washing, crack and hole patching, caulking around windows and trim, spot priming, and two full coats of premium exterior paint. We use Sherwin-Williams and other high-grade products rated for Texas UV exposure and humidity.',
@@ -217,7 +217,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Siding Installation & Repair',
     category: 'Construction',
     tagline: 'Protect and refresh your home exterior with quality siding installed to last.',
-    image: `${IK}/image_68c4518a5c7cd75eb8edb18a.jpeg`,
+    image: `${S}/kingdom-care-siding-installation-and-repair.webp`,
     body: [
       'Siding protects your home from water, wind, and impact. When it is damaged or deteriorated, water gets behind it and the structure below starts to rot. KingdomCare replaces and repairs siding across DFW, including homes that took hail damage to both the roof and the exterior walls.',
       'We install fiber cement, vinyl, and wood siding depending on the project and what makes sense for the structure. Fiber cement is the most popular choice in Texas due to its durability, moisture resistance, and low maintenance requirements.',
@@ -237,7 +237,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Gutter Installation & Repair',
     category: 'Construction',
     tagline: 'Properly installed gutters keep water moving away from your foundation and siding.',
-    image: `${IK}/image_68c453985c7cd75eb8fab6c8.jpeg`,
+    image: `${S}/kingdom-care-gutter-installation-repair.webp`,
     body: [
       'Gutters protect more than most homeowners realize. Without them, rainwater runs off the roof and pools along the foundation, which leads to erosion, moisture intrusion, and eventually foundation movement. In DFW, where storms can dump several inches of rain in an hour, correctly sized gutters are not optional.',
       'KingdomCare installs seamless K-style gutters in aluminum and steel. Seamless gutters have fewer joints, which means fewer places for leaks to develop over time. We size the gutters and downspouts based on roof area and local rainfall data so the system handles what DFW storms actually throw at it.',
@@ -257,7 +257,7 @@ export const SERVICES: ServiceData[] = [
     title: 'Outdoor Structures',
     category: 'Construction',
     tagline: 'Decks, pergolas, fencing, and framing built to your specs and Texas conditions.',
-    image: `${IK}/image_681a3e98432c476416e1fe2f.jpeg`,
+    image: `${S}/kingdom-care-pergola-repair-and-install.webp`,
     body: [
       'Outdoor living in Texas is serious. When the weather is right, homeowners across DFW want to be outside, and a well-built deck or pergola makes that possible. KingdomCare builds outdoor structures that are properly anchored, built with the right materials, and designed to hold up through Texas summers and storm seasons.',
       'Decks are framed using pressure-treated lumber with composite or cedar decking depending on your preference and budget. Pergolas are built to complement the structure and provide shade without blocking views or airflow. Every post is anchored properly, every beam is sized for the span, and the work is done to code.',

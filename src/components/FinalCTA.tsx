@@ -1,8 +1,10 @@
+import { IMAGES } from '@/lib/images'
+
 export function FinalCTA() {
   return (
     <section className="relative py-32 bg-brand-charcoal">
       <div className="absolute inset-0 z-0">
-        <img src="https://ik.imagekit.io/4wu305uo4/image_681a3e99432c476416e2040a.jpeg" alt="Secure your home with KingdomCare" className="w-full h-full object-cover object-center" />
+        <img src={IMAGES.finalCtaBg} alt="Secure your home with KingdomCare" className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 bg-brand-deep/85" />
       </div>
 

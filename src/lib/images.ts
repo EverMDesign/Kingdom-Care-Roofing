@@ -1,30 +1,33 @@
-const IK = 'https://ik.imagekit.io/4wu305uo4'
+const HP = '/images/homepage'
 
 export const IMAGES = {
   // Favicon & Logo
-  favicon: `${IK}/image_681a3f71432c476416e6aa4b.png`,
-  logo: `${IK}/image_681a3f34432c476416e58469.png`,
-  logoSvg: `${IK}/image_68c2f1dc5c7cd75eb84ae9f3.svg`,
+  favicon: `${HP}/kingdom-care-favicon.png`,
+  logo: `${HP}/kingdom-care-logo.webp`,
+  logoSvg: `${HP}/kingdom-care-logo.webp`,
 
   // Hero
-  heroVideo: `${IK}/video_681a3f8d432c476416e74d63.mp4`,
+  heroVideo: `${HP}/kingdom-care-hero-bg.mp4`,
 
   // Benefits (aboutBenefitsAndAwards section)
-  benefitIndustryExpertise: `${IK}/image_681a3e9a432c476416e20a8b.jpeg`,
-  benefit247Service: `${IK}/image_681a3e97432c476416e1fa30.jpeg`,
-  benefitCommunity: `${IK}/image_681a3e9a432c476416e20a91.jpeg`,
-  benefitQuality: `${IK}/image_681a3e99432c476416e20706.jpeg`,
+  benefitIndustryExpertise: `${HP}/kingdom-care-benefit-industry-expertise.webp`,
+  benefit247Service: `${HP}/kingdom-care-benefit-247-service-availability.webp`,
+  benefitCommunity: `/images/services/kingdom-care-emergency-roof-repair.webp`,
+  benefitQuality: `${HP}/kingdom-care-benefit-unwavering-quality-guarantee.webp`,
 
   // Brand partners (partnerships section)
-  brandOwensCorning: `${IK}/image_68c2f1dc5c7cd75eb84ae9f3.svg`,
-  brandGaf: `${IK}/image_68c2f1df5c7cd75eb84afc24.png`,
-  brandMulehide: `${IK}/image_68c2f1e15c7cd75eb84b085c.png`,
-  googleBadge: `${IK}/Badges/rs=w_600,cg_true.webp`,
+  brandOwensCorning: `${HP}/kingdom-care-brand-owens-corning.svg`,
+  brandGaf: `${HP}/kingdom-care-brand-gaf.webp`,
+  brandMulehide: `${HP}/kingdom-care-brand-mulehide.webp`,
+  brandCertainTeed: `${HP}/kingdom-care-brand-certainteed-shinglemaster.webp`,
+  googleBadge: `${HP}/kingdom-care-google-reviews-badge.webp`,
 
   // About
-  ourStory: `${IK}/image_69a5dfd05c7cd75eb80822d2.jpg`,
+  ourStory: `${HP}/kingdom-care-our-story.webp`,
 
   // CTAs & Forms
-  finalCtaBg: `${IK}/image_681a3e99432c476416e2040a.jpeg`,
-  contactFormBg: `${IK}/image_681a3e99432c476416e20825.jpeg`,
+  finalCtaBg: `${HP}/kingdom-care-cta-secure-your-home-today.webp`,
+  protectCtaBg: `${HP}/kingdom-care-cta-protect-your-home-today.webp`,
+  secureCtaBg: `${HP}/kingdom-care-cta-secure-your-home.webp`,
+  contactFormBg: `${HP}/kingdom-care-contact-form-bg.webp`,
 } as const

@@ -22,12 +22,12 @@ export const metadata: Metadata = {
   title: 'Kingdom Care Roofing & Construction - Burleson, TX',
   description: 'Local roofing contractor based in Burleson, TX. Expert roof replacements, storm damage repair, and exterior services throughout the DFW area. Free estimates, fully insured, warranty backed.',
   icons: {
-    icon: 'https://ik.imagekit.io/4wu305uo4/image_681a3f71432c476416e6aa4b.png',
+    icon: '/images/homepage/kingdom-care-favicon.png',
   },
   openGraph: {
     title: 'Kingdom Care Roofing & Construction',
     description: 'Professional roofing and construction services in Fort Worth',
-    images: ['https://ik.imagekit.io/4wu305uo4/image_681a3e99432c476416e2040a.jpeg'],
+    images: ['/images/homepage/kingdom-care-cta-secure-your-home-today.webp'],
   },
 };
 

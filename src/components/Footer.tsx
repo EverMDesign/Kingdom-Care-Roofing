@@ -1,5 +1,6 @@
 import { getCompanySettings } from '@/lib/workpress-api'
 import { serviceAreas } from '@/lib/service-areas-data'
+import { IMAGES } from '@/lib/images'
 
 export async function Footer() {
   const settings = await getCompanySettings()
@@ -14,9 +15,9 @@ export async function Footer() {
           <div className="flex flex-col">
             <a href="/" className="flex items-center gap-2 mb-6">
               <img
-                src="https://ik.imagekit.io/4wu305uo4/image_681a3f34432c476416e58469.png"
+                src={IMAGES.logo}
                 alt="KingdomCare Roofing & Construction"
-                className="h-10 w-auto object-contain"
+                className="h-14 w-auto object-contain"
               />
             </a>
             <p className="text-sm text-white/70 mb-6 leading-relaxed">Your Burleson neighbors trust us to protect the homes their families live in. We show up, do the job right, and stand behind every project. No shortcuts, no surprises.</p>
