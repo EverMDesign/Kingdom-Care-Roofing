@@ -57,9 +57,17 @@ export async function Footer() {
           <div className="flex flex-col">
             <h3 className="font-bold text-lg mb-6 border-b border-white/10 pb-2 inline-block w-max">Our Services</h3>
             <ul className="flex flex-col gap-3 text-sm text-white/80">
-              {['Residential Roofing', 'Roof Replacement', 'Roof Repair & Inspection', 'Commercial Flat Roofing', 'Interior & Exterior Painting', 'Storm & Hail Damage', 'Gutters & Construction'].map((service) => (
-                <li key={service}>
-                  <a href="#" className="hover:text-brand-cta transition-colors">{service}</a>
+              {[
+                { label: 'Roof Replacement', slug: 'roof-replacement' },
+                { label: 'Metal Roofing', slug: 'metal-roofing' },
+                { label: 'Storm Damage & Restoration', slug: 'storm-damage-repair' },
+                { label: 'Roof Inspection & Maintenance', slug: 'roof-inspections' },
+                { label: 'Commercial Roofing', slug: 'commercial-roofing' },
+                { label: 'Interior & Exterior Painting', slug: 'interior-and-exterior-painting' },
+                { label: 'Gutter Installation & Repair', slug: 'gutter-installation-repair' },
+              ].map((service) => (
+                <li key={service.slug}>
+                  <a href={`/services/${service.slug}`} className="hover:text-brand-cta transition-colors">{service.label}</a>
                 </li>
               ))}
             </ul>
