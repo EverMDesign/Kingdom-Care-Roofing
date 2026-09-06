@@ -31,13 +31,11 @@ export async function ServiceAreas() {
 
             <ul className="grid grid-cols-2 gap-y-3 gap-x-4 mb-8">
               {areas.map((area) => (
-                <li key={area}>
-                  <a href="#" className="text-brand-muted hover:text-brand-gold transition-colors flex items-center gap-2">
-                    <svg className="w-4 h-4 text-brand-gold" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
-                    {area}
-                  </a>
+                <li key={area} className="text-brand-muted flex items-center gap-2">
+                  <svg className="w-4 h-4 text-brand-gold shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                  {area}
                 </li>
               ))}
             </ul>

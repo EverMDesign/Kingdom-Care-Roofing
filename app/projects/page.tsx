@@ -22,11 +22,11 @@ export default async function ProjectsArchive() {
                   Our Portfolio
                 </span>
                 <h1 className="font-serif text-display-sm md:text-display leading-tight text-brand-charcoal mb-6">
-                  Completed Projects by Satisfied Customers
+                  Our Completed Work Across DFW
                 </h1>
                 <p className="text-body text-brand-muted mb-8 max-w-prose-sm">
-                  From minor repairs to complete transformations, explore how KingdomCare has
-                  been protecting homes and elevating curb appeal across the DFW Metroplex.
+                  Based in Burleson, KingdomCare handles everything from minor repairs to full
+                  exterior transformations across Fort Worth, Arlington, Dallas, and the surrounding DFW Metroplex.
                 </p>
                 <a href="tel:8178888282" className="btn-cta inline-block px-10 py-4 text-lg shadow-card-lg">
                   Get a Free Estimate
