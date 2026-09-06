@@ -1,33 +1,9 @@
-const IK = 'https://ik.imagekit.io/4wu305uo4'
+import { getProjects } from '@/lib/workpress-api'
 
-const projects = [
-  {
-    title: 'Complete Roof Replacement',
-    location: 'Fort Worth, TX',
-    detail: 'Owens Corning Architectural Shingles',
-    image: `${IK}/surge_media_1765854956990_sDItO6RQj.jpeg`,
-  },
-  {
-    title: 'Exterior Home Painting',
-    location: 'Arlington, TX',
-    detail: 'Full exterior prep & premium paint',
-    image: `${IK}/image_681a3e98432c476416e20251.jpeg`,
-  },
-  {
-    title: 'Storm Damage Restoration',
-    location: 'Crowley, TX',
-    detail: 'Hail damage repair & seamless gutters',
-    image: `${IK}/surge_media_1764101248917_cQ1DzlTAJ.jpeg`,
-  },
-  {
-    title: 'Commercial Flat Roof',
-    location: 'Dallas, TX',
-    detail: 'TPO system installation',
-    image: `${IK}/surge_media_1763071047948_1-GiZJzRX.jpeg`,
-  },
-]
+export async function Projects() {
+  const allProjects = await getProjects()
+  const projects = allProjects.slice(0, 4)
 
-export function Projects() {
   return (
     <section className="py-section-mb md:py-section-dt bg-white">
       <div className="max-w-wide mx-auto px-4 md:px-8">
@@ -35,13 +11,13 @@ export function Projects() {
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 max-w-content mx-auto">
           <div className="w-full lg:w-[45%] flex flex-col gap-6">
-            {projects.map((project, idx) => (
-              <a key={idx} href="#" className="group flex items-center gap-6 p-4 rounded-card hover:bg-brand-cream transition-colors border border-transparent hover:border-brand-border">
-                <img src={project.image} alt={project.title} className="w-20 h-20 object-cover rounded-img shadow-sm" />
+            {projects.map((project) => (
+              <a key={project.id} href={`/projects/${project.slug}`} className="group flex items-center gap-6 p-4 rounded-card hover:bg-brand-cream transition-colors border border-transparent hover:border-brand-border">
+                <img src={project.cover_photo_url} alt={project.seoTitle} className="w-20 h-20 object-cover rounded-img shadow-sm" />
                 <div className="flex-1">
-                  <h3 className="font-bold text-lg text-brand-charcoal group-hover:text-brand-brown transition-colors">{project.title}</h3>
-                  <p className="text-sm text-brand-muted mb-1">{project.location}</p>
-                  <p className="text-sm font-medium text-brand-gold">{project.detail}</p>
+                  <h3 className="font-bold text-lg text-brand-charcoal group-hover:text-brand-brown transition-colors">{project.seoTitle}</h3>
+                  <p className="text-sm text-brand-muted mb-1">{project.address.city}, {project.address.state}</p>
+                  <p className="text-sm font-medium text-brand-gold">{(project.services ?? [])[0] ?? ''}</p>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-brand-border group-hover:text-brand-gold transition-colors transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

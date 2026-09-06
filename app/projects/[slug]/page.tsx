@@ -1,18 +1,20 @@
 import { notFound } from 'next/navigation'
 import { TopBar, Header, Footer, FloatingCTA, ComparisonSlider } from '@/components'
-import { PROJECTS, getProjectBySlug, getRelatedProjects } from '@/lib/projects'
+import { getProject, getProjects, getProjectPhotos } from '@/lib/workpress-api'
+import type { Project, Photo } from '@/lib/workpress-types'
 
-export function generateStaticParams() {
-  return PROJECTS.map((p) => ({ slug: p.slug }))
+export async function generateStaticParams() {
+  const projects = await getProjects()
+  return projects.map((p) => ({ slug: p.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const project = getProjectBySlug(slug)
+  const project = await getProject(slug)
   if (!project) return {}
   return {
-    title: `${project.title} | KingdomCare Roofing & Construction`,
-    description: project.description.slice(0, 155),
+    title: `${project.seoTitle} | KingdomCare Roofing & Construction`,
+    description: project.metaDescription ?? project.description.slice(0, 155),
   }
 }
 
@@ -20,18 +22,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const project = getProjectBySlug(slug)
+  const [project, allProjects, photos] = await Promise.all([
+    getProject(slug),
+    getProjects(),
+    getProjectPhotos(slug),
+  ])
+
   if (!project) notFound()
 
-  const related = getRelatedProjects(project.id, project.city)
+  const related = allProjects
+    .filter((p) => p.address.city === project.address.city && p.id !== project.id)
+    .slice(0, 3)
 
-  // TODO: these fields will come from DB
+  const city = project.address.city
+  const services = project.services ?? []
+  const projectType = services[0] ?? 'General Construction'
+
+  // TODO: duration, challenge copy, solution copy, testimonial, materials — from DB
   const duration = '3–5 Days'
-  const projectType = project.tags[0]
-  const completedLabel = 'Completed'
-
-  // TODO: real materials list from DB — placeholder matches project type
-  const materials = project.tags.includes('Roof Replacement') || project.tags.includes('Roof Repair')
+  const materials = services.some((s) => s.toLowerCase().includes('roof'))
     ? [
         { title: 'GAF Timberline® HDZ™', desc: 'High-definition architectural shingles — impact-resistant rated.' },
         { title: 'GAF WeatherWatch®', desc: 'Mineral-surfaced leak barrier for valleys and eaves.' },
@@ -44,12 +53,16 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
         { title: 'Stain-Blocking Sealer', desc: 'Applied to all problem areas before topcoat.' },
       ]
 
-  // TODO: real testimonial from DB
   const testimonial = {
     quote: 'KingdomCare treated our home like it was their own. The communication was excellent, the crew was incredibly respectful, and they cleaned up every nail. Our roof looks stunning and we feel much safer heading into storm season.',
     name: 'Verified Customer',
-    location: `Homeowner in ${project.city}`,
+    location: `Homeowner in ${city}`,
   }
+
+  // Build gallery: cover photo first, then additional photos from DB
+  const galleryPhotos: Photo[] = photos.length > 0
+    ? photos
+    : [{ id: 'cover', url: project.cover_photo_url, order: 0 }]
 
   return (
     <div className="bg-white text-brand-charcoal antialiased">
@@ -69,16 +82,16 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                  <span className="text-brand-muted">{project.city}</span>
+                  <span className="text-brand-muted">{city}</span>
                 </nav>
                 <h1 className="font-serif text-4xl md:text-display-sm text-brand-charcoal mb-4 leading-tight">
-                  {project.title}
+                  {project.seoTitle}
                 </h1>
                 <p className="text-body text-brand-muted">{project.description}</p>
               </div>
 
               <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
-                <div className="badge bg-brand-brown">{completedLabel}</div>
+                <div className="badge bg-brand-brown">Completed</div>
                 <div className="flex gap-4">
                   <div className="text-center border-r border-brand-border pr-4">
                     <p className="text-xs-fine uppercase font-bold text-brand-muted mb-1">Duration</p>
@@ -90,37 +103,36 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                   </div>
                   <div className="text-center">
                     <p className="text-xs-fine uppercase font-bold text-brand-muted mb-1">City</p>
-                    <p className="font-bold text-brand-charcoal">{project.city}</p>
+                    <p className="font-bold text-brand-charcoal">{city}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Before / After slider */}
-            <ComparisonSlider afterImage={project.image} afterAlt={project.title} />
+            <ComparisonSlider afterImage={project.cover_photo_url} afterAlt={project.seoTitle} />
 
             {/* Two-column body */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
-              {/* Left: narrative + quote */}
+              {/* Left: narrative + gallery + quote */}
               <div className="lg:col-span-2 space-y-10">
 
                 <div>
                   <h2 className="font-serif text-3xl text-brand-charcoal mb-6">The Challenge</h2>
+                  {/* TODO: challenge copy from DB */}
                   <p className="text-brand-muted leading-relaxed mb-4">
-                    {/* TODO: challenge copy from DB */}
                     This property came to us with visible wear and storm-related damage that had gone unaddressed long enough to affect the structure beneath. The homeowner wasn't sure of the full scope — and that's exactly why we start every job with a thorough inspection before any work begins.
                   </p>
                   <p className="text-brand-muted leading-relaxed">
-                    {/* TODO: additional challenge context from DB */}
                     Beyond the surface damage, there were ventilation concerns and flashing points that needed attention. Ignoring those details on a replacement or repair job creates future callbacks — and that's not how we operate.
                   </p>
                 </div>
 
                 <div>
                   <h2 className="font-serif text-3xl text-brand-charcoal mb-6">The KingdomCare Solution</h2>
+                  {/* TODO: solution copy from DB */}
                   <p className="text-brand-muted leading-relaxed mb-8">
-                    {/* TODO: solution copy from DB */}
                     Our team built a scope that addressed every layer of the problem — not just the cosmetic surface. We worked with the homeowner's insurance carrier where applicable, kept them informed at every stage, and completed the job on schedule with a full walkthrough and sign-off at the end.
                   </p>
 
@@ -149,6 +161,42 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                     </div>
                   </div>
                 </div>
+
+                {/* Photo gallery — populated from getProjectPhotos() */}
+                {galleryPhotos.length > 0 && (
+                  <div>
+                    <h2 className="font-bold text-xl text-brand-charcoal mb-5">Project Photos</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      <div className="col-span-2 rounded-img overflow-hidden aspect-video">
+                        <img
+                          src={galleryPhotos[0].url}
+                          alt={galleryPhotos[0].caption ?? project.seoTitle}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      {galleryPhotos.slice(1, 3).map((photo) => (
+                        <div key={photo.id} className="rounded-img overflow-hidden aspect-video">
+                          <img
+                            src={photo.url}
+                            alt={photo.caption ?? project.seoTitle}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                      ))}
+                      {/* Placeholder tiles if fewer than 3 photos */}
+                      {Array.from({ length: Math.max(0, 2 - (galleryPhotos.length - 1)) }).map((_, i) => (
+                        <div key={`placeholder-${i}`} className="rounded-img overflow-hidden aspect-video bg-brand-cream flex items-center justify-center border border-brand-border">
+                          <div className="text-center px-4">
+                            <svg className="h-8 w-8 text-brand-border mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <p className="text-xs text-brand-muted">Photo coming soon</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Testimonial */}
                 <div className="bg-brand-deep p-8 md:p-12 rounded-card relative overflow-hidden">
@@ -235,17 +283,10 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
             <div className="max-w-content mx-auto px-4 md:px-8">
               <div className="flex justify-between items-end mb-12">
                 <div>
-                  <span className="text-brand-gold font-bold tracking-wider uppercase text-xs-fine mb-2 block">
-                    Recent Work
-                  </span>
-                  <h2 className="section-heading text-brand-charcoal">
-                    View Similar Projects
-                  </h2>
+                  <span className="text-brand-gold font-bold tracking-wider uppercase text-xs-fine mb-2 block">Recent Work</span>
+                  <h2 className="section-heading text-brand-charcoal">View Similar Projects</h2>
                 </div>
-                <a
-                  href="/projects"
-                  className="text-brand-brown font-bold border-b-2 border-brand-cta pb-1 hover:text-brand-gold transition-colors whitespace-nowrap"
-                >
+                <a href="/projects" className="text-brand-brown font-bold border-b-2 border-brand-cta pb-1 hover:text-brand-gold transition-colors whitespace-nowrap">
                   See All Projects
                 </a>
               </div>
@@ -259,19 +300,19 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                   >
                     <div className="relative h-service-card overflow-hidden">
                       <img
-                        src={rel.image}
-                        alt={rel.title}
+                        src={rel.cover_photo_url}
+                        alt={rel.seoTitle}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute top-4 left-4 badge bg-brand-brown/90">
-                        {rel.city.toUpperCase()}
+                        {rel.address.city.toUpperCase()}
                       </div>
                     </div>
                     <div className="p-6">
                       <h3 className="font-bold text-brand-charcoal mb-2 group-hover:text-brand-brown transition-colors leading-snug">
-                        {rel.title}
+                        {rel.seoTitle}
                       </h3>
-                      <p className="text-sm text-brand-muted">{rel.tags.join(' · ')}</p>
+                      <p className="text-sm text-brand-muted">{(rel.services ?? []).join(' · ')}</p>
                     </div>
                   </a>
                 ))}
