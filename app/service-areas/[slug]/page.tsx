@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { TopBar, Header, Footer, FloatingCTA } from '@/components'
-import { serviceAreas, getServiceArea } from '@/lib/service-areas-data'
+import { serviceAreas, getServiceArea, generateServiceAreaSchema } from '@/lib/service-areas-data'
 import { getProjects } from '@/lib/workpress-api'
 import { ServiceAreaPageContent } from './ServiceAreaPageContent'
 
@@ -35,8 +35,14 @@ export default async function ServiceAreaPage({ params }: Props) {
     ? { url: match.cover_photo_url, slug: match.slug, title: match.seoTitle }
     : null
 
+  const schema = generateServiceAreaSchema(area)
+
   return (
     <main className="bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <TopBar />
       <Header />
       <ServiceAreaPageContent area={area} latestProject={latestProject} />

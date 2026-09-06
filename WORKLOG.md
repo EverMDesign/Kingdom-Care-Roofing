@@ -107,3 +107,13 @@ added projects archive and detail
 **Next Steps:** Connect projects to DB, add real before/after images to comparison slider, build mobile menu dropdown, wire remaining header links
 
 ---
+
+## 2026-09-06 — 10:08
+
+Kingdom Care site session: updated ServiceAreaMap with mapStyle prop and light-v11 default; added Mapbox map to projects archive page and project detail page; replaced placeholder pin image on projects page with live map; updated projects page heading to 'Our Completed Work Across DFW' with Burleson subtext; removed Service Areas from header nav; reduced ServicesGrid from 24 to 12 by merging similar services; removed links from service area list in ServiceAreas component; built full service page template at app/services/[slug]/page.tsx with banner, two-column layout, sidebar nav, related projects, FAQ accordion, reviews, and contact CTA; created src/lib/services-data.ts with content and FAQs for all 12 services; created app/services/[slug]/ServiceFAQ.tsx client accordion component; wired footer service links to actual service pages; added Services dropdown to desktop nav and expandable accordion to mobile menu
+
+**Files:** src/components/ServiceAreaMap.tsx, src/components/ServiceAreas.tsx, src/components/Header.tsx, src/components/Footer.tsx, src/components/ServicesGrid.tsx, src/components/Projects.tsx, app/projects/page.tsx, app/projects/[slug]/page.tsx, app/services/[slug]/page.tsx, app/services/[slug]/ServiceFAQ.tsx, src/lib/services-data.ts
+
+**Status:** ✅ Complete
+
+---

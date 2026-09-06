@@ -284,3 +284,60 @@ export const serviceAreas: ServiceArea[] = [
 export function getServiceArea(slug: string): ServiceArea | undefined {
   return serviceAreas.find((a) => a.slug === slug)
 }
+
+const BASE_URL = 'https://kingdomcareroofingandconstruction.com'
+
+const SERVICE_OFFERS = [
+  'Roof Replacement',
+  'Storm Damage Repair',
+  'Roof Inspection',
+  'Exterior Painting',
+  'Gutter Installation',
+  'Leak Detection & Repair',
+].map((name) => ({
+  '@type': 'Offer',
+  itemOffered: { '@type': 'Service', name },
+}))
+
+export function generateServiceAreaSchema(area: ServiceArea) {
+  const localBusiness = {
+    '@context': 'https://schema.org',
+    '@type': ['RoofingContractor', 'HomeAndConstructionBusiness'],
+    '@id': `${BASE_URL}/#business`,
+    name: 'Kingdom Care Roofing and Construction LLC',
+    url: BASE_URL,
+    telephone: '+1-817-888-8282',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Burleson',
+      addressRegion: 'TX',
+      addressCountry: 'US',
+    },
+    areaServed: {
+      '@type': 'City',
+      name: area.city,
+      containedInPlace: {
+        '@type': 'AdministrativeArea',
+        name: area.county,
+      },
+    },
+    description: area.intro,
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: `Roofing & Construction Services in ${area.city}`,
+      itemListElement: SERVICE_OFFERS,
+    },
+  }
+
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Service Areas', item: `${BASE_URL}/service-areas` },
+      { '@type': 'ListItem', position: 3, name: `${area.city}, ${area.state}`, item: `${BASE_URL}/service-areas/${area.slug}` },
+    ],
+  }
+
+  return [localBusiness, breadcrumb]
+}
