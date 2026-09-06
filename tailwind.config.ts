@@ -33,12 +33,12 @@ const config: Config = {
       fontSize: {
         'xs-fine':    ['11px', { lineHeight: '1.4' }],   // fine print, labels
         nav:          ['15px', { lineHeight: '1.5' }],   // desktop nav links
-        body:         ['16px', { lineHeight: '1.75' }],  // review / body text
+        body:         ['18px', { lineHeight: '1.9' }],  // review / body text
         subheading:   ['18px', { lineHeight: '1.4' }],   // footer brand, callouts
-        heading:      ['40px', { lineHeight: '1.1' }],   // standard h2 sections
-        'display-sm': ['42px', { lineHeight: '1.05' }],  // large CTAs (mobile)
-        display:      ['48px', { lineHeight: '1.05' }],  // large CTAs (desktop)
-        hero:         ['58px', { lineHeight: '1.0'  }],  // hero h1
+        heading:      ['46px', { lineHeight: '1.25' }],   // standard h2 sections
+        'display-sm': ['52px', { lineHeight: '1.2'  }],  // large CTAs (mobile)
+        display:      ['60px', { lineHeight: '1.2'  }],  // large CTAs (desktop)
+        hero:         ['72px', { lineHeight: '1.15' }],  // hero h1
       },
 
       // ─── Spacing scale (section padding) ───────────────────────────────────
@@ -60,7 +60,7 @@ const config: Config = {
 
       // ─── Max widths ────────────────────────────────────────────────────────
       maxWidth: {
-        content:   '1200px',  // primary content container
+        content:   '1400px',  // primary content container
         wide:      '1440px',  // full-bleed / wide layouts
         'prose-sm': '600px',  // section subheadings, short paragraphs
         'prose-md': '650px',  // slightly wider paragraph blocks

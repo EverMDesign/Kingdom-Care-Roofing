@@ -23,6 +23,12 @@ export interface Project {
   is_published: boolean;
   created_at: string;
   updated_at?: string;
+  review?: {
+    quote: string;
+    name: string;
+    location?: string;
+    rating?: number;
+  };
 }
 
 export interface Photo {

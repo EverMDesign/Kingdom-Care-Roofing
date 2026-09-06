@@ -54,7 +54,7 @@ export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden rounded-img shadow-card-xl border-4 border-white mb-16 h-hero md:h-hero-lg cursor-ew-resize select-none"
+      className="relative overflow-hidden rounded-img shadow-card-xl border-4 border-white aspect-video cursor-ew-resize select-none"
       onMouseDown={(e) => { e.preventDefault(); setIsDragging(true); handleMove(e.clientX) }}
       onTouchStart={(e) => { setIsDragging(true); handleMove(e.touches[0].clientX) }}
     >
