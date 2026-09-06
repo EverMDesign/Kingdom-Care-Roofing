@@ -28,7 +28,6 @@ export function Header() {
           </div>
           <a href="/projects" className="hover:text-brand-gold transition-colors">Projects</a>
           <a href="#" className="hover:text-brand-gold transition-colors">Service Areas</a>
-          <a href="#" className="hover:text-brand-gold transition-colors">About</a>
           <a href="#" className="hover:text-brand-gold transition-colors">Contact</a>
         </nav>
 

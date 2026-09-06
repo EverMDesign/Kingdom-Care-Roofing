@@ -4,7 +4,7 @@ export function Offers() {
       <div className="max-w-content mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
           <h2 className="section-heading mb-4">Special Offers from KingdomCare</h2>
-          <p className="text-white/80 max-w-prose-sm mx-auto text-lg">Take advantage of our current seasonal promotions to add even more value to your next roofing or painting project.</p>
+          <p className="text-white/80 max-w-prose-sm mx-auto text-lg">Living in Burleson means Texas storms, hail, and summer heat. We know what that takes. Here are a few ways to get more value on your next roofing or painting project.</p>
         </div>
 
         <div className="flex flex-col md:flex-row justify-center gap-6 md:gap-8">

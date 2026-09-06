@@ -15,7 +15,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Johnson County',
     intro: 'At Kingdom Care Roofing and Construction LLC, we understand what makes Alvarado unique and take pride in serving this community by providing protection for its homes and businesses.',
-    rooferSection: 'Our range of roofing solutions is designed to cater exclusively to the needs of Alvarado residents. We take into account the Texas climate and local architecture to deliver high-quality results — from metal and shingle roofing to emergency repairs and storm damage restoration.',
+    rooferSection: 'Our roofing solutions are built around what Alvarado residents actually need. We work with the Texas climate and local architecture in mind, covering everything from metal and shingle roofing to emergency repairs and storm damage restoration.',
     neighborhoods: '',
   },
   {
@@ -24,7 +24,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Tarrant County',
     intro: 'Arlington, TX, is a vibrant city known for its significant role in North Texas culture. Home to the Cowboys Stadium and Six Flags Over Texas, it offers a blend of excitement and tradition. In Arlington, you\'ll find a tight-knit community bustling with energy and enthusiasm, and we at Kingdom Care Roofing and Construction LLC are proud to call this place our service area.',
-    rooferSection: 'At Kingdom Care Roofing, we feel honored to provide our roofing services to Arlington residents. We offer expert services specifically designed to meet local needs, ensuring your home stays safe and structurally sound — from shingle and tile roofing to storm damage restoration and exterior painting.',
+    rooferSection: 'At Kingdom Care Roofing, we are glad to serve Arlington residents. We offer services built around local needs, keeping your home safe and structurally sound. That includes shingle and tile roofing, storm damage restoration, and exterior painting.',
     neighborhoods: 'Wherever you are in Arlington, our experienced team stands ready to provide the best roofing solutions. Reach out to us today to schedule a free, no-obligation inspection. Let Kingdom Care Roofing and Construction LLC be your trusted partner in keeping your home safe and sound.',
   },
   {
@@ -51,7 +51,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Johnson & Tarrant County',
     intro: 'Burleson, TX, is more than just a vibrant city with friendly faces. Known for its wonderful community spirit and thriving local businesses, Burleson is a place where neighbors become friends. It\'s rich in parks and offers a great quality of life for families, making it a cherished place to call home.',
-    rooferSection: 'Choose Kingdom Care Roofing and Construction LLC for unmatched roofing quality in Burleson. With years of experience on our side, we approach every project with dedication and attention to detail. We understand the unique Texas weather challenges and employ solutions tailored to withstand local conditions. Our client-first approach ensures customer satisfaction and peace of mind, reinforced by our warranties and local expertise.',
+    rooferSection: 'Kingdom Care Roofing and Construction LLC is based right here in Burleson. We know Texas weather, and we build roofs that hold up to it. Every project gets our full attention, backed by our warranty and years of local experience.',
     neighborhoods: 'Wherever you are in Burleson, we\'ve got your roofing needs covered. From the budding families in Oak Valley to the bustling businesses in Town Center, our team is ready to serve you.',
   },
   {
@@ -95,8 +95,8 @@ export const serviceAreas: ServiceArea[] = [
     city: 'Dalworthington Gardens',
     state: 'TX',
     county: 'Tarrant County',
-    intro: 'Choosing Kingdom Care Roofing and Construction LLC means partnering with a family-owned business that views each customer as part of our extended family. With our 24/7 availability, we guarantee peace of mind no matter the emergency. Our team brings over 150 years of combined experience to ensure top-notch services tailored specifically for Dalworthington Gardens homeowners.',
-    rooferSection: 'We offer a comprehensive range of solutions including shingle and metal roofing, complete roof installation, chimney flashing repair, emergency roof repair, roof inspections, storm damage repair, interior and exterior painting, and gutter installation & repair — all backed by our workmanship warranty.',
+    intro: 'Choosing Kingdom Care Roofing and Construction LLC means working with a family-owned business that treats every customer like a neighbor. We are available 24/7 for emergencies, and our team brings over 150 years of combined experience to every job in Dalworthington Gardens.',
+    rooferSection: 'We offer a full range of services including shingle and metal roofing, complete roof installation, chimney flashing repair, emergency roof repair, roof inspections, storm damage repair, interior and exterior painting, and gutter installation and repair. All backed by our workmanship warranty.',
     neighborhoods: '',
   },
   {
@@ -105,7 +105,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Dallas County',
     intro: 'Located just a short drive away from the hustle and bustle of Dallas, DeSoto offers a more relaxed pace of life while still providing all the amenities you\'d expect from a modern city. Its friendly neighborhoods and community events reflect the spirit of Texas-sized hospitality.',
-    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we are proud to offer comprehensive roofing services to DeSoto homeowners. Our local expertise means faster response times and solutions built for North Texas weather — from leak detection to full roof replacements.',
+    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we are proud to serve DeSoto homeowners. Our local knowledge means faster response times and work built for North Texas weather, covering everything from leak detection to full roof replacements.',
     neighborhoods: '',
   },
   {
@@ -114,7 +114,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Dallas County',
     intro: 'Duncanville, TX, is a vibrant city known for its warm community spirit and beautiful neighborhoods. Whether you\'re enjoying a day at Alexander Park or exploring the hidden gem of Lakeside Park, Duncanville offers a slice of Texan charm that\'s hard to resist. This thriving city boasts a rich history, strong community ties, and a dedication to growth and improvement.',
-    rooferSection: 'Kingdom Care Roofing and Construction LLC is your trusted roofing partner in Duncanville. We combine local knowledge with expert craftsmanship to deliver roofing solutions that stand up to Texas weather year after year — from impact-resistant shingles to storm damage restoration.',
+    rooferSection: 'Kingdom Care Roofing and Construction LLC is proud to serve Duncanville. We use our local knowledge and hands-on experience to deliver roofing that holds up to Texas weather, from impact-resistant shingles to storm damage restoration.',
     neighborhoods: '',
   },
   {
@@ -123,7 +123,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Tarrant County',
     intro: 'Kingdom Care Roofing and Construction LLC shares these same values as the Edgecliff Village community, serving residents with genuine care and commitment. Edgecliff Village is a small, tight-knit city in Tarrant County where homeowners take great pride in their properties.',
-    rooferSection: 'Our professional team has over 19 years of industry experience and a combined total of 150 years in the field, all dedicated to protecting your biggest investment — your home. Trust our workmanship backed by a 2-year warranty and manufacturer warranty, offering you peace of mind.',
+    rooferSection: 'Our team brings over 19 years of industry experience and a combined 150 years in the field. We are here to protect your home, and we back every job with a 2-year workmanship warranty plus manufacturer coverage so you can have peace of mind.',
     neighborhoods: '',
   },
   {
@@ -132,7 +132,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Tarrant County',
     intro: 'Located in the thriving state of Texas, Everman is a community known for its friendly neighborhoods and rich Texan heritage. It\'s a place where families and businesses grow, marked by its warm hospitality and tight-knit community feel. Walking through Everman, you\'ll encounter a blend of charming homes and local businesses, making it a wonderful place to live, work, and play.',
-    rooferSection: 'Kingdom Care Roofing and Construction LLC is your roofing partner in Everman. We offer free estimates, comprehensive inspections, and insurance claim assistance to help homeowners recover quickly from storm damage — and we back every job with our workmanship warranty.',
+    rooferSection: 'Kingdom Care Roofing and Construction LLC is proud to serve Everman. We offer free estimates, thorough inspections, and insurance claim assistance to help homeowners recover from storm damage. Every job is backed by our workmanship warranty.',
     neighborhoods: '',
   },
   {
@@ -141,7 +141,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Tarrant County',
     intro: 'Known for its welcoming neighborhoods and community parks, Forest Hill is a place where residents take pride in their homes and surroundings. At Kingdom Care Roofing and Construction LLC, we share this pride, and we\'re here to ensure your home stands out.',
-    rooferSection: 'Our team at Kingdom Care Roofing and Construction LLC is dedicated to providing top-notch roofing solutions for Forest Hill homeowners. We bring honesty, quality materials, and experienced craftsmanship to every job — from routine inspections to full roof replacements.',
+    rooferSection: 'Our team at Kingdom Care Roofing and Construction LLC is here to serve Forest Hill homeowners with honest, quality work. We bring experienced craftsmanship to every job, from routine inspections to full roof replacements.',
     neighborhoods: '',
   },
   {
@@ -167,17 +167,17 @@ export const serviceAreas: ServiceArea[] = [
     city: 'Joshua',
     state: 'TX',
     county: 'Johnson County',
-    intro: 'Joshua, TX is a delightful community known for its friendly neighborhood vibes and beautiful Semper Ridge Park. Families here enjoy a safe, welcoming environment with a strong community spirit — and they expect the same integrity from their local contractors.',
-    rooferSection: 'Our family-owned business has deep roots in the community and offers 24/7 services with a commitment to treating every customer like family. We boast over 150 years of combined experience, ensuring your home is in very capable hands. Not to mention, we are fully licensed and insured.',
-    neighborhoods: 'From Cleburne to McKinney, including every corner of Joshua, we proudly provide dedicated services that meet unique local needs. Let\'s get started — we offer free inspections and are ready to help protect your home.',
+    intro: 'Joshua, TX is a close-knit community known for its friendly neighborhoods and beautiful Semper Ridge Park. Families here enjoy a safe, welcoming environment and appreciate contractors who bring that same care and honesty to their work.',
+    rooferSection: 'Our family-owned business has deep roots in the community and offers 24/7 services. We treat every customer like family and bring over 150 years of combined experience to every project. We are fully licensed and insured.',
+    neighborhoods: 'From Cleburne to McKinney and every corner of Joshua, we provide services built around local needs. We offer free inspections and are ready to help protect your home.',
   },
   {
     slug: 'keene-tx',
     city: 'Keene',
     state: 'TX',
     county: 'Johnson County',
-    intro: 'As a family-owned and insured business, Kingdom Care Roofing and Construction LLC understands the value of doing things right — especially in tight-knit communities like Keene. Our team brings deep local knowledge and a commitment to quality that Keene residents can rely on.',
-    rooferSection: 'We take pride in offering tailor-made roofing solutions that meet the specific needs of our Keene neighbors. Whether you require a simple repair or a complete roofing makeover, we\'ve got you covered — with options ranging from metal roofing and TPO to emergency 24/7 repair and hail damage restoration.',
+    intro: 'As a family-owned and insured business, Kingdom Care Roofing and Construction LLC understands what it means to do things right in a tight-knit community like Keene. Our team brings deep local knowledge and a track record of quality that Keene residents can count on.',
+    rooferSection: 'We build our roofing solutions around what our Keene neighbors actually need. Whether you need a simple repair or a full roof replacement, we have options ranging from metal roofing and TPO to emergency 24/7 repair and hail damage restoration.',
     neighborhoods: '',
   },
   {
@@ -185,8 +185,8 @@ export const serviceAreas: ServiceArea[] = [
     city: 'Kennedale',
     state: 'TX',
     county: 'Tarrant County',
-    intro: 'We know that trusting a contractor with your home is a big decision. As a family-owned business in Kennedale, we operate with complete transparency and are fully insured — giving you confidence from the first call to the final inspection.',
-    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we offer top-notch services customized to suit the needs of Kennedale homes and businesses — including high-quality roof installations, shingle and metal roofing, prompt leak detection & repairs, comprehensive gutter services, and fast-response storm damage repairs.',
+    intro: 'We know that trusting a contractor with your home is a big decision. As a family-owned business in Kennedale, we operate with full transparency and are completely insured. You will know what to expect from the first call to the final inspection.',
+    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we offer solid services built around what Kennedale homes and businesses need. That includes roof installations, shingle and metal roofing, leak detection and repairs, gutter services, and fast storm damage response.',
     neighborhoods: '',
   },
   {
@@ -194,8 +194,8 @@ export const serviceAreas: ServiceArea[] = [
     city: 'Lake Worth',
     state: 'TX',
     county: 'Tarrant County',
-    intro: 'Choosing Kingdom Care Roofing and Construction LLC means working with a team that brings over 150 years of combined experience. We are a family-owned and locally committed business that treats you not just as customers, but as neighbors — especially in a community as close-knit as Lake Worth.',
-    rooferSection: 'We offer a comprehensive range of roofing solutions specially designed for the needs of Lake Worth, TX homeowners — including expert roof installation, leak detection & repair, durable metal roofing, emergency roof repairs, secure gutter installation, and reliable storm damage restoration.',
+    intro: 'Choosing Kingdom Care Roofing and Construction LLC means working with a team that brings over 150 years of combined experience. We are a family-owned business, and in a close-knit community like Lake Worth, we treat every customer like a neighbor.',
+    rooferSection: 'We offer a full range of roofing services built for Lake Worth homeowners, including expert roof installation, leak detection and repair, metal roofing, emergency repairs, gutter installation, and storm damage restoration.',
     neighborhoods: '',
   },
   {
@@ -212,9 +212,9 @@ export const serviceAreas: ServiceArea[] = [
     city: 'Mansfield',
     state: 'TX',
     county: 'Tarrant, Johnson & Ellis County',
-    intro: 'Known for its friendly neighbors and spirit of growth, Mansfield is a place where tradition and progress walk hand in hand. Among the beautiful parks and active community life, we\'re more than just a business — we\'re your neighbors committed to enhancing local homes with reliable and professional roofing solutions.',
+    intro: 'Known for its friendly neighbors and spirit of growth, Mansfield is a place where tradition and progress walk hand in hand. Among the beautiful parks and active community life, we are proud to be your local contractors, here to protect and improve the homes that make Mansfield what it is.',
     rooferSection: 'Our expert team is equipped to handle all requirements with professionalism and efficiency, making us a trusted name in Mansfield. We bring over 150 years of combined experience to every project. Whether it\'s a roof repair or a fresh installation, Kingdom Care Roofing and Construction LLC stands by your side.',
-    neighborhoods: 'We are proud to serve all areas of Mansfield, TX, including Walnut Creek, Country Club, and Historic Downtown. No matter where you are in Mansfield, our team is ready to assist you with all your needs — ensuring a sturdy roof over your head.',
+    neighborhoods: 'We are proud to serve all areas of Mansfield, TX, including Walnut Creek, Country Club, and Historic Downtown. No matter where you are in Mansfield, our team is ready to help you get a solid roof over your head.',
   },
   {
     slug: 'maypearl-tx',
@@ -222,7 +222,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Ellis County',
     intro: 'Known for its sense of community and scenic landscapes, Maypearl is a wonderful place to call home. It boasts a rich local history and provides a delightful retreat from the hustle and bustle of bigger cities.',
-    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we\'re dedicated to maintaining the standard of homes in Maypearl. From residential roof installations to full exterior painting, our team delivers quality you can see — all backed by our workmanship warranty.',
+    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we are committed to keeping the standard of homes in Maypearl high. From residential roof installations to full exterior painting, our team delivers quality you can see, all backed by our workmanship warranty.',
     neighborhoods: '',
   },
   {
@@ -231,7 +231,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Ellis County',
     intro: 'Nestled perfectly between the major metropolitan areas of Dallas and Fort Worth, Midlothian is a city on the rise with a growing number of families and businesses alike choosing to call it home.',
-    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we understand the specific roofing needs of homes and businesses in Midlothian. That\'s why we offer a wide range of services — from impact-resistant shingles to TPO flat roofing — all backed by our quality guarantee.',
+    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we understand the specific roofing needs of Midlothian homes and businesses. We offer a wide range of services, from impact-resistant shingles to TPO flat roofing, all backed by our quality guarantee.',
     neighborhoods: '',
   },
   {
@@ -240,7 +240,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Tarrant County',
     intro: 'Pantego is more than just a city; it\'s a charming community known for its friendly neighborhoods, beautiful parks, and a strong sense of local pride. With a small-town feel yet close proximity to the bustling city life of Arlington, Pantego offers the best of both worlds.',
-    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we specialize in offering customized roofing solutions that fit your specific needs in Pantego. With over 19 years of industry experience, our service menu is vast — covering everything from shingle and metal roofing to storm damage restoration and gutter installation.',
+    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we build our roofing solutions around what Pantego homeowners actually need. With over 19 years of hands-on experience, we cover everything from shingle and metal roofing to storm damage restoration and gutter installation.',
     neighborhoods: '',
   },
   {
@@ -249,7 +249,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Tarrant County',
     intro: 'Nestled in Tarrant County, Rendon, TX is a hidden gem known for its spacious open landscapes and friendly neighborhoods. With a close-knit community vibe, Rendon offers a peaceful rural feel while still being conveniently close to big-city amenities. The charm of Rendon lies in its friendly residents, local parks, and unique Southern hospitality.',
-    rooferSection: 'Kingdom Care Roofing and Construction LLC is proud to serve Rendon homeowners with expert roofing, storm damage restoration, and exterior painting. We bring the same quality and integrity to every project, no matter the size — and we back it all with our workmanship warranty.',
+    rooferSection: 'Kingdom Care Roofing and Construction LLC is proud to serve Rendon homeowners with roofing, storm damage restoration, and exterior painting. We bring the same quality and care to every project no matter the size, and we back it all with our workmanship warranty.',
     neighborhoods: '',
   },
   {
@@ -267,7 +267,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Ellis County',
     intro: 'Known for its beautiful historic architecture and vibrant downtown, Waxahachie is a city where neighbors still stop by to chat, and community spirit shines brightly. At Kingdom Care Roofing and Construction LLC, we are honored to serve such a friendly and welcoming community.',
-    rooferSection: 'Our commitment to Waxahachie, TX, goes beyond excellent roofing. We offer a comprehensive range of services designed to protect and improve your property — including storm damage restoration, exterior painting, gutter installation, and more — all backed by our quality guarantee.',
+    rooferSection: 'Our work in Waxahachie goes beyond roofing. We offer a full range of services to protect and improve your property, including storm damage restoration, exterior painting, and gutter installation, all backed by our quality guarantee.',
     neighborhoods: '',
   },
   {
@@ -276,7 +276,7 @@ export const serviceAreas: ServiceArea[] = [
     state: 'TX',
     county: 'Tarrant County',
     intro: 'Known for its friendly atmosphere and rich history, White Settlement is a place where traditions run deep, and neighbors become friends. As a local, family-owned business, we value the close-knit feel of White Settlement and are proud to be part of this vibrant community.',
-    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we offer a full spectrum of roofing services to meet the demands of White Settlement homeowners. From routine maintenance to complete storm restoration, we handle every job with care and precision — backed by our workmanship warranty.',
+    rooferSection: 'At Kingdom Care Roofing and Construction LLC, we offer a full range of roofing services for White Settlement homeowners. From routine maintenance to complete storm restoration, we handle every job with care, backed by our workmanship warranty.',
     neighborhoods: '',
   },
 ]

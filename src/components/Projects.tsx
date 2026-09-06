@@ -2,7 +2,7 @@ import { getProjects } from '@/lib/workpress-api'
 
 export async function Projects() {
   const allProjects = await getProjects()
-  const projects = allProjects.slice(0, 4)
+  const projects = allProjects.slice(0, 3)
 
   return (
     <section className="py-section-mb md:py-section-dt bg-white">
@@ -24,6 +24,13 @@ export async function Projects() {
                 </svg>
               </a>
             ))}
+
+            <a href="/projects" className="inline-flex items-center gap-2 text-brand-brown font-bold hover:text-brand-gold transition-colors mt-2">
+              See All Projects
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
           </div>
 
           <div className="w-full lg:w-[55%] h-[400px] lg:h-auto min-h-[500px] bg-brand-cream rounded-map relative overflow-hidden shadow-inner border border-brand-border">

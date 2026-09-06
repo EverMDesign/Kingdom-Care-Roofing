@@ -1,6 +1,7 @@
 export { TopBar } from './TopBar'
 export { Header } from './Header'
 export { Hero } from './Hero'
+export { HeroForm } from './HeroForm'
 export { Brands } from './Brands'
 export { Testimonials } from './Testimonials'
 export { Projects } from './Projects'

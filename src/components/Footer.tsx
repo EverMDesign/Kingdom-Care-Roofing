@@ -10,7 +10,7 @@ export async function Footer() {
   return (
     <footer className="bg-brand-deep text-white pt-20 pb-8">
       <div className="max-w-content mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
           <div className="flex flex-col">
             <a href="/" className="flex items-center gap-2 mb-6">
               <img
@@ -19,7 +19,7 @@ export async function Footer() {
                 className="h-10 w-auto object-contain"
               />
             </a>
-            <p className="text-sm text-white/70 mb-6 leading-relaxed">Providing top-tier roofing, painting, and exterior construction services with integrity and craftsmanship built to protect your family.</p>
+            <p className="text-sm text-white/70 mb-6 leading-relaxed">Your Burleson neighbors trust us to protect the homes their families live in. We show up, do the job right, and stand behind every project. No shortcuts, no surprises.</p>
 
             <div className="flex flex-col gap-3 text-sm text-white/90 mb-6">
               <a href={`tel:${phoneTel}`} className="flex items-center gap-2 hover:text-brand-cta transition-colors">
@@ -55,17 +55,6 @@ export async function Footer() {
           </div>
 
           <div className="flex flex-col">
-            <h3 className="font-bold text-lg mb-6 border-b border-white/10 pb-2 inline-block w-max">Quick Links</h3>
-            <ul className="flex flex-col gap-3 text-sm text-white/80">
-              {['Home', 'About KingdomCare', 'Project Portfolio', 'Contact Us', 'Special Offers', 'Customer Reviews'].map((link) => (
-                <li key={link}>
-                  <a href="#" className="hover:text-brand-cta transition-colors">{link}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="flex flex-col">
             <h3 className="font-bold text-lg mb-6 border-b border-white/10 pb-2 inline-block w-max">Our Services</h3>
             <ul className="flex flex-col gap-3 text-sm text-white/80">
               {['Residential Roofing', 'Roof Replacement', 'Roof Repair & Inspection', 'Commercial Flat Roofing', 'Interior & Exterior Painting', 'Storm & Hail Damage', 'Gutters & Construction'].map((service) => (
@@ -78,7 +67,7 @@ export async function Footer() {
 
           <div className="flex flex-col">
             <h3 className="font-bold text-lg mb-6 border-b border-white/10 pb-2 inline-block w-max">Service Areas</h3>
-            <ul className="flex flex-col gap-3 text-sm text-white/80">
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm text-white/80">
               {serviceAreas.map((area) => (
                   <li key={area.slug}>
                     <a href={`/service-areas/${area.slug}`} className="hover:text-brand-cta transition-colors">
@@ -95,7 +84,7 @@ export async function Footer() {
           <div className="flex gap-4">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <span className="hidden md:inline">Fort Worth, TX</span>
+            <span className="hidden md:inline">Burleson, TX</span>
           </div>
         </div>
       </div>

@@ -19,8 +19,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Kingdom Care Roofing & Construction - Fort Worth, TX',
-  description: 'Professional roofing and construction services in Fort Worth and surrounding DFW area. Free estimates, fully insured, warranty backed.',
+  title: 'Kingdom Care Roofing & Construction - Burleson, TX',
+  description: 'Local roofing contractor based in Burleson, TX. Expert roof replacements, storm damage repair, and exterior services throughout the DFW area. Free estimates, fully insured, warranty backed.',
   icons: {
     icon: 'https://ik.imagekit.io/4wu305uo4/image_681a3f71432c476416e6aa4b.png',
   },

@@ -53,13 +53,13 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
   const duration = '3–5 Days'
   const materials = services.some((s) => s.toLowerCase().includes('roof'))
     ? [
-        { title: 'GAF Timberline® HDZ™', desc: 'High-definition architectural shingles — impact-resistant rated.' },
+        { title: 'GAF Timberline® HDZ™', desc: 'High-definition architectural shingles, impact-resistant rated.' },
         { title: 'GAF WeatherWatch®', desc: 'Mineral-surfaced leak barrier for valleys and eaves.' },
         { title: 'Tiger Paw™ Roof Deck', desc: 'Synthetic underlayment for superior moisture protection.' },
         { title: 'Lomanco OmniRidge®', desc: 'Ventilation system to prevent attic heat buildup.' },
       ]
     : [
-        { title: 'Sherwin-Williams® Emerald', desc: 'Exterior acrylic latex — fully washable, premium durability.' },
+        { title: 'Sherwin-Williams® Emerald', desc: 'Exterior acrylic latex, fully washable with premium durability.' },
         { title: 'Premium Primer', desc: 'Full-surface prime coat for maximum adhesion and coverage.' },
         { title: 'Stain-Blocking Sealer', desc: 'Applied to all problem areas before topcoat.' },
       ]

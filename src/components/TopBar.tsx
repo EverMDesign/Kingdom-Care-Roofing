@@ -8,8 +8,8 @@ export async function TopBar() {
   return (
     <div className="bg-brand-gold text-white h-topbar flex items-center px-4 md:px-8 text-sm font-medium">
       <div className="max-w-wide mx-auto w-full flex justify-between items-center">
-        <span className="hidden sm:inline">Serving Fort Worth & The Surrounding DFW Area</span>
-        <span className="sm:hidden">Serving Fort Worth & DFW</span>
+        <span className="hidden sm:inline">Burleson, TX Roofing Contractor | Serving the DFW Area</span>
+        <span className="sm:hidden">Burleson, TX | Serving DFW</span>
         <div className="flex items-center gap-4">
           <a href={`tel:${phoneTel}`} className="flex items-center gap-1 hover:text-brand-cta transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

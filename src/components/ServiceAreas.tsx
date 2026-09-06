@@ -1,12 +1,16 @@
 const areas = [
+  'Burleson',
+  'Cleburne',
+  'Joshua',
+  'Crowley',
+  'Grand Prairie',
   'Fort Worth',
   'Arlington',
-  'Keller',
-  'Southlake',
-  'Grapevine',
-  'Colleyville',
-  'North Richland Hills',
-  'Haltom City',
+  'Allen',
+  'Hurst',
+  'Frisco',
+  'Plano',
+  'Dallas',
 ]
 
 export function ServiceAreas() {
@@ -16,7 +20,7 @@ export function ServiceAreas() {
         <div className="flex flex-col lg:flex-row bg-white rounded-map shadow-sm border border-brand-border overflow-hidden">
           <div className="w-full lg:w-[380px] xl:w-[420px] p-8 lg:p-10 flex flex-col z-10 border-r border-brand-border">
             <h2 className="font-serif text-3xl text-brand-charcoal mb-2">We're Here to Help</h2>
-            <p className="text-brand-muted mb-8">Serving Fort Worth and the greater DFW Metroplex with prompt, professional roofing services.</p>
+            <p className="text-brand-muted mb-8">Based in Burleson and serving the greater DFW Metroplex with prompt, professional roofing services.</p>
 
             <h3 className="font-bold text-brand-charcoal mb-4 border-b border-brand-border pb-2">Primary Service Areas</h3>
 

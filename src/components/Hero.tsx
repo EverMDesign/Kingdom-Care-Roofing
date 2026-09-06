@@ -1,3 +1,5 @@
+import { HeroForm } from './HeroForm'
+
 function StarIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -30,41 +32,56 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 max-w-content mx-auto w-full px-4 md:px-8">
-        <div className="max-w-prose-md">
-          <div className="inline-flex items-center gap-2 bg-brand-charcoal/60 backdrop-blur-sm border border-white/10 rounded-full px-4 py-1.5 mb-6">
-            <div className="flex text-brand-cta">
-              {[...Array(5)].map((_, i) => (
-                <StarIcon key={i} />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+          {/* Left — headline + trust signals */}
+          <div className="lg:col-span-7">
+            <a
+              href="https://share.google/8kSKIHm9sxHS77ZnA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-brand-charcoal/60 backdrop-blur-sm border border-white/10 rounded-full px-4 py-1.5 mb-6 hover:border-white/30 transition-colors"
+            >
+              <div className="flex text-brand-cta">
+                {[...Array(5)].map((_, i) => (
+                  <StarIcon key={i} />
+                ))}
+              </div>
+              <span className="text-white text-sm font-medium">5/5 Google Rating | 80+ Reviews</span>
+            </a>
+
+            <h1 className="text-white font-sans font-extrabold text-4xl lg:text-hero mb-6">
+              Burleson's Trusted Roofing Contractor
+            </h1>
+
+            <p className="text-white/90 text-lg lg:text-xl mb-10 max-w-prose-sm font-medium">
+              KingdomCare is a local, family-owned roofing contractor based in Burleson, TX. We serve the greater DFW area with roof replacements, storm damage repair, and exterior work, backed by our quality guarantee.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 mb-10 lg:hidden">
+              <a href="#" className="btn-cta h-btn px-8 text-lg flex items-center justify-center shadow-lg">
+                Get a Free Estimate
+              </a>
+              <a href="tel:8178888282" className="btn-outline-white border-white h-btn px-8 text-lg flex items-center justify-center">
+                Call Now
+              </a>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-white text-sm font-medium">
+              {['Locally Owned', 'Fully Insured', 'Warranty Backed', 'Free Estimates'].map((label) => (
+                <div key={label} className="flex items-center gap-2">
+                  <CheckIcon />
+                  {label}
+                </div>
               ))}
             </div>
-            <span className="text-white text-sm font-medium">5/5 Google Rating | 80+ Reviews</span>
           </div>
 
-          <h1 className="text-white font-sans font-extrabold text-4xl lg:text-hero mb-6">
-            Transforming Homes, Protecting Families in Fort Worth
-          </h1>
-
-          <p className="text-white/90 text-lg lg:text-xl mb-10 max-w-prose-sm font-medium">
-            KingdomCare provides trusted, professional roofing and construction services throughout Fort Worth and surrounding communities. Quality craftsmanship built on family values.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 mb-10">
-            <a href="#" className="btn-cta h-btn px-8 text-lg flex items-center justify-center shadow-lg">
-              Get a Free Estimate
-            </a>
-            <a href="tel:8178888282" className="btn-outline-white border-white h-btn px-8 text-lg flex items-center justify-center">
-              Call Now
-            </a>
+          {/* Right — quick form */}
+          <div className="lg:col-span-5">
+            <HeroForm />
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-white text-sm font-medium">
-            {['Locally Owned', 'Fully Insured', 'Warranty Backed', 'Free Estimates'].map((label) => (
-              <div key={label} className="flex items-center gap-2">
-                <CheckIcon />
-                {label}
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

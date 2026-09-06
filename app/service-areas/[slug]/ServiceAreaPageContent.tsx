@@ -9,7 +9,7 @@ const servicesList = [
   { title: 'Roof Inspection', desc: 'Thorough inspections to catch problems before they grow.' },
   { title: 'Exterior Painting', desc: 'Complete prep, siding repair, and lasting finishes.' },
   { title: 'Gutter Installation', desc: 'Seamless gutters, siding replacements, and repairs.' },
-  { title: 'Leak Detection & Repair', desc: 'Stop small leaks from becoming big — and expensive — problems.' },
+  { title: 'Leak Detection & Repair', desc: 'Stop small leaks before they turn into big, expensive problems.' },
 ]
 
 function HeroSection({ area, onOpenModal }: { area: ServiceArea; onOpenModal: () => void }) {
@@ -32,7 +32,7 @@ function HeroSection({ area, onOpenModal }: { area: ServiceArea; onOpenModal: ()
           {area.city}, {area.state} Roofing
         </h1>
         <p className="text-white/90 text-lg lg:text-xl mb-8 max-w-[700px] font-medium leading-relaxed">
-          Reliable Roofing Experts Committed to Elevating Your Home's Durability and Appeal
+          Local roofers who show up on time, do honest work, and stand behind it.
         </p>
         <button
           onClick={onOpenModal}
@@ -96,7 +96,7 @@ function ContentSection({ area, latestProject }: { area: ServiceArea; latestProj
             )}
 
             <p className="mb-6">
-              Navigating the aftermath of a Texas storm can be stressful. We provide free, comprehensive inspections and assist {area.city} homeowners through the entire insurance claims process. From seamless gutter installations to full roof replacements, our commitment to integrity and quality ensures your property is built to withstand the elements.
+              Dealing with storm damage is stressful enough. We offer free inspections and walk {area.city} homeowners through the insurance claims process from start to finish. From gutter installations to full roof replacements, we do the job right so your home holds up when Texas weather hits hard.
             </p>
           </div>
         </div>

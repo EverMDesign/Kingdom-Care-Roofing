@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${area.city}, ${area.state} Roofing & Construction | KingdomCare`,
-    description: `Expert roofing, storm damage repair, and exterior construction in ${area.city}, ${area.state}. Serving ${area.county}. Free estimates — fully insured.`,
+    description: `Roofing, storm damage repair, and exterior construction in ${area.city}, ${area.state}. Serving ${area.county}. Free estimates. Fully insured.`,
   }
 }
 

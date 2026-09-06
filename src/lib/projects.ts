@@ -22,7 +22,7 @@ export const PROJECTS: Project[] = [
     tags: ['Roof Repair', 'Inspections'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1759187946692_PJs5LW3pO.jpeg',
     description:
-      'We all know how frustrating a leaky roof can be. It disrupts your peace of mind and can cause further damage if left unchecked. Our team identified the source of this Fort Worth home\'s leak quickly and made the necessary repairs to stop water intrusion — protecting the structure, insulation, and interior finishes.',
+      'We all know how frustrating a leaky roof can be. It disrupts your peace of mind and can cause further damage if left unchecked. Our team identified the source of this Fort Worth home\'s leak quickly and made the necessary repairs to stop water intrusion, protecting the structure, insulation, and interior finishes.',
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ export const PROJECTS: Project[] = [
     tags: ['Roof Replacement', 'Impact-Resistant'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1763071047948_1-GiZJzRX.jpeg',
     description:
-      'This Fort Worth homeowner needed a full roof replacement after significant storm damage. We installed Class 4 impact-resistant shingles designed to withstand hail and high winds — the highest impact rating available. The new roof not only protects the home but also qualifies the homeowner for insurance premium discounts.',
+      'This Fort Worth homeowner needed a full roof replacement after significant storm damage. We installed Class 4 impact-resistant shingles, the highest impact rating available, designed to hold up against hail and high winds. The new roof also qualifies the homeowner for insurance premium discounts.',
   },
   {
     id: 3,
@@ -52,7 +52,7 @@ export const PROJECTS: Project[] = [
     tags: ['Gutter Systems'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1759429725639_Sb421NufL.jpeg',
     description:
-      'Proper drainage starts with a properly installed gutter system. We replaced aging, undersized gutters on this Fort Worth home with new K-style gutters sized to handle DFW storm volumes. Seamless construction means fewer joints and fewer future leak points — a long-term solution for long-term protection.',
+      'Proper drainage starts with a properly installed gutter system. We replaced aging, undersized gutters on this Fort Worth home with new K-style gutters sized to handle DFW storm volumes. Seamless construction means fewer joints and fewer future leak points, a cleaner look and fewer problems down the road.',
   },
   {
     id: 5,
@@ -62,7 +62,7 @@ export const PROJECTS: Project[] = [
     tags: ['Deck Installation', 'Pergola'],
     image: 'https://ik.imagekit.io/4wu305uo4/image_ITaDYzmtM.jpg',
     description:
-      'This Fort Worth family wanted to transform their backyard into a functional outdoor living space. We built a custom deck with a cedar pergola overhead — providing shade, structure, and serious curb appeal. Every board was set level and every post was properly anchored to handle Texas summers and storms alike.',
+      'This Fort Worth family wanted to transform their backyard into a functional outdoor living space. We built a custom deck with a cedar pergola overhead that provides shade, structure, and serious curb appeal. Every board was set level and every post was properly anchored to handle Texas summers and storms alike.',
   },
   {
     id: 6,
@@ -72,7 +72,7 @@ export const PROJECTS: Project[] = [
     tags: ['Bathroom Remodel', 'Flooring'],
     image: 'https://ik.imagekit.io/4wu305uo4/image_U2XmAyq34.jpg',
     description:
-      'A dated bathroom gets a full transformation — new tile flooring, updated fixtures, fresh paint, and improved lighting. This Fort Worth project proved that you don\'t need a complete gut renovation to dramatically improve a space. Our interior team handled every trade in-house, keeping the job efficient and on budget.',
+      'A dated bathroom gets a full transformation: new tile flooring, updated fixtures, fresh paint, and improved lighting. This Fort Worth project proved that you don\'t need a complete gut renovation to dramatically improve a space. Our interior team handled every trade in-house, keeping the job efficient and on budget.',
   },
   {
     id: 7,
@@ -93,7 +93,7 @@ export const PROJECTS: Project[] = [
     tags: ['Roof Replacement', 'Owens Corning'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1757612002671_Ldon_dCWL.jpeg',
     description:
-      'At KingdomCare, we\'re thrilled to showcase this full roof replacement in Arlington, TX. Roofing isn\'t just about protection — it\'s about peace of mind. We used Owens Corning architectural shingles, one of the most trusted brands in the industry, and backed every nail with our craftsmanship warranty. The homeowner chose a slate-grey tone that completely elevated the home\'s curb appeal.',
+      'A full roof replacement in Arlington, TX. Roofing is about protection, and it is about peace of mind. We used Owens Corning architectural shingles, one of the most trusted brands in the industry, and backed every nail with our craftsmanship warranty. The homeowner chose a slate-grey tone that gave the home a fresh, sharp look.',
   },
   {
     id: 9,
@@ -103,7 +103,7 @@ export const PROJECTS: Project[] = [
     tags: ['Storm Damage', 'Inspections'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1757946673241_BFvULdeSK.jpeg',
     description:
-      'After a severe storm rolled through Arlington, this homeowner called us for a thorough inspection. Our team documented every point of impact — from hail strikes on shingles to dented flashing — and provided a detailed report the insurance company accepted on the first submission. We never push unnecessary work; we just tell you exactly what\'s there.',
+      'After a severe storm rolled through Arlington, this homeowner called us for a thorough inspection. Our team documented every point of impact, from hail strikes on shingles to dented flashing, and provided a detailed report the insurance company accepted on the first submission. We never push unnecessary work. We just tell you exactly what\'s there.',
   },
   {
     id: 10,
@@ -123,7 +123,7 @@ export const PROJECTS: Project[] = [
     tags: ['Exterior Painting'],
     image: 'https://ik.imagekit.io/4wu305uo4/image_abp4EwAyo.jpg',
     description:
-      'A proper exterior paint job starts long before the first stroke. We pressure-washed the surface, patched cracks, primed problem areas, and then applied two full coats of premium exterior paint. This Arlington home now has a finish that protects against DFW heat, UV exposure, and seasonal moisture — and looks incredible doing it.',
+      'A proper exterior paint job starts long before the first stroke. We pressure-washed the surface, patched cracks, primed problem areas, and then applied two full coats of premium exterior paint. This Arlington home now has a finish that holds up against DFW heat, UV exposure, and seasonal moisture, and it looks great too.',
   },
   // Burleson
   {
@@ -134,7 +134,7 @@ export const PROJECTS: Project[] = [
     tags: ['Roof Replacement', 'Impact-Resistant'],
     image: 'https://ik.imagekit.io/4wu305uo4/image_XMLBGWlny1.jpg',
     description:
-      'This was a big one. We wrapped up a full roof installation in Burleson — 65 squares of Class 4 impact-resistant shingles on a large residential property. The scale of the job required precise crew coordination, but our experienced team finished ahead of schedule with zero punchlist items. Every square was inspected before we packed up.',
+      'This was a big one. We wrapped up a full roof installation in Burleson: 65 squares of Class 4 impact-resistant shingles on a large residential property. The scale of the job required precise crew coordination, but our team finished ahead of schedule with zero punchlist items. Every square was inspected before we packed up.',
   },
   {
     id: 13,
@@ -144,7 +144,7 @@ export const PROJECTS: Project[] = [
     tags: ['Roof Replacement', 'Storm Damage'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1761243679686_7IT8l6N-d.jpeg',
     description:
-      'When a hailstorm hits, it doesn\'t pick favorites — it hits the whole block. We completed five full roof replacements on a single street in Burleson after one storm system caused widespread damage. Our team staged materials efficiently and kept each job moving so no family was waiting on tarps longer than necessary.',
+      'When a hailstorm hits, it hits the whole block. We completed five full roof replacements on a single street in Burleson after one storm system caused widespread damage. Our team staged materials efficiently and kept each job moving so no family was stuck waiting under tarps longer than necessary.',
   },
   {
     id: 14,
@@ -164,7 +164,7 @@ export const PROJECTS: Project[] = [
     tags: ['Gutter Systems'],
     image: 'https://ik.imagekit.io/4wu305uo4/image_34iAJMjVJ.jpg',
     description:
-      'Gutters aren\'t glamorous until they fail — and then they\'re all you can think about. We installed seamless 5-inch black K-style gutters on this Burleson home, matching the trim color and providing a clean finished look. Properly sized downspouts ensure water moves away from the foundation even during the heaviest DFW storms.',
+      'Gutters aren\'t glamorous until they fail, and then they\'re all you can think about. We installed seamless 5-inch black K-style gutters on this Burleson home, matching the trim color and providing a clean finished look. Properly sized downspouts move water away from the foundation even during the heaviest DFW storms.',
   },
   {
     id: 16,
@@ -174,7 +174,7 @@ export const PROJECTS: Project[] = [
     tags: ['Siding', 'Roof Repair'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1764101248917_cQ1DzlTAJ.jpeg',
     description:
-      'Storm damage doesn\'t stop at the roof. This Burleson home sustained hail damage to both the roofing and the siding, and we addressed both in a single coordinated project. Our team replaced damaged shingles, repaired flashing, and swapped out dented siding panels — restoring the full exterior in one mobilization.',
+      'Storm damage doesn\'t stop at the roof. This Burleson home sustained hail damage to both the roofing and the siding, and we addressed both in a single coordinated project. Our team replaced damaged shingles, repaired flashing, and swapped out dented siding panels, restoring the full exterior in one trip.',
   },
   // Dallas
   {
@@ -185,7 +185,7 @@ export const PROJECTS: Project[] = [
     tags: ['Roof Replacement', 'Commercial'],
     image: 'https://ik.imagekit.io/4wu305uo4/image_o3ABp0bXV.jpg',
     description:
-      'One of our largest single projects to date — 250 squares of roofing on a commercial property in Dallas. Large-scale commercial roofing demands a different level of logistics: staging, crew rotation, daily progress tracking, and constant communication with the property manager. We delivered on every count, finishing this massive install on schedule.',
+      'One of our largest single projects to date: 250 squares of roofing on a commercial property in Dallas. Large-scale commercial roofing demands a different level of logistics. Staging, crew rotation, daily progress tracking, and constant communication with the property manager. We delivered on every count and finished on schedule.',
   },
   {
     id: 18,
@@ -195,7 +195,7 @@ export const PROJECTS: Project[] = [
     tags: ['Siding', 'Interior Remodel'],
     image: 'https://ik.imagekit.io/4wu305uo4/image_rFRnGMZJl.jpg',
     description:
-      'This Dallas project combined two scopes under one contract — new exterior siding and a partial interior remodel. Coordinating both trades at once saved the homeowner weeks of total project time and eliminated the gap between exterior and interior work. The result is a home that looks as good inside as it does from the street.',
+      'This Dallas project combined two scopes under one contract: new exterior siding and a partial interior remodel. Coordinating both trades at once saved the homeowner weeks of total project time. The result is a home that looks as good inside as it does from the street.',
   },
   {
     id: 19,
@@ -205,7 +205,7 @@ export const PROJECTS: Project[] = [
     tags: ['Roof Replacement'],
     image: 'https://ik.imagekit.io/4wu305uo4/image_12XoHVOnE.jpg',
     description:
-      'Not every job is storm damage. This Dallas homeowner simply had an aging roof that had reached end of life — soft spots, granule loss, and a worn-out ridge line. We performed a clean tear-off and installed a full architectural shingle system with new underlayment, ice and water shield, and drip edge throughout.',
+      'Not every job is storm damage. This Dallas homeowner had an aging roof that had reached end of life: soft spots, granule loss, and a worn-out ridge line. We performed a clean tear-off and installed a full architectural shingle system with new underlayment, ice and water shield, and drip edge throughout.',
   },
   // Lewisville
   {
@@ -216,7 +216,7 @@ export const PROJECTS: Project[] = [
     tags: ['Roof Replacement', 'Gutter Systems'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1759775267357_V4SlBXbBI.jpeg',
     description:
-      'We combined a full roof replacement and gutter system upgrade into one seamless project for this Lewisville homeowner. Tackling both at once meant we could properly integrate the new gutter hangers into the roofing work — no re-roofing around old hardware, no callbacks. Clean from the ridge cap to the downspout.',
+      'We combined a full roof replacement and gutter system upgrade into one project for this Lewisville homeowner. Tackling both at once meant we could properly integrate the new gutter hangers into the roofing work with no workarounds or callbacks. Clean from the ridge cap to the downspout.',
   },
   {
     id: 21,
@@ -226,7 +226,7 @@ export const PROJECTS: Project[] = [
     tags: ['Storm Damage', 'Roof Restoration'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1760391328620_KD9hkHVHc.jpeg',
     description:
-      'Hail damage to this Lewisville roof was more extensive than it looked from the street. Our inspection revealed bruised shingles, compromised felt, and flashing damage around two valleys. We restored the entire roof system rather than patching — giving the homeowner a uniform surface and a full manufacturer warranty on the new materials.',
+      'Hail damage to this Lewisville roof was more extensive than it looked from the street. Our inspection revealed bruised shingles, compromised felt, and flashing damage around two valleys. We restored the entire roof system rather than patching, giving the homeowner a uniform surface and a full manufacturer warranty on the new materials.',
   },
   {
     id: 22,
@@ -247,7 +247,7 @@ export const PROJECTS: Project[] = [
     tags: ['Storm Damage', 'Inspections'],
     image: 'https://ik.imagekit.io/4wu305uo4/surge_media_1759529593101_uINClxOf-.jpeg',
     description:
-      'In Crowley, Texas, we\'re on the job inspecting roofs for storm damage. If your roof took a hit during recent storms, you may not see the full extent of the damage from the ground. Our inspectors got on the roof, documented every impact point, and delivered a complete report — ready for insurance submission the same day.',
+      'In Crowley, Texas, we are on the job inspecting roofs for storm damage. If your roof took a hit during recent storms, you may not see the full extent of the damage from the ground. Our inspectors got on the roof, documented every impact point, and delivered a complete report ready for insurance submission the same day.',
   },
   {
     id: 24,

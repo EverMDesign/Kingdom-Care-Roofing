@@ -8,11 +8,11 @@ export function About() {
             <h2 className="section-heading text-brand-charcoal mb-6 leading-tight">KingdomCare Roofing & Construction LLC: Our Story</h2>
 
             <div className="text-brand-muted space-y-4">
-              <p className="mb-4">Kingdom Care Roofing & Construction LLC was founded by Ben Antone on a simple belief: every family deserves a roof they can trust. From humble beginnings serving Fort Worth neighborhoods, our company has grown into a full-service roofing and construction team — all while keeping the same family-first values that started it all.</p>
+              <p className="mb-4">Kingdom Care Roofing & Construction LLC was founded by Ben Antone on a simple belief: every family deserves a roof they can trust. Based in Burleson, TX, our company has grown from humble beginnings into a full-service roofing and construction team, keeping the same family-first values throughout.</p>
 
-              <p className="mb-4">With a combined 150 years of experience among our crew, we bring unmatched craftsmanship to every job — from residential shingle replacements to commercial flat roofing and full exterior construction. We also proudly partner with Freedpeople.org to give back to the communities we serve.</p>
+              <p className="mb-4">With a combined 150 years of experience among our crew, we bring real craftsmanship to every job. From residential shingle replacements in Burleson to commercial flat roofing and full exterior construction across the DFW area. We also partner with Freedpeople.org to give back to the communities we serve.</p>
 
-              <p className="font-medium text-brand-charcoal">We don't just build roofs — we build lasting relationships rooted in trust, transparency, and a commitment to getting it right the first time.</p>
+              <p className="font-medium text-brand-charcoal">We don't just build roofs. We build lasting relationships based on trust, transparency, and a commitment to getting it right the first time.</p>
             </div>
 
             <div className="mt-8 flex items-center gap-6">
