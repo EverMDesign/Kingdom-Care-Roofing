@@ -12,7 +12,9 @@ const servicesList = [
   { title: 'Leak Detection & Repair', desc: 'Stop small leaks before they turn into big, expensive problems.' },
 ]
 
-function HeroSection({ area, onOpenModal }: { area: ServiceArea; onOpenModal: () => void }) {
+type LatestProject = { url: string; slug: string; title: string } | null
+
+function HeroSection({ area }: { area: ServiceArea }) {
   return (
     <section className="relative w-full h-[550px] lg:h-[600px] bg-brand-charcoal flex items-center pb-16">
       <div className="absolute inset-0 z-0">
@@ -34,19 +36,16 @@ function HeroSection({ area, onOpenModal }: { area: ServiceArea; onOpenModal: ()
         <p className="text-white/90 text-lg lg:text-xl mb-8 max-w-[700px] font-medium leading-relaxed">
           Local roofers who show up on time, do honest work, and stand behind it.
         </p>
-        <button
-          onClick={onOpenModal}
+        <a
+          href="#estimate"
           className="btn-cta h-btn px-8 text-lg flex items-center justify-center shadow-lg"
         >
           Get a Free Estimate
-        </button>
+        </a>
       </div>
     </section>
   )
 }
-
-
-type LatestProject = { url: string; slug: string; title: string } | null
 
 function ContentSection({ area, latestProject }: { area: ServiceArea; latestProject: LatestProject }) {
   return (
@@ -195,63 +194,118 @@ function TestimonialsSection({ area }: { area: ServiceArea }) {
   )
 }
 
-function EstimateModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function EstimateSection({ area }: { area: ServiceArea }) {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  if (!isOpen) return null
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+    try {
+      const res = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, form_type: 'estimate' }),
+      })
+      const result = await res.json()
+      if (result.success) {
+        setSubmitted(true)
+      } else {
+        console.error('Form error:', result.error)
+        setSubmitted(true)
+      }
+    } catch (err) {
+      console.error('Submission failed:', err)
+      setSubmitted(true)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-brand-charcoal/70 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white rounded-card shadow-card-xl max-w-lg w-full p-8 border border-brand-border max-h-[90vh] overflow-y-auto">
-        <button onClick={onClose} className="absolute top-4 right-4 text-brand-muted hover:text-brand-charcoal transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <h3 className="font-serif text-2xl text-brand-charcoal mb-2">Get a Free Estimate</h3>
-        <p className="text-brand-muted mb-6">Fill out the form below and we'll contact you shortly.</p>
-        {submitted ? (
-          <div className="bg-green-50 text-green-800 p-4 rounded-btn text-center font-medium border border-green-200">
-            Thank you! We will contact you soon.
+    <section id="estimate" className="py-section-mb md:py-section-dt bg-brand-deep border-t border-white/10">
+      <div className="max-w-content mx-auto px-4 md:px-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="text-brand-cta font-bold tracking-widest uppercase text-sm mb-3 block">Free Estimate</span>
+            <h2 className="section-heading text-white mb-3">Get a Free Estimate in {area.city}</h2>
+            <p className="text-white/70">Fill out the form and we'll get back to you the same day.</p>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <input required type="text" placeholder="Full Name" className="w-full border border-brand-border rounded-input px-4 py-3 focus:outline-none focus:border-brand-gold transition-colors" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
-            <input required type="email" placeholder="Email Address" className="w-full border border-brand-border rounded-input px-4 py-3 focus:outline-none focus:border-brand-gold transition-colors" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
-            <input required type="tel" placeholder="Phone Number" className="w-full border border-brand-border rounded-input px-4 py-3 focus:outline-none focus:border-brand-gold transition-colors" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} />
-            <select className="w-full border border-brand-border rounded-input px-4 py-3 focus:outline-none focus:border-brand-gold transition-colors bg-white" value={formData.service} onChange={e => setFormData({ ...formData, service: e.target.value })}>
-              <option value="">Select a Service</option>
-              <option value="roofing">Roof Replacement</option>
-              <option value="exterior">Exterior Painting</option>
-              <option value="interior">Interior Painting</option>
-              <option value="storm">Storm Restoration</option>
-              <option value="gutters">Gutters &amp; Construction</option>
-            </select>
-            <textarea placeholder="Tell us about your project" rows={4} className="w-full border border-brand-border rounded-input px-4 py-3 focus:outline-none focus:border-brand-gold transition-colors" value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} />
-            <button type="submit" className="btn-cta px-6 py-3 shadow-sm">Submit Request</button>
-          </form>
-        )}
+
+          {submitted ? (
+            <div className="bg-green-600/20 border border-green-400/30 text-green-300 rounded-card p-6 text-center font-medium">
+              Thank you! We'll be in touch soon.
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input
+                  required
+                  type="text"
+                  placeholder="Full Name"
+                  className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
+                  value={formData.name}
+                  onChange={e => setFormData({ ...formData, name: e.target.value })}
+                />
+                <input
+                  required
+                  type="tel"
+                  placeholder="Phone Number"
+                  className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
+                  value={formData.phone}
+                  onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                />
+              </div>
+              <input
+                required
+                type="email"
+                placeholder="Email Address"
+                className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
+                value={formData.email}
+                onChange={e => setFormData({ ...formData, email: e.target.value })}
+              />
+              <select
+                className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors"
+                value={formData.service}
+                onChange={e => setFormData({ ...formData, service: e.target.value })}
+              >
+                <option value="" className="text-brand-charcoal">Select a Service</option>
+                <option value="roofing" className="text-brand-charcoal">Roof Replacement</option>
+                <option value="exterior" className="text-brand-charcoal">Exterior Painting</option>
+                <option value="interior" className="text-brand-charcoal">Interior Painting</option>
+                <option value="storm" className="text-brand-charcoal">Storm Restoration</option>
+                <option value="gutters" className="text-brand-charcoal">Gutters &amp; Construction</option>
+              </select>
+              <textarea
+                placeholder="Tell us about your project"
+                rows={4}
+                className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
+                value={formData.message}
+                onChange={e => setFormData({ ...formData, message: e.target.value })}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70"
+              >
+                {loading ? 'Sending...' : 'Request Free Estimate'}
+              </button>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 
 export function ServiceAreaPageContent({ area, latestProject }: { area: ServiceArea; latestProject: LatestProject }) {
-  const [modalOpen, setModalOpen] = useState(false)
-
   return (
     <>
-      <HeroSection area={area} onOpenModal={() => setModalOpen(true)} />
+      <HeroSection area={area} />
       <ContentSection area={area} latestProject={latestProject} />
       <TestimonialsSection area={area} />
-      <EstimateModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <EstimateSection area={area} />
     </>
   )
 }

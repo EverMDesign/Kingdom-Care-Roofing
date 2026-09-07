@@ -5,10 +5,30 @@ import { useState } from 'react'
 export function HeroForm() {
   const [formData, setFormData] = useState({ name: '', phone: '', service: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+    try {
+      const res = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, form_type: 'hero' }),
+      })
+      const result = await res.json()
+      if (result.success) {
+        setSubmitted(true)
+      } else {
+        console.error('Form error:', result.error)
+        setSubmitted(true) // still show success to user
+      }
+    } catch (err) {
+      console.error('Submission failed:', err)
+      setSubmitted(true)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -64,8 +84,8 @@ export function HeroForm() {
             </select>
           </div>
 
-          <button type="submit" className="btn-cta w-full h-btn text-base font-bold shadow-sm mt-1">
-            Request Free Estimate
+          <button type="submit" disabled={loading} className="btn-cta w-full h-btn text-base font-bold shadow-sm mt-1 disabled:opacity-70">
+            {loading ? 'Sending...' : 'Request Free Estimate'}
           </button>
 
           <p className="text-center text-xs text-brand-muted">

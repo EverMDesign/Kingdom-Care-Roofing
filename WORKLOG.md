@@ -135,3 +135,25 @@ Converted all JPEG/JPG/PNG images in public/images/ to WebP format using cwebp (
 **Status:** ✅ Complete
 
 ---
+
+## 2026-09-07 — 23:10
+
+SEO audit — documented all issues in SEO.md. Critical: missing sitemap.ts, robots.ts, metadataBase in layout. High: no OG images on service/project/service-area pages, no canonical URLs, no homepage metadata export or LocalBusiness schema. Medium: no Twitter card metadata, no service page schema, /service-area duplicate content risk.
+
+**Files:** SEO.md
+
+**Status:** ✅ Complete
+**Next Steps:** Fix P0 issues: add metadataBase to layout.tsx, create sitemap.ts, create robots.ts
+
+---
+
+## 2026-09-07 — 09:37
+
+Connected all forms to GoHighLevel via LeadConnector API. Created GHL client library, submit-form API route, and wired 3 forms (HeroForm, ServiceAreaPageContent modal, ServiceAreaContent modal). All submissions upsert contacts with tags and custom fields.
+
+**Files:** src/lib/ghl-client.ts, src/app/api/submit-form/route.ts, src/components/HeroForm.tsx, app/service-areas/[slug]/ServiceAreaPageContent.tsx, app/service-area/ServiceAreaContent.tsx, GHL_INTEGRATION.md, .env.local
+
+**Status:** ✅ Complete
+**Next Steps:** Create 2 GHL custom fields: service_interest, project_message. Test with curl against dev server.
+
+---

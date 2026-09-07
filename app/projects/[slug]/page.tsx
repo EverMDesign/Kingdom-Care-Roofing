@@ -176,7 +176,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                     Schedule a free damage inspection or get a quote for your next project.
                   </p>
                   <a
-                    href="tel:8178888282"
+                    href="/#estimate"
                     className="block bg-brand-cta text-brand-charcoal py-3 rounded-btn font-bold text-center hover:bg-white transition-colors shadow-card"
                   >
                     Get Started

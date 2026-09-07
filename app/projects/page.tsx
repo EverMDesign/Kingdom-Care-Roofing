@@ -28,7 +28,7 @@ export default async function ProjectsArchive() {
                   Based in Burleson, KingdomCare handles everything from minor repairs to full
                   exterior transformations across Fort Worth, Arlington, Dallas, and the surrounding DFW Metroplex.
                 </p>
-                <a href="tel:8178888282" className="btn-cta inline-block px-10 py-4 text-lg shadow-card-lg">
+                <a href="/#estimate" className="btn-cta inline-block px-10 py-4 text-lg shadow-card-lg">
                   Get a Free Estimate
                 </a>
               </div>

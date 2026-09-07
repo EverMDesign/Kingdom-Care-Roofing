@@ -24,7 +24,7 @@ export async function Hero() {
   const phoneTel = phone.replace(/\D/g, '')
 
   return (
-    <section className="relative w-full min-h-hero lg:h-hero-lg bg-brand-charcoal flex items-center py-16 lg:py-0">
+    <section id="estimate" className="relative w-full min-h-hero lg:h-hero-lg bg-brand-charcoal flex items-center py-16 lg:py-0">
       <div className="absolute inset-0 z-0">
         <video
           src={IMAGES.heroVideo}
