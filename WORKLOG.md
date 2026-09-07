@@ -167,3 +167,13 @@ GHL Connect setup complete and form fixes. Fixed API route location (src/app/api
 **Status:** ✅ Complete
 
 ---
+
+## 2026-09-07 — 10:50
+
+Updated all form service dropdowns so option values match display labels exactly for clean GHL reporting.
+
+**Files:** src/components/HeroForm.tsx, app/service-areas/[slug]/ServiceAreaPageContent.tsx, app/service-area/ServiceAreaContent.tsx
+
+**Status:** ✅ Complete
+
+---
