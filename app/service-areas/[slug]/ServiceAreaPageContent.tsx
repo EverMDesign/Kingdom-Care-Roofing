@@ -271,11 +271,11 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                 onChange={e => setFormData({ ...formData, service: e.target.value })}
               >
                 <option value="" className="text-brand-charcoal">Select a Service</option>
-                <option value="roofing" className="text-brand-charcoal">Roof Replacement</option>
-                <option value="exterior" className="text-brand-charcoal">Exterior Painting</option>
-                <option value="interior" className="text-brand-charcoal">Interior Painting</option>
-                <option value="storm" className="text-brand-charcoal">Storm Restoration</option>
-                <option value="gutters" className="text-brand-charcoal">Gutters &amp; Construction</option>
+                <option value="Roof Replacement" className="text-brand-charcoal">Roof Replacement</option>
+                <option value="Storm Restoration" className="text-brand-charcoal">Storm Restoration</option>
+                <option value="Interior/Exterior Painting" className="text-brand-charcoal">Interior/Exterior Painting</option>
+                <option value="Interior/Exterior Remodeling" className="text-brand-charcoal">Interior/Exterior Remodeling</option>
+                <option value="Gutters & Construction" className="text-brand-charcoal">Gutters & Construction</option>
               </select>
               <textarea
                 placeholder="Tell us about your project"

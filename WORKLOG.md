@@ -157,3 +157,13 @@ Connected all forms to GoHighLevel via LeadConnector API. Created GHL client lib
 **Next Steps:** Create 2 GHL custom fields: service_interest, project_message. Test with curl against dev server.
 
 ---
+
+## 2026-09-07 — 10:47
+
+GHL Connect setup complete and form fixes. Fixed API route location (src/app/api → app/api), resolved JSON parse error, added EverReach tracking script, updated service dropdowns across all forms (combined Interior/Exterior Painting, added Interior/Exterior Remodeling).
+
+**Files:** app/api/submit-form/route.ts, src/lib/ghl-client.ts, app/layout.tsx, src/components/HeroForm.tsx, app/service-areas/[slug]/ServiceAreaPageContent.tsx, app/service-area/ServiceAreaContent.tsx, GHL_INTEGRATION.md
+
+**Status:** ✅ Complete
+
+---

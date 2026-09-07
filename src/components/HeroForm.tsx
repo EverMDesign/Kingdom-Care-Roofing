@@ -74,13 +74,13 @@ export function HeroForm() {
               onChange={e => setFormData({ ...formData, service: e.target.value })}
             >
               <option value="">Select a service...</option>
-              <option value="roofing">Roof Replacement</option>
-              <option value="repair">Roof Repair</option>
-              <option value="storm">Storm Damage</option>
-              <option value="exterior">Exterior Painting</option>
-              <option value="interior">Interior Painting</option>
-              <option value="gutters">Gutters & Construction</option>
-              <option value="inspection">Free Inspection</option>
+              <option value="Roof Replacement">Roof Replacement</option>
+              <option value="Roof Repair">Roof Repair</option>
+              <option value="Storm Damage">Storm Damage</option>
+              <option value="Interior/Exterior Painting">Interior/Exterior Painting</option>
+              <option value="Interior/Exterior Remodeling">Interior/Exterior Remodeling</option>
+              <option value="Gutters & Construction">Gutters & Construction</option>
+              <option value="Free Inspection">Free Inspection</option>
             </select>
           </div>
 
