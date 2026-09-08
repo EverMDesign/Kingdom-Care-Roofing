@@ -55,7 +55,7 @@ function ContactInfoCard() {
             </svg>
           </div>
           <h3 className="font-serif text-xl font-bold text-brand-charcoal mb-2">Email Our Team</h3>
-          <a href="mailto:info@kingdomcare.com" className="text-brand-muted hover:text-brand-gold font-medium transition-colors">info@kingdomcare.com</a>
+          <a href="mailto:Ben@kingdomstormgroup.com" className="text-brand-muted hover:text-brand-gold font-medium transition-colors">Ben@kingdomstormgroup.com</a>
         </div>
 
         <div className="pt-8 md:pt-0 md:pl-8 w-full">

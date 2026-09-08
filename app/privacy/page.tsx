@@ -73,7 +73,7 @@ export default function PrivacyPage() {
               <li>Request deletion of your personal information (subject to legal obligations)</li>
               <li>Opt out of marketing communications at any time</li>
             </ul>
-            <p className="mt-3">To exercise any of these rights, contact us at <a href="mailto:info@kingdomcare.com" className="text-brand-brown hover:text-brand-gold transition-colors">info@kingdomcare.com</a>.</p>
+            <p className="mt-3">To exercise any of these rights, contact us at <a href="mailto:Ben@kingdomstormgroup.com" className="text-brand-brown hover:text-brand-gold transition-colors">Ben@kingdomstormgroup.com</a>.</p>
           </section>
 
           <section>
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
               <p><strong>KingdomCare Roofing &amp; Construction LLC</strong></p>
               <p>Burleson, TX</p>
               <p>Phone: <a href="tel:8178888282" className="text-brand-brown hover:text-brand-gold transition-colors">(817) 888-8282</a></p>
-              <p>Email: <a href="mailto:info@kingdomcare.com" className="text-brand-brown hover:text-brand-gold transition-colors">info@kingdomcare.com</a></p>
+              <p>Email: <a href="mailto:Ben@kingdomstormgroup.com" className="text-brand-brown hover:text-brand-gold transition-colors">Ben@kingdomstormgroup.com</a></p>
             </div>
           </section>
 

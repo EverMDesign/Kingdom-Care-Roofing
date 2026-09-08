@@ -81,7 +81,7 @@ export default function TermsPage() {
               <p><strong>KingdomCare Roofing &amp; Construction LLC</strong></p>
               <p>Burleson, TX</p>
               <p>Phone: <a href="tel:8178888282" className="text-brand-brown hover:text-brand-gold transition-colors">(817) 888-8282</a></p>
-              <p>Email: <a href="mailto:info@kingdomcare.com" className="text-brand-brown hover:text-brand-gold transition-colors">info@kingdomcare.com</a></p>
+              <p>Email: <a href="mailto:Ben@kingdomstormgroup.com" className="text-brand-brown hover:text-brand-gold transition-colors">Ben@kingdomstormgroup.com</a></p>
             </div>
           </section>
 
