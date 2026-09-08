@@ -21,7 +21,7 @@ export function HeroForm() {
         setSubmitted(true)
       } else {
         console.error('Form error:', result.error)
-        setSubmitted(true) // still show success to user
+        setSubmitted(true)
       }
     } catch (err) {
       console.error('Submission failed:', err)
@@ -29,6 +29,10 @@ export function HeroForm() {
     } finally {
       setLoading(false)
     }
+    setTimeout(() => {
+      setSubmitted(false)
+      setFormData({ name: '', phone: '', service: '' })
+    }, 5000)
   }
 
   return (

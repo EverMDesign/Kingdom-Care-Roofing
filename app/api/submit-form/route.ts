@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
     const fullName = formData.name || ''
     const [firstName, ...lastNameParts] = fullName.trim().split(' ')
-    const lastName = lastNameParts.join(' ') || 'Lead'
+    const lastName = lastNameParts.join(' ') || ''
 
     const customFields: Record<string, string | number | boolean> = {}
     Object.entries(formData).forEach(([key, value]) => {

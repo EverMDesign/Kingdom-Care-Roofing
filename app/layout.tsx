@@ -43,7 +43,7 @@ export default function RootLayout({
       <head>
         <script src="https://api.everreach.link/js/external-tracking.js" data-tracking-id="tk_bbb46529a4404483982d4b615ed53501"></script>
       </head>
-<body suppressHydrationWarning className="font-sans text-brand-charcoal bg-white antialiased overflow-x-hidden">
+      <body suppressHydrationWarning className="font-sans text-brand-charcoal bg-white antialiased overflow-x-hidden">
         {children}
       </body>
     </html>

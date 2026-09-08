@@ -238,6 +238,10 @@ function EstimateSection() {
     } finally {
       setLoading(false)
     }
+    setTimeout(() => {
+      setSubmitted(false)
+      setFormData({ name: '', email: '', phone: '', service: '', message: '' })
+    }, 5000)
   }
 
   return (
