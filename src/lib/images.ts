@@ -1,4 +1,5 @@
-const HP = '/images/homepage'
+const BASE = 'https://pub-e208ced336924f319590ff630e2d3a92.r2.dev'
+const HP = `${BASE}/images/homepage`
 
 export const IMAGES = {
   // Favicon & Logo
@@ -12,7 +13,7 @@ export const IMAGES = {
   // Benefits (aboutBenefitsAndAwards section)
   benefitIndustryExpertise: `${HP}/kingdom-care-benefit-industry-expertise.webp`,
   benefit247Service: `${HP}/kingdom-care-benefit-247-service-availability.webp`,
-  benefitCommunity: `/images/services/kingdom-care-emergency-roof-repair.webp`,
+  benefitCommunity: `${BASE}/images/services/kingdom-care-emergency-roof-repair.webp`,
   benefitQuality: `${HP}/kingdom-care-benefit-unwavering-quality-guarantee.webp`,
 
   // Brand partners (partnerships section)

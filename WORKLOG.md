@@ -187,3 +187,140 @@ EverReach + GHL form tracking fixes, EstimateModal component, Vercel env sync sk
 **Status:** ✅ Complete
 
 ---
+
+## 2026-09-08 — Research: Image Storage & CDN Strategy for Production
+
+**Type:** Architecture Planning / Research
+
+### Context
+Kingdom Care has 443MB / 737 image files in `public/images/` (git-ignored). Need a production image hosting solution before launch. Evaluated all major options for both this site and as the EMD agency standard going forward.
+
+---
+
+### Current State
+- Images live in `public/images/` organized into 4 folders: `homepage/`, `projects/`, `service-area/`, `services/`
+- All referenced via `src/lib/images.ts` with local paths (e.g. `/images/homepage/...`)
+- `next.config.js` is empty — no remote image config yet
+- `public/images` is git-ignored
+
+---
+
+### Options Evaluated
+
+#### 1. Cloudflare R2 — Recommended for Agency Scale
+- S3-compatible object storage with **zero egress fees**
+- 10GB free storage tier — 443MB fits with massive headroom
+- Serves via Cloudflare's global CDN
+- Supports custom domain (e.g. `media.kingdomcareroofing.com`)
+- Upload via `rclone` (one command, S3-compatible)
+- `next/image` handles all optimization — R2 is just the origin
+- One Cloudflare account → multiple per-client buckets = clean agency architecture
+
+#### 2. ImageKit
+- Image CDN + real-time transformations + media library
+- Free plan: 20GB storage, 20GB bandwidth/month — fine for a single local business site
+- URL-based transforms (resize, crop, WebP conversion via URL params)
+- Official Next.js custom loader available
+- **Problem for agency scale:** one account shared across clients exposes the account ID (`ik.imagekit.io/ACCOUNTID/`) in every URL — not white-labeled
+- Paid plans start at $49+/month if free tier exceeded across multiple clients
+- Transforms are redundant if already using `next/image` (which handles resize, WebP, quality)
+
+#### 3. Vercel Blob
+- Native Vercel integration — zero config
+- ~$0.023/GB storage + bandwidth fees
+- Egress is NOT free — costs grow with traffic
+- Good for simple single-site setups, not agency scale
+
+#### 4. Bunny.net Storage + CDN
+- ~$0.01/GB storage + cheap CDN bandwidth
+- Similar to R2 but a separate vendor
+- Valid option, used by many WordPress agencies
+- Less unified than Cloudflare (separate storage + CDN services to manage)
+
+#### 5. GoHighLevel (GHL) Subaccount Media Library — Rejected
+See dedicated section below.
+
+---
+
+### Competitor Agency Analysis
+Reviewed `kingdomcareroofingandconstruction.com` (competing agency's build):
+
+URL structure found in production:
+```
+/_next/image?url=https://ik.imagekit.io/4wu305uo4/image_rFRnGMZJl.jpg&w=1920&q=75
+```
+
+**Issues identified with their approach:**
+1. **Double processing** — `_next/image` re-optimizes an already-served ImageKit URL. Wastes Vercel image credits AND ImageKit bandwidth simultaneously with no benefit.
+2. **Exposed account ID** — `4wu305uo4` appears in every image URL across every client site they build. Not white-labeled, not professional.
+3. **No folder organization** — filename `image_rFRnGMZJl.jpg` is ImageKit's auto-generated ID. No SEO value, no structure, not manageable at scale.
+4. **One shared ImageKit account** — all client images mixed into one account with no per-client isolation.
+
+---
+
+### Why NOT GoHighLevel for Image Storage
+
+GHL subaccounts have a media library backed by Google Cloud Storage. Files are publicly accessible via URL. It is technically possible to reference these URLs in a website — but GHL is the wrong tool for this job.
+
+**Reasons to never use GHL as an image CDN for production websites:**
+
+1. **GHL is a CRM, not infrastructure.** It is a marketing and sales SaaS platform. Image delivery performance, CDN edge caching, and uptime SLAs for asset serving are not design goals. If GHL has an incident, the website's images go down.
+
+2. **Ugly, uncontrollable URLs.** GHL media URLs look like `storage.googleapis.com/msgsndr/ACCOUNT_ID/media/filename.jpg`. This string is exposed in every `<img>` tag on the client's website. It is not white-labeled, not ownable, and GHL can change this URL structure at any time — silently breaking every image on every client site.
+
+3. **No image optimization.** No transforms, no automatic WebP conversion, no resizing. You'd still need `next/image` in front of it — creating the same double-processing problem seen on the competing agency's site above.
+
+4. **Storage limits tied to GHL plan.** Not designed for bulk asset storage. Limits can be hit unexpectedly and are not transparent.
+
+5. **Mixing concerns.** CRM contacts, automation data, and website production assets all live in the same platform. If a client churns off GHL, or GHL raises prices or changes terms, the client's website images disappear with no migration path.
+
+6. **No per-client isolation control.** EMD does not own the underlying storage. GHL does. There is no way to enforce isolation, run cost attribution per client, or hand off storage cleanly.
+
+**The only valid GHL image workflow:** clients upload job-site photos to GHL from mobile (which they may already do for social content) → sync/export to R2 → serve from R2. GHL as a workflow step is acceptable. GHL as the delivery layer is not.
+
+---
+
+### EMD Agency-Scale Decision
+
+**Chosen direction: Cloudflare R2 + `next/image` + custom domain per client**
+
+```
+One Cloudflare Account (EMD)
+├── R2 Bucket: kingdom-care-media     → media.kingdomcareroofing.com
+├── R2 Bucket: kcb-services-media     → media.kcbservices.com
+├── R2 Bucket: avvalley-media         → media.avvalley.com
+└── R2 Bucket: [client]-media         → media.[clientdomain].com
+```
+
+**Why this wins at agency scale:**
+- Zero egress fees regardless of traffic or number of clients
+- Per-client bucket = clean isolation, easy handoff, zero cross-contamination
+- Custom domain per client = fully white-labeled, professional
+- One Cloudflare account = centralized agency control
+- `next/image` handles all transforms natively — no separate image transform service needed
+- `rclone` uploads the entire `public/images/` folder in one command (S3-compatible)
+- Storage cost at 50 clients with ~500MB each ≈ $0.38/month total
+- Natural future integration: WorkPress dashboard uploads directly to R2 per organization
+
+**Cost comparison at agency scale (10 clients, ~500MB each = ~5GB):**
+
+| Service | Storage | Egress | Monthly Est. |
+|---|---|---|---|
+| Cloudflare R2 | ~$0.08 | $0.00 | ~$0.08 |
+| ImageKit (shared acct) | Free | Free (20GB cap) | $0 until cap |
+| ImageKit (paid) | Included | Included | $49+ |
+| Vercel Blob | ~$0.12 | Variable | $1–10+ |
+| GHL Media | Included | N/A | Not suitable |
+
+**Implementation steps for Kingdom Care:**
+1. Create R2 bucket `kingdom-care-media` in Cloudflare dashboard
+2. Connect `media.kingdomcareroofing.com` custom domain to bucket
+3. Upload `public/images/` via `rclone sync` (one command)
+4. Update base URL in `src/lib/images.ts` from `/images/` to `https://media.kingdomcareroofing.com/images/`
+5. Add `remotePatterns` to `next.config.js` to allow the CDN domain
+6. `public/images` stays git-ignored as-is
+
+**Status:** Research Complete — Implementation Pending
+**Next Steps:** Create R2 bucket and run upload before prod deployment
+
+---
