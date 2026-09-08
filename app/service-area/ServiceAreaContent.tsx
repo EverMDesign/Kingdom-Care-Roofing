@@ -264,6 +264,7 @@ function EstimateSection() {
                 <input
                   required
                   type="text"
+                  name="name"
                   placeholder="Full Name"
                   className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
                   value={formData.name}
@@ -272,6 +273,7 @@ function EstimateSection() {
                 <input
                   required
                   type="tel"
+                  name="phone"
                   placeholder="Phone Number"
                   className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
                   value={formData.phone}
@@ -281,12 +283,14 @@ function EstimateSection() {
               <input
                 required
                 type="email"
+                name="email"
                 placeholder="Email Address"
                 className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
               />
               <select
+                name="service"
                 className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors"
                 value={formData.service}
                 onChange={e => setFormData({ ...formData, service: e.target.value })}
@@ -299,6 +303,7 @@ function EstimateSection() {
                 <option value="Gutters & Construction" className="text-brand-charcoal">Gutters & Construction</option>
               </select>
               <textarea
+                name="message"
                 placeholder="Tell us about your project"
                 rows={4}
                 className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"

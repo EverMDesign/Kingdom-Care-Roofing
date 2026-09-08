@@ -51,6 +51,7 @@ export function HeroForm() {
             <input
               required
               type="text"
+              name="name"
               placeholder="John Smith"
               className="w-full border border-brand-border rounded-input px-4 py-3 text-brand-charcoal focus:outline-none focus:border-brand-gold transition-colors text-sm"
               value={formData.name}
@@ -63,6 +64,7 @@ export function HeroForm() {
             <input
               required
               type="tel"
+              name="phone"
               placeholder="(817) 555-0100"
               className="w-full border border-brand-border rounded-input px-4 py-3 text-brand-charcoal focus:outline-none focus:border-brand-gold transition-colors text-sm"
               value={formData.phone}
@@ -73,6 +75,7 @@ export function HeroForm() {
           <div>
             <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Service Needed</label>
             <select
+              name="service"
               className="w-full border border-brand-border rounded-input px-4 py-3 text-brand-charcoal focus:outline-none focus:border-brand-gold transition-colors bg-white text-sm"
               value={formData.service}
               onChange={e => setFormData({ ...formData, service: e.target.value })}
