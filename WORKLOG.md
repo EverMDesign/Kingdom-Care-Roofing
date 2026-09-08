@@ -177,3 +177,13 @@ Updated all form service dropdowns so option values match display labels exactly
 **Status:** ✅ Complete
 
 ---
+
+## 2026-09-08 — 21:00
+
+EverReach + GHL form tracking fixes, EstimateModal component, Vercel env sync skill
+
+**Files:** src/components/EstimateModal.tsx, src/components/HeroForm.tsx, app/service-areas/[slug]/ServiceAreaPageContent.tsx, app/service-area/ServiceAreaContent.tsx, src/components/index.ts, app/projects/page.tsx, app/projects/[slug]/page.tsx, app/layout.tsx
+
+**Status:** ✅ Complete
+
+---
