@@ -393,3 +393,14 @@ Chosen over ImageKit, Vercel Blob, Bunny.net, and GHL media library. Key reasons
 **Next Steps:** Move `kingdomcareroofing.com` DNS to Cloudflare → connect `media.kingdomcareroofing.com` to bucket
 
 ---
+
+## 2026-09-08 — 00:54
+
+Kingdom Care – modal system, nav cleanup, page creation, and CRM fixes
+
+**Files:** app/services/[slug]/page.tsx, app/services/[slug]/ServiceCTA.tsx, app/services/[slug]/ServiceBannerCTA.tsx, src/components/Header.tsx, src/components/FloatingCTA.tsx, src/components/EstimateModal.tsx, src/components/OfferModals.tsx, src/components/Offers.tsx, src/components/Brands.tsx, src/components/Footer.tsx, app/privacy/page.tsx, app/terms/page.tsx, app/api/submit-form/route.ts, src/lib/ghl-client.ts
+
+**Status:** ✅ Complete
+**Next Steps:** Test all modal forms end-to-end; verify GHL custom fields are created; check offer form submissions in CRM
+
+---
