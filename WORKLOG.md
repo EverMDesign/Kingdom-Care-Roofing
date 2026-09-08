@@ -324,3 +324,72 @@ One Cloudflare Account (EMD)
 **Next Steps:** Create R2 bucket and run upload before prod deployment
 
 ---
+
+## 2026-09-08 — Image Storage: R2 Setup & Migration Complete
+
+**Type:** Infrastructure / DevOps
+
+### Summary
+Researched, decided on, and fully implemented Cloudflare R2 as the image storage and CDN solution for Kingdom Care and as the EMD agency standard going forward. All site images are now live on R2 and the codebase is updated to pull from the CDN.
+
+---
+
+### Decisions Made
+
+**Storage: Cloudflare R2**
+Chosen over ImageKit, Vercel Blob, Bunny.net, and GHL media library. Key reasons:
+- Zero egress fees — costs nothing regardless of traffic
+- One EMD Cloudflare account with a bucket per client (same model as GHL subaccounts)
+- `next/image` handles all optimization natively — no separate image transform service needed
+- Per-client custom domain via Cloudflare DNS (e.g. `media.kingdomcareroofing.com`)
+- Near-zero cost at scale (50 clients ≈ $0.38/month total storage)
+
+**GHL rejected** — CRM tool, not infrastructure. Exposes `storage.googleapis.com/msgsndr/` in every URL, no image optimization, storage limits tied to GHL plan, client churn risk.
+
+**ImageKit rejected for agency scale** — account ID exposed in every URL across all client sites, redundant with `next/image`, paid plans $49+/month at scale.
+
+**Two-bucket model for WorkPress:**
+- Static site images → per-client R2 bucket (EMD Cloudflare account)
+- WorkPress dashboard-uploaded project photos → `workpress-uploads` bucket (WorkPress's own Cloudflare account, organized by `org_[orgId]/`)
+- CompanyCam photos → CC hosts them, WorkPress stores the URL, no R2 needed
+
+**WorkPress gets its own Cloudflare account** — separate from EMD's agency account. WorkPress is a standalone SaaS product with its own domain, DB, and auth. Infrastructure follows product boundaries.
+
+---
+
+### What Was Built
+
+**rclone installed and configured** (`~/.config/rclone/rclone.conf`)
+- Provider: Cloudflare R2
+- Endpoint: `https://7a79f1b50d3108bbef9b798ed5cdbb18.r2.cloudflarestorage.com`
+- Credentials: Account API token (Admin Read & Write)
+
+**Bucket created:** `kingdom-care-media`
+
+**Images uploaded — 71 files across 3 folders:**
+- `images/homepage/` — logo, hero (webp + mp4), benefits, brands, CTAs, contact form bg, favicon, Our Story
+- `images/services/` — all 24 service page hero images
+- `images/service-area/` — all 30 service area city images
+- `images/projects/` — intentionally excluded (will come from WorkPress/CompanyCam)
+
+**Public access enabled** — bucket live at:
+`https://pub-e208ced336924f319590ff630e2d3a92.r2.dev`
+
+**Codebase updated:**
+- `src/lib/images.ts` — `BASE` constant set to R2 pub URL
+- `src/components/ServicesGrid.tsx` — `S` constant updated to R2
+- `src/lib/services-data.ts` — `S` constant updated to R2
+- `next.config.js` — `remotePatterns` added for `pub-e208ced336924f319590ff630e2d3a92.r2.dev`
+
+**All URLs verified 200 OK** — logo, services, service-area, hero video.
+
+---
+
+### Pending
+
+- **Custom domain** (`media.kingdomcareroofing.com`) blocked — domain is at Squarespace with Google Workspace email. Requires moving DNS to Cloudflare first. Steps documented: add site in Cloudflare (imports MX + SPF/DKIM records), verify Google Workspace records are intact, then update nameservers at Squarespace. Custom domain is cosmetic only — site fully works on the pub URL today.
+
+**Status:** ✅ Complete (pub URL) — Custom domain pending DNS migration
+**Next Steps:** Move `kingdomcareroofing.com` DNS to Cloudflare → connect `media.kingdomcareroofing.com` to bucket
+
+---
