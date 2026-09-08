@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { TopBar, Header, Footer, FloatingCTA, ComparisonSlider } from '@/components'
+import { TopBar, Header, Footer, FloatingCTA, ComparisonSlider, EstimateModal } from '@/components'
 import { ProjectGallery } from '@/components/ProjectGallery'
 import ServiceAreaMap from '@/components/ServiceAreaMap'
 import { getProject, getProjects, getProjectPhotos } from '@/lib/workpress-api'
@@ -175,12 +175,11 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                   <p className="text-white/80 text-sm mb-4 leading-relaxed">
                     Schedule a free damage inspection or get a quote for your next project.
                   </p>
-                  <a
-                    href="/#estimate"
-                    className="block bg-brand-cta text-brand-charcoal py-3 rounded-btn font-bold text-center hover:bg-white transition-colors shadow-card"
-                  >
-                    Get Started
-                  </a>
+                  <EstimateModal>
+                    <span className="block bg-brand-cta text-brand-charcoal py-3 rounded-btn font-bold text-center hover:bg-white transition-colors shadow-card">
+                      Get Started
+                    </span>
+                  </EstimateModal>
                 </div>
 
               </div>

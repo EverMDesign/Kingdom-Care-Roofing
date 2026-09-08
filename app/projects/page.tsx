@@ -1,4 +1,4 @@
-import { TopBar, Header, Footer, FloatingCTA } from '@/components'
+import { TopBar, Header, Footer, FloatingCTA, EstimateModal } from '@/components'
 import { getProjects } from '@/lib/workpress-api'
 import { ProjectsGridClient } from './client'
 import ServiceAreaMap from '@/components/ServiceAreaMap'
@@ -28,9 +28,11 @@ export default async function ProjectsArchive() {
                   Based in Burleson, KingdomCare handles everything from minor repairs to full
                   exterior transformations across Fort Worth, Arlington, Dallas, and the surrounding DFW Metroplex.
                 </p>
-                <a href="/#estimate" className="btn-cta inline-block px-10 py-4 text-lg shadow-card-lg">
-                  Get a Free Estimate
-                </a>
+                <EstimateModal>
+                  <span className="btn-cta inline-block px-10 py-4 text-lg shadow-card-lg">
+                    Get a Free Estimate
+                  </span>
+                </EstimateModal>
               </div>
 
               <div className="w-full lg:w-1/2 h-[420px] lg:h-[460px] rounded-map overflow-hidden border border-brand-border shadow-card-lg">
@@ -55,9 +57,11 @@ export default async function ProjectsArchive() {
               painting, and exterior construction done right.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="tel:8178888282" className="btn-cta px-10 py-4 text-lg shadow-card-lg">
-                Get Free Estimate
-              </a>
+              <EstimateModal>
+                <span className="btn-cta inline-block px-10 py-4 text-lg shadow-card-lg">
+                  Get Free Estimate
+                </span>
+              </EstimateModal>
               <a href="tel:8178888282" className="btn-outline-white border-white px-10 py-4 text-lg">
                 Call (817) 888-8282
               </a>

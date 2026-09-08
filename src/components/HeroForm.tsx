@@ -45,7 +45,7 @@ export function HeroForm() {
           Thank you! We'll be in touch soon.
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form id="hero-estimate-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Full Name</label>
             <input
