@@ -1,3 +1,5 @@
+import { ClaimOfferButton, ReferralButton } from './OfferModals'
+
 export function Offers() {
   return (
     <section className="py-section-mb md:py-section-dt bg-brand-brown text-white">
@@ -17,9 +19,7 @@ export function Offers() {
               </div>
               <h3 className="font-serif text-2xl font-bold mb-2 text-brand-brown">Free Shingle Upgrade</h3>
               <p className="text-brand-muted mb-6">Upgrade to Class 4 Impact Resistant shingles at no extra cost on any full roof replacement. Mention code <strong>FreeUp</strong> when you call.</p>
-              <a href="#" className="btn-cta px-6 py-2.5 w-full sm:w-auto mt-auto flex items-center justify-center">
-                Claim Offer
-              </a>
+              <ClaimOfferButton />
               <span className="text-xs text-brand-muted mt-4 block">*Use code FreeUp. Restrictions apply. Mention during estimate.</span>
             </div>
           </div>
@@ -33,9 +33,7 @@ export function Offers() {
               </div>
               <h3 className="font-serif text-2xl font-bold mb-2 text-brand-brown">$500 Referral Fee</h3>
               <p className="text-brand-muted mb-6">Refer a friend or neighbor to KingdomCare! When they complete a project, you'll receive a $500 referral fee. Use code <strong>SAVE500</strong>.</p>
-              <a href="#" className="btn-cta px-6 py-2.5 w-full sm:w-auto mt-auto flex items-center justify-center">
-                Submit a Referral
-              </a>
+              <ReferralButton />
               <span className="text-xs text-brand-muted mt-4 block">*Use code SAVE500. Reward issued upon job completion & final payment.</span>
             </div>
           </div>

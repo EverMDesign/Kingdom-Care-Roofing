@@ -10,11 +10,21 @@ const fieldMappings: Record<string, Record<string, string>> = {
     service: 'service_interest',
     message: 'project_message',
   },
+  freeup: {
+    message: 'project_message',
+  },
+  referral: {
+    referred_name: 'referred_name',
+    referred_phone: 'referred_phone',
+    referred_address: 'referred_address',
+  },
 }
 
 const formTags: Record<string, string[]> = {
   hero: ['website-lead', 'hero-form'],
   estimate: ['website-lead', 'estimate-request'],
+  freeup: ['website-lead', 'offer-freeup', 'free-shingle-upgrade'],
+  referral: ['website-lead', 'offer-referral', 'referral-submission'],
 }
 
 export async function POST(request: Request) {
@@ -30,9 +40,10 @@ export async function POST(request: Request) {
     const mapping = fieldMappings[formType] || {}
     const tags = formTags[formType] || ['website-lead']
 
-    const fullName = formData.name || ''
-    const [firstName, ...lastNameParts] = fullName.trim().split(' ')
-    const lastName = lastNameParts.join(' ') || ''
+    const fullName = (formData.name || '').trim()
+    const parts = fullName.split(' ').filter(Boolean)
+    const firstName = parts[0] || 'Unknown'
+    const lastName = parts.slice(1).join(' ') || ''
 
     const customFields: Record<string, string | number | boolean> = {}
     Object.entries(formData).forEach(([key, value]) => {
@@ -54,6 +65,7 @@ export async function POST(request: Request) {
       lastName,
       email: formData.email,
       phone: formData.phone,
+      address1: formData.address || undefined,
       tags,
       customFields,
     })

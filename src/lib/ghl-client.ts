@@ -8,6 +8,7 @@ interface ContactPayload {
   lastName: string
   email?: string
   phone?: string
+  address1?: string
   tags?: string[]
   customFields?: Record<string, string | number | boolean>
 }
@@ -54,6 +55,7 @@ export class GHLClient {
         lastName: data.lastName,
         email: data.email,
         phone: data.phone,
+        address1: data.address1,
         tags: data.tags || [],
         customFields: customFieldsArray,
       }
