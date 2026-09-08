@@ -3,7 +3,7 @@ import { IMAGES } from '@/lib/images'
 export function Brands() {
   return (
     <section className="py-12 bg-white border-b border-brand-border">
-      <div className="max-w-content mx-auto px-4 md:px-8">
+      <div className="max-w-3xl mx-auto px-4 md:px-8">
         <h2 className="text-center font-serif text-xl md:text-2xl text-brand-charcoal mb-8">Brands We Trust</h2>
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center lg:justify-between items-center gap-8 lg:gap-12">

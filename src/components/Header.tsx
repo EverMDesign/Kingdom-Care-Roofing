@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { IMAGES } from '@/lib/images'
+import { EstimateModal } from './EstimateModal'
 
 const services = [
   { label: 'Roof Replacement', slug: 'roof-replacement' },
@@ -57,13 +58,14 @@ export function Header() {
             </div>
           </div>
           <a href="/projects" className="hover:text-brand-gold transition-colors">Projects</a>
-          <a href="#" className="hover:text-brand-gold transition-colors">Contact</a>
         </nav>
 
         <div className="hidden lg:flex items-center gap-6">
-          <a href="#" className="btn-cta px-6 py-3 shadow-sm">
-            Get a Free Estimate
-          </a>
+          <EstimateModal>
+            <span className="btn-cta px-6 py-3 shadow-sm">
+              Get a Free Estimate
+            </span>
+          </EstimateModal>
         </div>
 
         <button className="lg:hidden p-2 text-brand-charcoal" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -107,8 +109,9 @@ export function Header() {
               </div>
             )}
             <a href="/projects" className="py-3 border-b border-brand-border/50 hover:text-brand-gold transition-colors" onClick={() => setMobileMenuOpen(false)}>Projects</a>
-            <a href="#" className="py-3 border-b border-brand-border/50 hover:text-brand-gold transition-colors" onClick={() => setMobileMenuOpen(false)}>Contact</a>
-            <a href="#" className="btn-cta mt-4 py-3 text-center" onClick={() => setMobileMenuOpen(false)}>Get a Free Estimate</a>
+            <EstimateModal>
+              <span className="btn-cta mt-4 py-3 text-center block" onClick={() => setMobileMenuOpen(false)}>Get a Free Estimate</span>
+            </EstimateModal>
           </nav>
         </div>
       )}
