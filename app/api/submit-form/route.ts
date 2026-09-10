@@ -12,11 +12,13 @@ const fieldMappings: Record<string, Record<string, string>> = {
   },
   freeup: {
     message: 'project_message',
+    code: 'promo_code',
   },
   referral: {
     referred_name: 'referred_name',
     referred_phone: 'referred_phone',
     referred_address: 'referred_address',
+    code: 'promo_code',
   },
 }
 
@@ -47,7 +49,7 @@ export async function POST(request: Request) {
 
     const customFields: Record<string, string | number | boolean> = {}
     Object.entries(formData).forEach(([key, value]) => {
-      if (['form_type', 'name', 'email', 'phone'].includes(key)) return
+      if (['form_type', 'name', 'email', 'phone', 'address'].includes(key)) return
       if (!value) return
       customFields[mapping[key] || key] = value
     })

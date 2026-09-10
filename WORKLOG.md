@@ -404,3 +404,24 @@ Kingdom Care – modal system, nav cleanup, page creation, and CRM fixes
 **Next Steps:** Test all modal forms end-to-end; verify GHL custom fields are created; check offer form submissions in CRM
 
 ---
+
+## 2026-09-08 — 18:12
+
+Spam protection investigation and cleanup — honeypot implemented and removed, Turnstile selected as final solution
+
+**Files:** src/components/HeroForm.tsx, src/components/EstimateModal.tsx, src/components/OfferModals.tsx, app/service-areas/[slug]/ServiceAreaPageContent.tsx, app/service-area/ServiceAreaContent.tsx, app/api/submit-form/route.ts
+
+**Status:** ⏳ Deferred
+**Next Steps:** Implement Cloudflare Turnstile once site is live on its domain — need Site Key and Secret Key from Cloudflare dashboard
+
+---
+
+## 2026-09-10 — 23:04
+
+Investigated and fixed GHL form submission issues on Kingdom Care website — audited all 4 forms (HeroForm, EstimateModal, FreeUpForm, ReferralForm), confirmed /api/submit-form route exists in app/ not src/app/, added code field to freeup and referral field mappings as promo_code, removed code from exclusion list so it passes through as custom field, added name attributes to all inputs in OfferModals for both FreeUpForm and ReferralForm
+
+**Files:** app/api/submit-form/route.ts, src/components/OfferModals.tsx
+
+**Status:** ✅ Complete
+
+---

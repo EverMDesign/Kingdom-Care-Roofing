@@ -45,7 +45,7 @@ export class GHLClient {
   async submitContact(data: ContactPayload): Promise<APIResponse> {
     try {
       const customFieldsArray = Object.entries(data.customFields || {}).map(([key, value]) => ({
-        id: key,
+        key,
         value,
       }))
 

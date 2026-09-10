@@ -56,13 +56,13 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
   return (
     <form id="freeup-offer-form" onSubmit={e => { e.preventDefault(); submit(data, onSuccess) }} className="flex flex-col gap-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <input required type="text" placeholder="Full Name" value={data.name} onChange={set('name')} className={inputClass} />
-        <input required type="tel" placeholder="Phone Number" value={data.phone} onChange={set('phone')} className={inputClass} />
+        <input required type="text" name="name" placeholder="Full Name" value={data.name} onChange={set('name')} className={inputClass} />
+        <input required type="tel" name="phone" placeholder="Phone Number" value={data.phone} onChange={set('phone')} className={inputClass} />
       </div>
-      <input required type="email" placeholder="Email Address" value={data.email} onChange={set('email')} className={inputClass} />
-      <input type="text" placeholder="Property Address" value={data.address} onChange={set('address')} className={inputClass} />
-      <textarea placeholder="Tell us about your roof (optional)" rows={3} value={data.message} onChange={set('message')} className={inputClass} />
-      <input type="text" placeholder="Use Code" value={data.code} onChange={set('code')}
+      <input required type="email" name="email" placeholder="Email Address" value={data.email} onChange={set('email')} className={inputClass} />
+      <input type="text" name="address" placeholder="Property Address" value={data.address} onChange={set('address')} className={inputClass} />
+      <textarea name="message" placeholder="Tell us about your roof (optional)" rows={3} value={data.message} onChange={set('message')} className={inputClass} />
+      <input type="text" name="code" placeholder="Use Code" value={data.code} onChange={set('code')}
         className="w-full bg-amber-50 border border-brand-gold rounded-input px-4 py-3 text-brand-brown font-bold placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors tracking-widest" />
       <button type="submit" disabled={loading}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
@@ -92,23 +92,23 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
     <form id="referral-form" onSubmit={e => { e.preventDefault(); submit(data, onSuccess) }} className="flex flex-col gap-4">
       <p className="text-brand-muted text-sm">Your information</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <input required type="text" placeholder="Your Full Name" value={data.name} onChange={set('name')} className={inputClass} />
-        <input required type="tel" placeholder="Your Phone" value={data.phone} onChange={set('phone')} className={inputClass} />
+        <input required type="text" name="name" placeholder="Your Full Name" value={data.name} onChange={set('name')} className={inputClass} />
+        <input required type="tel" name="phone" placeholder="Your Phone" value={data.phone} onChange={set('phone')} className={inputClass} />
       </div>
-      <input required type="email" placeholder="Your Email" value={data.email} onChange={set('email')} className={inputClass} />
+      <input required type="email" name="email" placeholder="Your Email" value={data.email} onChange={set('email')} className={inputClass} />
 
       <div className="border-t border-gray-200 pt-4">
         <p className="text-brand-muted text-sm mb-4">Who are you referring?</p>
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input required type="text" placeholder="Their Full Name" value={data.referred_name} onChange={set('referred_name')} className={inputClass} />
-            <input required type="tel" placeholder="Their Phone" value={data.referred_phone} onChange={set('referred_phone')} className={inputClass} />
+            <input required type="text" name="referred_name" placeholder="Their Full Name" value={data.referred_name} onChange={set('referred_name')} className={inputClass} />
+            <input required type="tel" name="referred_phone" placeholder="Their Phone" value={data.referred_phone} onChange={set('referred_phone')} className={inputClass} />
           </div>
-          <input type="text" placeholder="Their Address (optional)" value={data.referred_address} onChange={set('referred_address')} className={inputClass} />
+          <input type="text" name="referred_address" placeholder="Their Address (optional)" value={data.referred_address} onChange={set('referred_address')} className={inputClass} />
         </div>
       </div>
 
-      <input type="text" placeholder="Use Code" value={data.code} onChange={set('code')}
+      <input type="text" name="code" placeholder="Use Code" value={data.code} onChange={set('code')}
         className="w-full bg-amber-50 border border-brand-gold rounded-input px-4 py-3 text-brand-brown font-bold placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors tracking-widest" />
       <button type="submit" disabled={loading}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
