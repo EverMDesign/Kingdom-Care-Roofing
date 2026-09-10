@@ -2,16 +2,37 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { validatePhone, validateEmail } from '@/lib/validation'
 
-const inputClass = 'w-full bg-white border border-gray-400 rounded-input px-4 py-3 text-brand-charcoal placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors'
+const inputBase = 'w-full bg-white border rounded-input px-4 py-3 text-brand-charcoal placeholder:text-gray-400 focus:outline-none transition-colors'
+const inputClass = (error?: string) =>
+  error
+    ? `${inputBase} border-red-400 focus:border-red-500`
+    : `${inputBase} border-gray-400 focus:border-brand-brown`
+
+type Errors = { phone?: string; email?: string }
 
 function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: '', message: '' })
+  const [errors, setErrors] = useState<Errors>({})
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const newErrors: Errors = {}
+    const phoneError = validatePhone(formData.phone)
+    if (phoneError) newErrors.phone = phoneError
+    const emailError = validateEmail(formData.email)
+    if (emailError) newErrors.email = emailError
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+    setErrors({})
+
     setLoading(true)
     try {
       const res = await fetch('/api/submit-form', {
@@ -51,17 +72,29 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
     <form id="estimate-modal-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <input required type="text" name="name" placeholder="Full Name"
-          className={inputClass} value={formData.name}
+          className={inputClass()} value={formData.name}
           onChange={e => setFormData({ ...formData, name: e.target.value })} />
-        <input required type="tel" name="phone" placeholder="Phone Number"
-          className={inputClass} value={formData.phone}
-          onChange={e => setFormData({ ...formData, phone: e.target.value })} />
+        <div>
+          <input required type="tel" name="phone" placeholder="Phone Number"
+            className={inputClass(errors.phone)} value={formData.phone}
+            onChange={e => {
+              setFormData({ ...formData, phone: e.target.value })
+              if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
+            }} />
+          {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+        </div>
       </div>
-      <input required type="email" name="email" placeholder="Email Address"
-        className={inputClass} value={formData.email}
-        onChange={e => setFormData({ ...formData, email: e.target.value })} />
+      <div>
+        <input required type="email" name="email" placeholder="Email Address"
+          className={inputClass(errors.email)} value={formData.email}
+          onChange={e => {
+            setFormData({ ...formData, email: e.target.value })
+            if (errors.email) setErrors(prev => ({ ...prev, email: undefined }))
+          }} />
+        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+      </div>
       <select name="service"
-        className={inputClass} value={formData.service}
+        className={inputClass()} value={formData.service}
         onChange={e => setFormData({ ...formData, service: e.target.value })}>
         <option value="">Select a Service</option>
         <option value="Roof Replacement">Roof Replacement</option>
@@ -73,7 +106,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
         <option value="Free Inspection">Free Inspection</option>
       </select>
       <textarea name="message" placeholder="Tell us about your project" rows={3}
-        className={inputClass} value={formData.message}
+        className={inputClass()} value={formData.message}
         onChange={e => setFormData({ ...formData, message: e.target.value })} />
       <button type="submit" disabled={loading}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">

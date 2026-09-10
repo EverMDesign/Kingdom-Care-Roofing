@@ -1,14 +1,24 @@
 'use client'
 
 import { useState } from 'react'
+import { validatePhone } from '@/lib/validation'
 
 export function HeroForm() {
   const [formData, setFormData] = useState({ name: '', phone: '', service: '' })
+  const [errors, setErrors] = useState<{ phone?: string }>({})
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const phoneError = validatePhone(formData.phone)
+    if (phoneError) {
+      setErrors({ phone: phoneError })
+      return
+    }
+    setErrors({})
+
     setLoading(true)
     try {
       const res = await fetch('/api/submit-form', {
@@ -35,6 +45,12 @@ export function HeroForm() {
     }, 5000)
   }
 
+  const baseInput = 'w-full border rounded-input px-4 py-3 text-brand-charcoal focus:outline-none transition-colors text-sm'
+  const fieldClass = (error?: string) =>
+    error
+      ? `${baseInput} border-red-400 focus:border-red-500`
+      : `${baseInput} border-brand-border focus:border-brand-gold`
+
   return (
     <div className="bg-white rounded-card shadow-card-xl p-6 md:p-8 w-full">
       <h3 className="font-serif text-2xl text-brand-charcoal mb-1">Get a Free Estimate</h3>
@@ -53,7 +69,7 @@ export function HeroForm() {
               type="text"
               name="name"
               placeholder="John Smith"
-              className="w-full border border-brand-border rounded-input px-4 py-3 text-brand-charcoal focus:outline-none focus:border-brand-gold transition-colors text-sm"
+              className={fieldClass()}
               value={formData.name}
               onChange={e => setFormData({ ...formData, name: e.target.value })}
             />
@@ -66,17 +82,21 @@ export function HeroForm() {
               type="tel"
               name="phone"
               placeholder="(817) 555-0100"
-              className="w-full border border-brand-border rounded-input px-4 py-3 text-brand-charcoal focus:outline-none focus:border-brand-gold transition-colors text-sm"
+              className={fieldClass(errors.phone)}
               value={formData.phone}
-              onChange={e => setFormData({ ...formData, phone: e.target.value })}
+              onChange={e => {
+                setFormData({ ...formData, phone: e.target.value })
+                if (errors.phone) setErrors({})
+              }}
             />
+            {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Service Needed</label>
             <select
               name="service"
-              className="w-full border border-brand-border rounded-input px-4 py-3 text-brand-charcoal focus:outline-none focus:border-brand-gold transition-colors bg-white text-sm"
+              className={fieldClass()}
               value={formData.service}
               onChange={e => setFormData({ ...formData, service: e.target.value })}
             >

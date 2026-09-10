@@ -425,3 +425,13 @@ Investigated and fixed GHL form submission issues on Kingdom Care website — au
 **Status:** ✅ Complete
 
 ---
+
+## 2026-09-10 — 23:29
+
+Added client-side form validation to all 4 Kingdom Care forms — phone (10-digit + no 0/1 area code), email format, and address format (optional fields only validate when filled); errors show on submit with red borders and inline messages, clear on edit
+
+**Files:** src/lib/validation.ts, src/components/HeroForm.tsx, src/components/EstimateModal.tsx, src/components/OfferModals.tsx
+
+**Status:** ✅ Complete
+
+---

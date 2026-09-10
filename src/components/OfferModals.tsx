@@ -2,8 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { validatePhone, validateEmail, validateAddress } from '@/lib/validation'
 
-const inputClass = 'w-full bg-white border border-gray-400 rounded-input px-4 py-3 text-brand-charcoal placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors'
+const inputBase = 'w-full bg-white border rounded-input px-4 py-3 text-brand-charcoal placeholder:text-gray-400 focus:outline-none transition-colors'
+const inputClass = (error?: string) =>
+  error
+    ? `${inputBase} border-red-400 focus:border-red-500`
+    : `${inputBase} border-gray-400 focus:border-brand-brown`
 
 function SuccessMessage() {
   return (
@@ -44,24 +49,56 @@ function useFormSubmit(formType: string) {
 
 // ── Free Shingle Upgrade Form ─────────────────────────────────────────────────
 
+type FreeUpErrors = { phone?: string; email?: string; address?: string }
+
 function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
   const [data, setData] = useState({ name: '', phone: '', email: '', address: '', message: '', code: 'FreeUp' })
+  const [errors, setErrors] = useState<FreeUpErrors>({})
   const { loading, submitted, submit } = useFormSubmit('freeup')
 
-  const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+  const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setData(prev => ({ ...prev, [key]: e.target.value }))
+    if (key === 'phone' && errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
+    if (key === 'email' && errors.email) setErrors(prev => ({ ...prev, email: undefined }))
+    if (key === 'address' && errors.address) setErrors(prev => ({ ...prev, address: undefined }))
+  }
 
   if (submitted) return <SuccessMessage />
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const newErrors: FreeUpErrors = {}
+    const phoneError = validatePhone(data.phone)
+    if (phoneError) newErrors.phone = phoneError
+    const emailError = validateEmail(data.email)
+    if (emailError) newErrors.email = emailError
+    const addressError = validateAddress(data.address)
+    if (addressError) newErrors.address = addressError
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+    submit(data, onSuccess)
+  }
+
   return (
-    <form id="freeup-offer-form" onSubmit={e => { e.preventDefault(); submit(data, onSuccess) }} className="flex flex-col gap-4">
+    <form id="freeup-offer-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <input required type="text" name="name" placeholder="Full Name" value={data.name} onChange={set('name')} className={inputClass} />
-        <input required type="tel" name="phone" placeholder="Phone Number" value={data.phone} onChange={set('phone')} className={inputClass} />
+        <input required type="text" name="name" placeholder="Full Name" value={data.name} onChange={set('name')} className={inputClass()} />
+        <div>
+          <input required type="tel" name="phone" placeholder="Phone Number" value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
+          {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+        </div>
       </div>
-      <input required type="email" name="email" placeholder="Email Address" value={data.email} onChange={set('email')} className={inputClass} />
-      <input type="text" name="address" placeholder="Property Address" value={data.address} onChange={set('address')} className={inputClass} />
-      <textarea name="message" placeholder="Tell us about your roof (optional)" rows={3} value={data.message} onChange={set('message')} className={inputClass} />
+      <div>
+        <input required type="email" name="email" placeholder="Email Address" value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
+        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+      </div>
+      <div>
+        <input type="text" name="address" placeholder="Property Address" value={data.address} onChange={set('address')} className={inputClass(errors.address)} />
+        {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+      </div>
+      <textarea name="message" placeholder="Tell us about your roof (optional)" rows={3} value={data.message} onChange={set('message')} className={inputClass()} />
       <input type="text" name="code" placeholder="Use Code" value={data.code} onChange={set('code')}
         className="w-full bg-amber-50 border border-brand-gold rounded-input px-4 py-3 text-brand-brown font-bold placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors tracking-widest" />
       <button type="submit" disabled={loading}
@@ -75,36 +112,74 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
 
 // ── Referral Form ─────────────────────────────────────────────────────────────
 
+type ReferralErrors = { phone?: string; email?: string; referred_phone?: string; referred_address?: string }
+
 function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
   const [data, setData] = useState({
     name: '', phone: '', email: '',
     referred_name: '', referred_phone: '', referred_address: '',
     code: 'SAVE500',
   })
+  const [errors, setErrors] = useState<ReferralErrors>({})
   const { loading, submitted, submit } = useFormSubmit('referral')
 
-  const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
+  const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setData(prev => ({ ...prev, [key]: e.target.value }))
+    if (key === 'phone' && errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
+    if (key === 'email' && errors.email) setErrors(prev => ({ ...prev, email: undefined }))
+    if (key === 'referred_phone' && errors.referred_phone) setErrors(prev => ({ ...prev, referred_phone: undefined }))
+    if (key === 'referred_address' && errors.referred_address) setErrors(prev => ({ ...prev, referred_address: undefined }))
+  }
 
   if (submitted) return <SuccessMessage />
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const newErrors: ReferralErrors = {}
+    const phoneError = validatePhone(data.phone)
+    if (phoneError) newErrors.phone = phoneError
+    const emailError = validateEmail(data.email)
+    if (emailError) newErrors.email = emailError
+    const refPhoneError = validatePhone(data.referred_phone)
+    if (refPhoneError) newErrors.referred_phone = refPhoneError
+    const refAddressError = validateAddress(data.referred_address)
+    if (refAddressError) newErrors.referred_address = refAddressError
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+    submit(data, onSuccess)
+  }
+
   return (
-    <form id="referral-form" onSubmit={e => { e.preventDefault(); submit(data, onSuccess) }} className="flex flex-col gap-4">
+    <form id="referral-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
       <p className="text-brand-muted text-sm">Your information</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <input required type="text" name="name" placeholder="Your Full Name" value={data.name} onChange={set('name')} className={inputClass} />
-        <input required type="tel" name="phone" placeholder="Your Phone" value={data.phone} onChange={set('phone')} className={inputClass} />
+        <input required type="text" name="name" placeholder="Your Full Name" value={data.name} onChange={set('name')} className={inputClass()} />
+        <div>
+          <input required type="tel" name="phone" placeholder="Your Phone" value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
+          {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+        </div>
       </div>
-      <input required type="email" name="email" placeholder="Your Email" value={data.email} onChange={set('email')} className={inputClass} />
+      <div>
+        <input required type="email" name="email" placeholder="Your Email" value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
+        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+      </div>
 
       <div className="border-t border-gray-200 pt-4">
         <p className="text-brand-muted text-sm mb-4">Who are you referring?</p>
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input required type="text" name="referred_name" placeholder="Their Full Name" value={data.referred_name} onChange={set('referred_name')} className={inputClass} />
-            <input required type="tel" name="referred_phone" placeholder="Their Phone" value={data.referred_phone} onChange={set('referred_phone')} className={inputClass} />
+            <input required type="text" name="referred_name" placeholder="Their Full Name" value={data.referred_name} onChange={set('referred_name')} className={inputClass()} />
+            <div>
+              <input required type="tel" name="referred_phone" placeholder="Their Phone" value={data.referred_phone} onChange={set('referred_phone')} className={inputClass(errors.referred_phone)} />
+              {errors.referred_phone && <p className="text-red-500 text-xs mt-1">{errors.referred_phone}</p>}
+            </div>
           </div>
-          <input type="text" name="referred_address" placeholder="Their Address (optional)" value={data.referred_address} onChange={set('referred_address')} className={inputClass} />
+          <div>
+            <input type="text" name="referred_address" placeholder="Their Address (optional)" value={data.referred_address} onChange={set('referred_address')} className={inputClass(errors.referred_address)} />
+            {errors.referred_address && <p className="text-red-500 text-xs mt-1">{errors.referred_address}</p>}
+          </div>
         </div>
       </div>
 
