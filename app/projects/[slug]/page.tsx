@@ -67,9 +67,9 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
   const review = project.review ?? null
 
-  // Before/after photos — tagged in WorkPress by the company
-  const beforePhoto = photos.find((p) => p.tags?.includes('before'))
-  const afterPhoto = photos.find((p) => p.tags?.includes('after'))
+  // Before/after photos — typed in WorkPress by the company
+  const beforePhoto = photos.find((p) => p.type === 'before')
+  const afterPhoto = photos.find((p) => p.type === 'after')
 
   // Build gallery: tagged photos or fallback to cover
   const galleryPhotos: Photo[] = photos.length > 0
