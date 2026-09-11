@@ -119,6 +119,14 @@ export async function generateProjectSchema(project: Project, city: string) {
       ? project.services
       : ['Professional Services'];
 
+  // E.164 telephone normalization — strip non-digits, prepend +1 if no country code
+  const normalizePhone = (raw: string): string => {
+    if (raw.startsWith('+')) return raw;
+    const digits = raw.replace(/\D/g, '');
+    return digits.length === 10 ? `+1${digits}` : `+${digits}`;
+  };
+  const phone = normalizePhone(companyInfo.company_phone);
+
   const shortDescription = project.metaDescription
     ? project.metaDescription
     : truncate(project.description, 160);
@@ -133,7 +141,7 @@ export async function generateProjectSchema(project: Project, city: string) {
     '@id': `${domain}/#business`,
     'name': companyInfo.company_name,
     'url': domain,
-    'telephone': companyInfo.company_phone,
+    'telephone': phone,
     'address': {
       '@type': 'PostalAddress',
       'streetAddress': parsedAddress.streetAddress,
@@ -148,7 +156,7 @@ export async function generateProjectSchema(project: Project, city: string) {
     // contactPoint.areaServed omitted — no accurate scope to assert here.
     'contactPoint': {
       '@type': 'ContactPoint',
-      'telephone': companyInfo.company_phone,
+      'telephone': phone,
       'contactType': 'customer service',
       'availableLanguage': 'English',
     },
@@ -166,7 +174,8 @@ export async function generateProjectSchema(project: Project, city: string) {
     '@id': `${projectUrl}#service`,
     'name': project.seoTitle,
     'description': project.description,
-    'serviceType': serviceTypes,
+    'serviceType': serviceTypes[0],
+    ...(serviceTypes.length > 1 ? { 'additionalType': serviceTypes.slice(1) } : {}),
     'provider': businessEntity,
     'areaServed': {
       '@type': 'City',
@@ -192,7 +201,6 @@ export async function generateProjectSchema(project: Project, city: string) {
       'height': 630,
     },
     'url': projectUrl,
-    'dateCreated': project.created_at,
     ...(project.updated_at ? { 'dateModified': project.updated_at } : {}),
   };
 
