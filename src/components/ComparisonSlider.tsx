@@ -55,12 +55,12 @@ export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden rounded-img shadow-card-xl border-4 border-white aspect-video cursor-ew-resize select-none"
+      className="relative overflow-hidden rounded-img shadow-card-xl border-4 border-white aspect-[4/3] cursor-ew-resize select-none"
       onMouseDown={(e) => { e.preventDefault(); setIsDragging(true); handleMove(e.clientX) }}
       onTouchStart={(e) => { setIsDragging(true); handleMove(e.touches[0].clientX) }}
     >
       {/* AFTER — full width base layer */}
-      <img src={afterImage} alt={`${afterAlt} — after`} className="block w-full h-full object-cover" />
+      <img src={afterImage} alt={`${afterAlt} — after`} className="block w-full h-full object-cover object-top" />
 
       {/* BEFORE — clipped overlay */}
       <div
@@ -70,7 +70,7 @@ export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
         <img
           src={before}
           alt={`${afterAlt} — before`}
-          className={`block h-full object-cover${isRealBefore ? '' : ' grayscale brightness-75'}`}
+          className={`block h-full object-cover object-top${isRealBefore ? '' : ' grayscale brightness-75'}`}
           style={{ width: containerWidth || '100%', maxWidth: 'none' }}
         />
         <div className="absolute top-6 left-6 bg-brand-charcoal/80 text-white px-4 py-2 rounded-btn font-bold text-xs-fine tracking-widest z-30">
