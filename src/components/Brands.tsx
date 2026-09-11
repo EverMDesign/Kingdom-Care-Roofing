@@ -2,7 +2,7 @@ import { IMAGES } from '@/lib/images'
 
 export function Brands() {
   return (
-    <section className="py-12 bg-white border-b border-brand-border">
+    <section className="py-12 bg-brand-cream">
       <div className="max-w-3xl mx-auto px-4 md:px-8">
         <h2 className="text-center font-serif text-xl md:text-2xl text-brand-charcoal mb-8">Brands We Trust</h2>
 

@@ -21,9 +21,9 @@ export default function Home() {
       <TopBar />
       <Header />
       <Hero />
-      <Brands />
       <Testimonials />
       <Projects />
+      <Brands />
       <ServicesGrid />
       <About />
       <Offers />

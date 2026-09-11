@@ -124,9 +124,10 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
 
 interface EstimateModalProps {
   children: React.ReactNode
+  triggerClassName?: string
 }
 
-export function EstimateModal({ children }: EstimateModalProps) {
+export function EstimateModal({ children, triggerClassName }: EstimateModalProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const open = () => setIsOpen(true)
@@ -169,7 +170,7 @@ export function EstimateModal({ children }: EstimateModalProps) {
 
   return (
     <>
-      <span onClick={open} className="cursor-pointer">
+      <span onClick={open} className={`cursor-pointer${triggerClassName ? ` ${triggerClassName}` : ''}`}>
         {children}
       </span>
       {typeof document !== 'undefined' && modal ? createPortal(modal, document.body) : null}
