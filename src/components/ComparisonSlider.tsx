@@ -49,7 +49,8 @@ export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
     }
   }, [isDragging, handleMove])
 
-  const before = beforeImage ?? afterImage // TODO: real before photo from DB
+  const before = beforeImage ?? afterImage
+  const isRealBefore = !!beforeImage
 
   return (
     <div
@@ -69,7 +70,7 @@ export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
         <img
           src={before}
           alt={`${afterAlt} — before`}
-          className="block h-full object-cover grayscale brightness-75"
+          className={`block h-full object-cover${isRealBefore ? '' : ' grayscale brightness-75'}`}
           style={{ width: containerWidth || '100%', maxWidth: 'none' }}
         />
         <div className="absolute top-6 left-6 bg-brand-charcoal/80 text-white px-4 py-2 rounded-btn font-bold text-xs-fine tracking-widest z-30">

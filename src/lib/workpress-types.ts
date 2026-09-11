@@ -36,6 +36,7 @@ export interface Photo {
   url: string;
   caption?: string;
   order: number;
+  tags?: string[];
 }
 
 export interface CompanySettings {

@@ -67,7 +67,11 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
   const review = project.review ?? null
 
-  // Build gallery: cover photo first, then additional photos from DB
+  // Before/after photos — tagged in WorkPress by the company
+  const beforePhoto = photos.find((p) => p.tags?.includes('before'))
+  const afterPhoto = photos.find((p) => p.tags?.includes('after'))
+
+  // Build gallery: tagged photos or fallback to cover
   const galleryPhotos: Photo[] = photos.length > 0
     ? photos
     : [{ id: 'cover', url: project.cover_photo_url, order: 0 }]
@@ -106,7 +110,11 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
               {/* Left: slider + description + gallery + testimonial */}
               <div className="lg:col-span-2 space-y-10">
-                <ComparisonSlider afterImage={project.cover_photo_url} afterAlt={project.seoTitle} />
+                <ComparisonSlider
+                  afterImage={afterPhoto?.url ?? project.cover_photo_url}
+                  afterAlt={project.seoTitle}
+                  beforeImage={beforePhoto?.url}
+                />
                 <div className="space-y-4">
                   {project.description.split(/\n+/).map((para, i) => (
                     <p key={i} className="text-body text-brand-muted">{para}</p>
