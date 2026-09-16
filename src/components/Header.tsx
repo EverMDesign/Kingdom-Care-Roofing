@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { IMAGES } from '@/lib/images'
+import { serviceAreas } from '@/lib/service-areas-data'
 import { EstimateModal } from './EstimateModal'
 
 const services = [
@@ -22,6 +23,7 @@ const services = [
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
+  const [areasOpen, setAreasOpen] = useState(false)
 
   return (
     <header className="bg-white border-b border-brand-border sticky top-0 z-50 h-header shadow-sm flex items-center relative">
@@ -58,6 +60,27 @@ export function Header() {
             </div>
           </div>
           <a href="/projects" className="hover:text-brand-gold transition-colors">Projects</a>
+          <div className="relative group">
+            <button className="flex items-center gap-1 hover:text-brand-gold transition-colors">
+              Service Areas
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 hidden group-hover:block z-50">
+              <div className="bg-white border border-brand-border rounded-card shadow-card-lg p-2 w-[28rem] grid grid-cols-2 gap-x-2">
+                {serviceAreas.map((a) => (
+                  <a
+                    key={a.slug}
+                    href={`/service-areas/${a.slug}`}
+                    className="block px-4 py-2.5 text-sm text-brand-muted hover:text-brand-charcoal hover:bg-brand-cream rounded-btn transition-colors"
+                  >
+                    {a.city}, {a.state}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
         </nav>
 
         <div className="hidden lg:flex items-center gap-6">
@@ -109,6 +132,29 @@ export function Header() {
               </div>
             )}
             <a href="/projects" className="py-3 border-b border-brand-border/50 hover:text-brand-gold transition-colors" onClick={() => setMobileMenuOpen(false)}>Projects</a>
+            <button
+              className="py-3 border-b border-brand-border/50 hover:text-brand-gold transition-colors flex items-center justify-between w-full"
+              onClick={() => setAreasOpen(!areasOpen)}
+            >
+              Service Areas
+              <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 transition-transform ${areasOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {areasOpen && (
+              <div className="flex flex-col border-b border-brand-border/50 bg-brand-cream max-h-60 overflow-y-auto">
+                {serviceAreas.map((a) => (
+                  <a
+                    key={a.slug}
+                    href={`/service-areas/${a.slug}`}
+                    className="py-2.5 px-4 text-sm text-brand-muted hover:text-brand-charcoal transition-colors border-b border-brand-border/30 last:border-0"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {a.city}, {a.state}
+                  </a>
+                ))}
+              </div>
+            )}
             <EstimateModal>
               <span className="btn-cta mt-4 py-3 text-center block" onClick={() => setMobileMenuOpen(false)}>Get a Free Estimate</span>
             </EstimateModal>

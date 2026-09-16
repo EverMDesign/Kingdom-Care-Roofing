@@ -98,11 +98,11 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
       return
     }
     formRef.current?.requestSubmit()
+    submit(data, onSuccess)
   }
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    submit(data, onSuccess)
   }
 
   return (
@@ -142,6 +142,7 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
 type ReferralErrors = { name?: string; phone?: string; email?: string; referred_name?: string; referred_phone?: string; referred_address?: string }
 
 function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
+  const formRef = useRef<HTMLFormElement>(null)
   const [data, setData] = useState({
     name: '', phone: '', email: '',
     referred_name: '', referred_phone: '', referred_address: '',
@@ -163,7 +164,7 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
   if (status === 'success') return <SuccessMessage />
   if (status === 'error') return <ErrorMessage message={apiError} onRetry={reset} />
 
-  const handleSubmit = () => {
+  const handleClick = () => {
     const newErrors: ReferralErrors = {}
     const nameError = validateName(data.name)
     if (nameError) newErrors.name = nameError
@@ -175,17 +176,24 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
     if (refNameError) newErrors.referred_name = refNameError
     const refPhoneError = validatePhone(data.referred_phone)
     if (refPhoneError) newErrors.referred_phone = refPhoneError
-    const refAddressError = validateAddress(data.referred_address)
-    if (refAddressError) newErrors.referred_address = refAddressError
+    if (data.referred_address.trim()) {
+      const refAddressError = validateAddress(data.referred_address)
+      if (refAddressError) newErrors.referred_address = refAddressError
+    }
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       return
     }
+    formRef.current?.requestSubmit()
     submit(data, onSuccess)
   }
 
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+  }
+
   return (
-    <div className="flex flex-col gap-4">
+    <form ref={formRef} id="referral-form" onSubmit={handleFormSubmit} className="flex flex-col gap-4">
       <p className="text-brand-muted text-sm">Your information</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -224,12 +232,12 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
 
       <input type="text" name="code" placeholder="Use Code" value={data.code} onChange={set('code')}
         className="w-full bg-amber-50 border border-brand-gold rounded-input px-4 py-3 text-brand-brown font-bold placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors tracking-widest" />
-      <button type="button" onClick={handleSubmit} disabled={status === 'loading'}
+      <button type="button" onClick={handleClick} disabled={status === 'loading'}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
         {status === 'loading' ? 'Sending...' : 'Submit Referral'}
       </button>
       <p className="text-center text-xs text-brand-muted">Reward issued upon job completion &amp; final payment.</p>
-    </div>
+    </form>
   )
 }
 

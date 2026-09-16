@@ -19,32 +19,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [apiError, setApiError] = useState('')
 
-  // Button click → validate → only trigger form submit if valid
-  const handleClick = () => {
-    const newErrors: Errors = {}
-    const nameError = validateName(formData.name)
-    if (nameError) newErrors.name = nameError
-    const phoneError = validatePhone(formData.phone)
-    if (phoneError) newErrors.phone = phoneError
-    const emailError = validateEmail(formData.email)
-    if (emailError) newErrors.email = emailError
-    const addressError = validateAddress(formData.address)
-    if (addressError) newErrors.address = addressError
-    const serviceError = validateRequired(formData.service, 'Service')
-    if (serviceError) newErrors.service = serviceError
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-      return
-    }
-    setErrors({})
-    // Validation passed — fire native submit so tracking script captures it
-    formRef.current?.requestSubmit()
-  }
-
-  // Form submit handler — only reached after validation passes
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const submitToApi = async () => {
     setStatus('loading')
     try {
       const res = await fetch('/api/submit-form', {
@@ -68,6 +43,34 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
       setApiError(err instanceof Error ? err.message : 'Network error')
       setStatus('error')
     }
+  }
+
+  const handleClick = () => {
+    const newErrors: Errors = {}
+    const nameError = validateName(formData.name)
+    if (nameError) newErrors.name = nameError
+    const phoneError = validatePhone(formData.phone)
+    if (phoneError) newErrors.phone = phoneError
+    const emailError = validateEmail(formData.email)
+    if (emailError) newErrors.email = emailError
+    const addressError = validateAddress(formData.address)
+    if (addressError) newErrors.address = addressError
+    const serviceError = validateRequired(formData.service, 'Service')
+    if (serviceError) newErrors.service = serviceError
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+    setErrors({})
+    // Fire native submit for tracking script → GHL workflows
+    formRef.current?.requestSubmit()
+    // Call API independently
+    submitToApi()
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
   }
 
   if (status === 'success') {

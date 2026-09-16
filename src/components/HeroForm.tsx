@@ -10,26 +10,7 @@ export function HeroForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [apiError, setApiError] = useState('')
 
-  const handleClick = () => {
-    const newErrors: { name?: string; phone?: string; address?: string; service?: string } = {}
-    const nameError = validateName(formData.name)
-    if (nameError) newErrors.name = nameError
-    const phoneError = validatePhone(formData.phone)
-    if (phoneError) newErrors.phone = phoneError
-    const addressError = validateAddress(formData.address)
-    if (addressError) newErrors.address = addressError
-    const serviceError = validateRequired(formData.service, 'Service')
-    if (serviceError) newErrors.service = serviceError
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-      return
-    }
-    setErrors({})
-    formRef.current?.requestSubmit()
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const submitToApi = async () => {
     setStatus('loading')
     try {
       const res = await fetch('/api/submit-form', {
@@ -52,6 +33,29 @@ export function HeroForm() {
       setApiError(err instanceof Error ? err.message : 'Network error')
       setStatus('error')
     }
+  }
+
+  const handleClick = () => {
+    const newErrors: { name?: string; phone?: string; address?: string; service?: string } = {}
+    const nameError = validateName(formData.name)
+    if (nameError) newErrors.name = nameError
+    const phoneError = validatePhone(formData.phone)
+    if (phoneError) newErrors.phone = phoneError
+    const addressError = validateAddress(formData.address)
+    if (addressError) newErrors.address = addressError
+    const serviceError = validateRequired(formData.service, 'Service')
+    if (serviceError) newErrors.service = serviceError
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+    setErrors({})
+    formRef.current?.requestSubmit()
+    submitToApi()
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
   }
 
   const baseInput = 'w-full border rounded-input px-4 py-3 text-brand-charcoal focus:outline-none transition-colors text-sm'

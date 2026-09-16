@@ -19,7 +19,7 @@ export function validatePhone(raw: string): string | null {
 }
 
 export function validateAddress(raw: string): string | null {
-  if (!raw.trim()) return null
+  if (!raw.trim()) return 'Address is required'
   if (raw.trim().length < 5) return 'Enter a valid address'
   if (!/\d/.test(raw)) return 'Address should include a street number'
   if (!/\s/.test(raw.trim())) return 'Enter a valid address'

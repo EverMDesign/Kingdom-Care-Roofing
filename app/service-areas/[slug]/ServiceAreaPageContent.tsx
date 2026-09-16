@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import type { ServiceArea } from '@/lib/service-areas-data'
-import { validateAddress } from '@/lib/validation'
+import { validateName, validatePhone, validateEmail, validateAddress, validateRequired } from '@/lib/validation'
 
 const servicesList = [
   { title: 'Roof Replacement', desc: 'Premium architectural shingles & metal roofing systems.' },
@@ -195,21 +195,17 @@ function TestimonialsSection({ area }: { area: ServiceArea }) {
   )
 }
 
-function EstimateSection({ area }: { area: ServiceArea }) {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', service: '', message: '' })
-  const [errors, setErrors] = useState<{ address?: string }>({})
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
+type FormErrors = { name?: string; phone?: string; email?: string; address?: string; service?: string }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const addressError = validateAddress(formData.address)
-    if (addressError) {
-      setErrors({ address: addressError })
-      return
-    }
-    setErrors({})
-    setLoading(true)
+function EstimateSection({ area }: { area: ServiceArea }) {
+  const formRef = useRef<HTMLFormElement>(null)
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', service: '', message: '' })
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [apiError, setApiError] = useState('')
+
+  const submitToApi = async () => {
+    setStatus('loading')
     try {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
@@ -218,21 +214,44 @@ function EstimateSection({ area }: { area: ServiceArea }) {
       })
       const result = await res.json()
       if (result.success) {
-        setSubmitted(true)
+        setStatus('success')
+        setTimeout(() => {
+          setStatus('idle')
+          setFormData({ name: '', email: '', phone: '', address: '', service: '', message: '' })
+        }, 5000)
       } else {
-        console.error('Form error:', result.error)
-        setSubmitted(true)
+        setApiError(result.error || 'Submission failed')
+        setStatus('error')
       }
     } catch (err) {
-      console.error('Submission failed:', err)
-      setSubmitted(true)
-    } finally {
-      setLoading(false)
+      setApiError(err instanceof Error ? err.message : 'Network error')
+      setStatus('error')
     }
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ name: '', email: '', phone: '', address: '', service: '', message: '' })
-    }, 5000)
+  }
+
+  const handleClick = () => {
+    const newErrors: FormErrors = {}
+    const nameError = validateName(formData.name)
+    if (nameError) newErrors.name = nameError
+    const phoneError = validatePhone(formData.phone)
+    if (phoneError) newErrors.phone = phoneError
+    const emailError = validateEmail(formData.email)
+    if (emailError) newErrors.email = emailError
+    const addressError = validateAddress(formData.address)
+    if (addressError) newErrors.address = addressError
+    const serviceError = validateRequired(formData.service, 'Service')
+    if (serviceError) newErrors.service = serviceError
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+    setErrors({})
+    formRef.current?.requestSubmit()
+    submitToApi()
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
   }
 
   return (
@@ -245,41 +264,62 @@ function EstimateSection({ area }: { area: ServiceArea }) {
             <p className="text-white/70">Fill out the form and we'll get back to you the same day.</p>
           </div>
 
-          {submitted ? (
+          {status === 'success' ? (
             <div className="bg-green-600/20 border border-green-400/30 text-green-300 rounded-card p-6 text-center font-medium">
               Thank you! We'll be in touch soon.
             </div>
+          ) : status === 'error' ? (
+            <div className="bg-red-600/20 border border-red-400/30 text-red-300 rounded-card p-6 text-center">
+              <p className="font-medium mb-2">Something went wrong</p>
+              <p className="text-sm mb-4">{apiError}</p>
+              <button type="button" onClick={() => setStatus('idle')} className="text-sm font-semibold underline">Try again</button>
+            </div>
           ) : (
-            <form id="service-area-estimate-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <form ref={formRef} id="service-area-estimate-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input
-                  required
-                  type="text"
-                  name="name"
-                  placeholder="Full Name"
-                  className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
-                  value={formData.name}
-                  onChange={e => setFormData({ ...formData, name: e.target.value })}
-                />
-                <input
-                  required
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone Number"
-                  className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
-                  value={formData.phone}
-                  onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                />
+                <div>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Full Name"
+                    className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none transition-colors ${errors.name ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
+                    value={formData.name}
+                    onChange={e => {
+                      setFormData({ ...formData, name: e.target.value })
+                      if (errors.name) setErrors(prev => ({ ...prev, name: undefined }))
+                    }}
+                  />
+                  {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
+                </div>
+                <div>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone Number"
+                    className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none transition-colors ${errors.phone ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
+                    value={formData.phone}
+                    onChange={e => {
+                      setFormData({ ...formData, phone: e.target.value })
+                      if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
+                    }}
+                  />
+                  {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
+                </div>
               </div>
-              <input
-                required
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:border-brand-gold transition-colors"
-                value={formData.email}
-                onChange={e => setFormData({ ...formData, email: e.target.value })}
-              />
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none transition-colors ${errors.email ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
+                  value={formData.email}
+                  onChange={e => {
+                    setFormData({ ...formData, email: e.target.value })
+                    if (errors.email) setErrors(prev => ({ ...prev, email: undefined }))
+                  }}
+                />
+                {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+              </div>
               <div>
                 <input
                   type="text"
@@ -289,24 +329,30 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                   value={formData.address}
                   onChange={e => {
                     setFormData({ ...formData, address: e.target.value })
-                    if (errors.address) setErrors({})
+                    if (errors.address) setErrors(prev => ({ ...prev, address: undefined }))
                   }}
                 />
                 {errors.address && <p className="text-red-400 text-xs mt-1">{errors.address}</p>}
               </div>
-              <select
-                name="service"
-                className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors"
-                value={formData.service}
-                onChange={e => setFormData({ ...formData, service: e.target.value })}
-              >
-                <option value="" className="text-brand-charcoal">Select a Service</option>
-                <option value="Roof Replacement" className="text-brand-charcoal">Roof Replacement</option>
-                <option value="Storm Restoration" className="text-brand-charcoal">Storm Restoration</option>
-                <option value="Interior/Exterior Painting" className="text-brand-charcoal">Interior/Exterior Painting</option>
-                <option value="Interior/Exterior Remodeling" className="text-brand-charcoal">Interior/Exterior Remodeling</option>
-                <option value="Gutters & Construction" className="text-brand-charcoal">Gutters & Construction</option>
-              </select>
+              <div>
+                <select
+                  name="service"
+                  className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white focus:outline-none transition-colors ${errors.service ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
+                  value={formData.service}
+                  onChange={e => {
+                    setFormData({ ...formData, service: e.target.value })
+                    if (errors.service) setErrors(prev => ({ ...prev, service: undefined }))
+                  }}
+                >
+                  <option value="" className="text-brand-charcoal">Select a Service</option>
+                  <option value="Roof Replacement" className="text-brand-charcoal">Roof Replacement</option>
+                  <option value="Storm Restoration" className="text-brand-charcoal">Storm Restoration</option>
+                  <option value="Interior/Exterior Painting" className="text-brand-charcoal">Interior/Exterior Painting</option>
+                  <option value="Interior/Exterior Remodeling" className="text-brand-charcoal">Interior/Exterior Remodeling</option>
+                  <option value="Gutters & Construction" className="text-brand-charcoal">Gutters & Construction</option>
+                </select>
+                {errors.service && <p className="text-red-400 text-xs mt-1">{errors.service}</p>}
+              </div>
               <textarea
                 name="message"
                 placeholder="Tell us about your project"
@@ -316,11 +362,12 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                 onChange={e => setFormData({ ...formData, message: e.target.value })}
               />
               <button
-                type="submit"
-                disabled={loading}
+                type="button"
+                onClick={handleClick}
+                disabled={status === 'loading'}
                 className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70"
               >
-                {loading ? 'Sending...' : 'Request Free Estimate'}
+                {status === 'loading' ? 'Sending...' : 'Request Free Estimate'}
               </button>
             </form>
           )}
