@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { validatePhone, validateEmail } from '@/lib/validation'
+import { validatePhone, validateEmail, validateAddress } from '@/lib/validation'
 
 const inputBase = 'w-full bg-white border rounded-input px-4 py-3 text-brand-charcoal placeholder:text-gray-400 focus:outline-none transition-colors'
 const inputClass = (error?: string) =>
@@ -10,10 +10,10 @@ const inputClass = (error?: string) =>
     ? `${inputBase} border-red-400 focus:border-red-500`
     : `${inputBase} border-gray-400 focus:border-brand-brown`
 
-type Errors = { phone?: string; email?: string }
+type Errors = { phone?: string; email?: string; address?: string }
 
 function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', service: '', message: '' })
   const [errors, setErrors] = useState<Errors>({})
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -26,6 +26,8 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
     if (phoneError) newErrors.phone = phoneError
     const emailError = validateEmail(formData.email)
     if (emailError) newErrors.email = emailError
+    const addressError = validateAddress(formData.address)
+    if (addressError) newErrors.address = addressError
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -55,7 +57,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
     }
     setTimeout(() => {
       setSubmitted(false)
-      setFormData({ name: '', email: '', phone: '', service: '', message: '' })
+      setFormData({ name: '', email: '', phone: '', address: '', service: '', message: '' })
       onSuccess()
     }, 4000)
   }
@@ -92,6 +94,15 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
             if (errors.email) setErrors(prev => ({ ...prev, email: undefined }))
           }} />
         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+      </div>
+      <div>
+        <input type="text" name="address" placeholder="Property Address"
+          className={inputClass(errors.address)} value={formData.address}
+          onChange={e => {
+            setFormData({ ...formData, address: e.target.value })
+            if (errors.address) setErrors(prev => ({ ...prev, address: undefined }))
+          }} />
+        {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
       </div>
       <select name="service"
         className={inputClass()} value={formData.service}

@@ -1,20 +1,24 @@
 'use client'
 
 import { useState } from 'react'
-import { validatePhone } from '@/lib/validation'
+import { validatePhone, validateAddress } from '@/lib/validation'
 
 export function HeroForm() {
-  const [formData, setFormData] = useState({ name: '', phone: '', service: '' })
-  const [errors, setErrors] = useState<{ phone?: string }>({})
+  const [formData, setFormData] = useState({ name: '', phone: '', address: '', service: '' })
+  const [errors, setErrors] = useState<{ phone?: string; address?: string }>({})
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    const newErrors: { phone?: string; address?: string } = {}
     const phoneError = validatePhone(formData.phone)
-    if (phoneError) {
-      setErrors({ phone: phoneError })
+    if (phoneError) newErrors.phone = phoneError
+    const addressError = validateAddress(formData.address)
+    if (addressError) newErrors.address = addressError
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
       return
     }
     setErrors({})
@@ -41,7 +45,7 @@ export function HeroForm() {
     }
     setTimeout(() => {
       setSubmitted(false)
-      setFormData({ name: '', phone: '', service: '' })
+      setFormData({ name: '', phone: '', address: '', service: '' })
     }, 5000)
   }
 
@@ -90,6 +94,22 @@ export function HeroForm() {
               }}
             />
             {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Property Address</label>
+            <input
+              type="text"
+              name="address"
+              placeholder="123 Main St, Fort Worth, TX"
+              className={fieldClass(errors.address)}
+              value={formData.address}
+              onChange={e => {
+                setFormData({ ...formData, address: e.target.value })
+                if (errors.address) setErrors(prev => ({ ...prev, address: undefined }))
+              }}
+            />
+            {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
           </div>
 
           <div>

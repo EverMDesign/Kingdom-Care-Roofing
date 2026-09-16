@@ -11,6 +11,7 @@ export function validateAddress(raw: string): string | null {
   if (raw.trim().length < 5) return 'Enter a valid address'
   if (!/\d/.test(raw)) return 'Address should include a street number'
   if (!/\s/.test(raw.trim())) return 'Enter a valid address'
+  if (!/\b\d{5}\b/.test(raw)) return 'Please include a zip code'
   return null
 }
 

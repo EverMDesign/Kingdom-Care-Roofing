@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { ServiceArea } from '@/lib/service-areas-data'
+import { validateAddress } from '@/lib/validation'
 
 const servicesList = [
   { title: 'Roof Replacement', desc: 'Premium architectural shingles & metal roofing systems.' },
@@ -195,12 +196,19 @@ function TestimonialsSection({ area }: { area: ServiceArea }) {
 }
 
 function EstimateSection({ area }: { area: ServiceArea }) {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', service: '', message: '' })
+  const [errors, setErrors] = useState<{ address?: string }>({})
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    const addressError = validateAddress(formData.address)
+    if (addressError) {
+      setErrors({ address: addressError })
+      return
+    }
+    setErrors({})
     setLoading(true)
     try {
       const res = await fetch('/api/submit-form', {
@@ -223,7 +231,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
     }
     setTimeout(() => {
       setSubmitted(false)
-      setFormData({ name: '', email: '', phone: '', service: '', message: '' })
+      setFormData({ name: '', email: '', phone: '', address: '', service: '', message: '' })
     }, 5000)
   }
 
@@ -272,6 +280,20 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
               />
+              <div>
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Property Address"
+                  className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none transition-colors ${errors.address ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
+                  value={formData.address}
+                  onChange={e => {
+                    setFormData({ ...formData, address: e.target.value })
+                    if (errors.address) setErrors({})
+                  }}
+                />
+                {errors.address && <p className="text-red-400 text-xs mt-1">{errors.address}</p>}
+              </div>
               <select
                 name="service"
                 className="w-full bg-white/10 border border-white/20 rounded-input px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors"
