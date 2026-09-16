@@ -1,29 +1,36 @@
 'use client'
 
-import { useState } from 'react'
-import { validatePhone, validateAddress } from '@/lib/validation'
+import { useState, useRef } from 'react'
+import { validateName, validatePhone, validateAddress, validateRequired } from '@/lib/validation'
 
 export function HeroForm() {
+  const formRef = useRef<HTMLFormElement>(null)
   const [formData, setFormData] = useState({ name: '', phone: '', address: '', service: '' })
-  const [errors, setErrors] = useState<{ phone?: string; address?: string }>({})
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState<{ name?: string; phone?: string; address?: string; service?: string }>({})
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [apiError, setApiError] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    const newErrors: { phone?: string; address?: string } = {}
+  const handleClick = () => {
+    const newErrors: { name?: string; phone?: string; address?: string; service?: string } = {}
+    const nameError = validateName(formData.name)
+    if (nameError) newErrors.name = nameError
     const phoneError = validatePhone(formData.phone)
     if (phoneError) newErrors.phone = phoneError
     const addressError = validateAddress(formData.address)
     if (addressError) newErrors.address = addressError
+    const serviceError = validateRequired(formData.service, 'Service')
+    if (serviceError) newErrors.service = serviceError
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       return
     }
     setErrors({})
+    formRef.current?.requestSubmit()
+  }
 
-    setLoading(true)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
     try {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
@@ -32,21 +39,19 @@ export function HeroForm() {
       })
       const result = await res.json()
       if (result.success) {
-        setSubmitted(true)
+        setStatus('success')
+        setTimeout(() => {
+          setStatus('idle')
+          setFormData({ name: '', phone: '', address: '', service: '' })
+        }, 5000)
       } else {
-        console.error('Form error:', result.error)
-        setSubmitted(true)
+        setApiError(result.error || 'Submission failed')
+        setStatus('error')
       }
     } catch (err) {
-      console.error('Submission failed:', err)
-      setSubmitted(true)
-    } finally {
-      setLoading(false)
+      setApiError(err instanceof Error ? err.message : 'Network error')
+      setStatus('error')
     }
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ name: '', phone: '', address: '', service: '' })
-    }, 5000)
   }
 
   const baseInput = 'w-full border rounded-input px-4 py-3 text-brand-charcoal focus:outline-none transition-colors text-sm'
@@ -60,29 +65,37 @@ export function HeroForm() {
       <h3 className="font-serif text-2xl text-brand-charcoal mb-1">Get a Free Estimate</h3>
       <p className="text-brand-muted text-sm mb-6">No obligation. We'll respond within 24 hours.</p>
 
-      {submitted ? (
+      {status === 'success' ? (
         <div className="bg-green-50 border border-green-200 text-green-800 rounded-btn p-4 text-center font-medium">
           Thank you! We'll be in touch soon.
         </div>
+      ) : status === 'error' ? (
+        <div className="bg-red-50 border border-red-200 text-red-700 rounded-btn p-4 text-center">
+          <p className="font-medium mb-1">Something went wrong</p>
+          <p className="text-sm mb-2">{apiError}</p>
+          <button type="button" onClick={() => setStatus('idle')} className="text-sm font-semibold underline">Try again</button>
+        </div>
       ) : (
-        <form id="hero-estimate-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form ref={formRef} id="hero-estimate-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Full Name</label>
             <input
-              required
               type="text"
               name="name"
               placeholder="John Smith"
-              className={fieldClass()}
+              className={fieldClass(errors.name)}
               value={formData.name}
-              onChange={e => setFormData({ ...formData, name: e.target.value })}
+              onChange={e => {
+                setFormData({ ...formData, name: e.target.value })
+                if (errors.name) setErrors(prev => ({ ...prev, name: undefined }))
+              }}
             />
+            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Phone Number</label>
             <input
-              required
               type="tel"
               name="phone"
               placeholder="(817) 555-0100"
@@ -116,9 +129,12 @@ export function HeroForm() {
             <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Service Needed</label>
             <select
               name="service"
-              className={fieldClass()}
+              className={fieldClass(errors.service)}
               value={formData.service}
-              onChange={e => setFormData({ ...formData, service: e.target.value })}
+              onChange={e => {
+                setFormData({ ...formData, service: e.target.value })
+                if (errors.service) setErrors(prev => ({ ...prev, service: undefined }))
+              }}
             >
               <option value="">Select a service...</option>
               <option value="Roof Replacement">Roof Replacement</option>
@@ -129,10 +145,11 @@ export function HeroForm() {
               <option value="Gutters & Construction">Gutters & Construction</option>
               <option value="Free Inspection">Free Inspection</option>
             </select>
+            {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
           </div>
 
-          <button type="submit" disabled={loading} className="btn-cta w-full h-btn text-base font-bold shadow-sm mt-1 disabled:opacity-70">
-            {loading ? 'Sending...' : 'Request Free Estimate'}
+          <button type="button" onClick={handleClick} disabled={status === 'loading'} className="btn-cta w-full h-btn text-base font-bold shadow-sm mt-1 disabled:opacity-70">
+            {status === 'loading' ? 'Sending...' : 'Request Free Estimate'}
           </button>
 
           <p className="text-center text-xs text-brand-muted">

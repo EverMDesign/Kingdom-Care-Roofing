@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { validatePhone, validateEmail, validateAddress } from '@/lib/validation'
+import { validateName, validatePhone, validateEmail, validateAddress, validateRequired } from '@/lib/validation'
 
 const inputBase = 'w-full bg-white border rounded-input px-4 py-3 text-brand-charcoal placeholder:text-gray-400 focus:outline-none transition-colors'
 const inputClass = (error?: string) =>
@@ -10,32 +10,42 @@ const inputClass = (error?: string) =>
     ? `${inputBase} border-red-400 focus:border-red-500`
     : `${inputBase} border-gray-400 focus:border-brand-brown`
 
-type Errors = { phone?: string; email?: string; address?: string }
+type Errors = { name?: string; phone?: string; email?: string; address?: string; service?: string }
 
 function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
+  const formRef = useRef<HTMLFormElement>(null)
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', service: '', message: '' })
   const [errors, setErrors] = useState<Errors>({})
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [apiError, setApiError] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
+  // Button click → validate → only trigger form submit if valid
+  const handleClick = () => {
     const newErrors: Errors = {}
+    const nameError = validateName(formData.name)
+    if (nameError) newErrors.name = nameError
     const phoneError = validatePhone(formData.phone)
     if (phoneError) newErrors.phone = phoneError
     const emailError = validateEmail(formData.email)
     if (emailError) newErrors.email = emailError
     const addressError = validateAddress(formData.address)
     if (addressError) newErrors.address = addressError
+    const serviceError = validateRequired(formData.service, 'Service')
+    if (serviceError) newErrors.service = serviceError
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       return
     }
     setErrors({})
+    // Validation passed — fire native submit so tracking script captures it
+    formRef.current?.requestSubmit()
+  }
 
-    setLoading(true)
+  // Form submit handler — only reached after validation passes
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
     try {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
@@ -44,25 +54,23 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
       })
       const result = await res.json()
       if (result.success) {
-        setSubmitted(true)
+        setStatus('success')
+        setTimeout(() => {
+          setStatus('idle')
+          setFormData({ name: '', email: '', phone: '', address: '', service: '', message: '' })
+          onSuccess()
+        }, 4000)
       } else {
-        console.error('Form error:', result.error)
-        setSubmitted(true)
+        setApiError(result.error || 'Submission failed')
+        setStatus('error')
       }
     } catch (err) {
-      console.error('Submission failed:', err)
-      setSubmitted(true)
-    } finally {
-      setLoading(false)
+      setApiError(err instanceof Error ? err.message : 'Network error')
+      setStatus('error')
     }
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ name: '', email: '', phone: '', address: '', service: '', message: '' })
-      onSuccess()
-    }, 4000)
   }
 
-  if (submitted) {
+  if (status === 'success') {
     return (
       <div className="bg-green-50 border border-green-200 text-green-700 rounded-card p-6 text-center font-medium">
         Thank you! We&apos;ll be in touch soon.
@@ -70,14 +78,30 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
     )
   }
 
+  if (status === 'error') {
+    return (
+      <div className="bg-red-50 border border-red-200 text-red-700 rounded-card p-6 text-center">
+        <p className="font-medium mb-2">Something went wrong</p>
+        <p className="text-sm mb-4">{apiError}</p>
+        <button type="button" onClick={() => setStatus('idle')} className="text-sm font-semibold text-red-700 underline">Try again</button>
+      </div>
+    )
+  }
+
   return (
-    <form id="estimate-modal-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form ref={formRef} id="estimate-modal-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <input required type="text" name="name" placeholder="Full Name"
-          className={inputClass()} value={formData.name}
-          onChange={e => setFormData({ ...formData, name: e.target.value })} />
         <div>
-          <input required type="tel" name="phone" placeholder="Phone Number"
+          <input type="text" name="name" placeholder="Full Name"
+            className={inputClass(errors.name)} value={formData.name}
+            onChange={e => {
+              setFormData({ ...formData, name: e.target.value })
+              if (errors.name) setErrors(prev => ({ ...prev, name: undefined }))
+            }} />
+          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+        </div>
+        <div>
+          <input type="tel" name="phone" placeholder="Phone Number"
             className={inputClass(errors.phone)} value={formData.phone}
             onChange={e => {
               setFormData({ ...formData, phone: e.target.value })
@@ -87,7 +111,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
         </div>
       </div>
       <div>
-        <input required type="email" name="email" placeholder="Email Address"
+        <input type="email" name="email" placeholder="Email Address"
           className={inputClass(errors.email)} value={formData.email}
           onChange={e => {
             setFormData({ ...formData, email: e.target.value })
@@ -104,9 +128,13 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
           }} />
         {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
       </div>
-      <select name="service"
-        className={inputClass()} value={formData.service}
-        onChange={e => setFormData({ ...formData, service: e.target.value })}>
+      <div>
+        <select name="service"
+          className={inputClass(errors.service)} value={formData.service}
+          onChange={e => {
+            setFormData({ ...formData, service: e.target.value })
+            if (errors.service) setErrors(prev => ({ ...prev, service: undefined }))
+          }}>
         <option value="">Select a Service</option>
         <option value="Roof Replacement">Roof Replacement</option>
         <option value="Roof Repair">Roof Repair</option>
@@ -115,13 +143,15 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
         <option value="Interior/Exterior Remodeling">Interior/Exterior Remodeling</option>
         <option value="Gutters & Construction">Gutters & Construction</option>
         <option value="Free Inspection">Free Inspection</option>
-      </select>
+        </select>
+        {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
+      </div>
       <textarea name="message" placeholder="Tell us about your project" rows={3}
         className={inputClass()} value={formData.message}
         onChange={e => setFormData({ ...formData, message: e.target.value })} />
-      <button type="submit" disabled={loading}
+      <button type="button" onClick={handleClick} disabled={status === 'loading'}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
-        {loading ? 'Sending...' : 'Request Free Estimate'}
+        {status === 'loading' ? 'Sending...' : 'Request Free Estimate'}
       </button>
       <p className="text-center text-xs text-brand-muted">
         Or call us at{' '}

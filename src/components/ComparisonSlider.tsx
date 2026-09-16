@@ -70,9 +70,10 @@ export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
         <img
           src={before}
           alt={`${afterAlt} — before`}
-          className={`block h-full object-cover object-top${isRealBefore ? '' : ' grayscale brightness-75'}`}
-          style={{ width: containerWidth || '100%', maxWidth: 'none' }}
+          className="block h-full object-cover object-top"
+          style={{ width: `${containerWidth}px`, maxWidth: 'none' }}
         />
+        <div className="absolute inset-0 bg-black/40 z-[25] pointer-events-none" />
         <div className="absolute top-6 left-6 bg-brand-charcoal/80 text-white px-4 py-2 rounded-btn font-bold text-xs-fine tracking-widest z-30">
           BEFORE
         </div>

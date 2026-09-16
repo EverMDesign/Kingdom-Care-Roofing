@@ -38,6 +38,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Invalid JSON' }, { status: 400 })
     }
 
+    // Server-side required field validation — safety net against incomplete submissions
+    const requiredFields = ['name', 'phone']
+    const missing = requiredFields.filter(f => !formData[f]?.trim())
+    if (missing.length > 0) {
+      return NextResponse.json(
+        { success: false, error: `Missing required fields: ${missing.join(', ')}` },
+        { status: 400 }
+      )
+    }
+
     const formType = formData.form_type || 'estimate'
     const mapping = fieldMappings[formType] || {}
     const tags = formTags[formType] || ['website-lead']

@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { validatePhone, validateEmail, validateAddress } from '@/lib/validation'
+import { validateName, validatePhone, validateEmail, validateAddress } from '@/lib/validation'
 
 const inputBase = 'w-full bg-white border rounded-input px-4 py-3 text-brand-charcoal placeholder:text-gray-400 focus:outline-none transition-colors'
 const inputClass = (error?: string) =>
@@ -18,12 +18,22 @@ function SuccessMessage() {
   )
 }
 
+function ErrorMessage({ message, onRetry }: { message: string; onRetry: () => void }) {
+  return (
+    <div className="bg-red-50 border border-red-200 text-red-700 rounded-card p-6 text-center">
+      <p className="font-medium mb-2">Something went wrong</p>
+      <p className="text-sm mb-4">{message}</p>
+      <button type="button" onClick={onRetry} className="text-sm font-semibold text-red-700 underline">Try again</button>
+    </div>
+  )
+}
+
 function useFormSubmit(formType: string) {
-  const [loading, setLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [apiError, setApiError] = useState('')
 
   const submit = async (data: Record<string, string>, onSuccess: () => void) => {
-    setLoading(true)
+    setStatus('loading')
     try {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
@@ -31,43 +41,52 @@ function useFormSubmit(formType: string) {
         body: JSON.stringify({ ...data, form_type: formType }),
       })
       const result = await res.json()
-      if (result.success || !result.error) setSubmitted(true)
-      else setSubmitted(true)
-    } catch {
-      setSubmitted(true)
-    } finally {
-      setLoading(false)
+      if (result.success) {
+        setStatus('success')
+        setTimeout(() => {
+          setStatus('idle')
+          onSuccess()
+        }, 4000)
+      } else {
+        setApiError(result.error || 'Submission failed')
+        setStatus('error')
+      }
+    } catch (err) {
+      setApiError(err instanceof Error ? err.message : 'Network error')
+      setStatus('error')
     }
-    setTimeout(() => {
-      setSubmitted(false)
-      onSuccess()
-    }, 4000)
   }
 
-  return { loading, submitted, submit }
+  const reset = () => setStatus('idle')
+
+  return { status, apiError, submit, reset }
 }
 
 // ── Free Shingle Upgrade Form ─────────────────────────────────────────────────
 
-type FreeUpErrors = { phone?: string; email?: string; address?: string }
+type FreeUpErrors = { name?: string; phone?: string; email?: string; address?: string }
 
 function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
+  const formRef = useRef<HTMLFormElement>(null)
   const [data, setData] = useState({ name: '', phone: '', email: '', address: '', message: '', code: 'FreeUp' })
   const [errors, setErrors] = useState<FreeUpErrors>({})
-  const { loading, submitted, submit } = useFormSubmit('freeup')
+  const { status, apiError, submit, reset } = useFormSubmit('freeup')
 
   const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setData(prev => ({ ...prev, [key]: e.target.value }))
+    if (key === 'name' && errors.name) setErrors(prev => ({ ...prev, name: undefined }))
     if (key === 'phone' && errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
     if (key === 'email' && errors.email) setErrors(prev => ({ ...prev, email: undefined }))
     if (key === 'address' && errors.address) setErrors(prev => ({ ...prev, address: undefined }))
   }
 
-  if (submitted) return <SuccessMessage />
+  if (status === 'success') return <SuccessMessage />
+  if (status === 'error') return <ErrorMessage message={apiError} onRetry={reset} />
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleClick = () => {
     const newErrors: FreeUpErrors = {}
+    const nameError = validateName(data.name)
+    if (nameError) newErrors.name = nameError
     const phoneError = validatePhone(data.phone)
     if (phoneError) newErrors.phone = phoneError
     const emailError = validateEmail(data.email)
@@ -78,20 +97,28 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
       setErrors(newErrors)
       return
     }
+    formRef.current?.requestSubmit()
+  }
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
     submit(data, onSuccess)
   }
 
   return (
-    <form id="freeup-offer-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form ref={formRef} id="freeup-offer-form" onSubmit={handleFormSubmit} className="flex flex-col gap-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <input required type="text" name="name" placeholder="Full Name" value={data.name} onChange={set('name')} className={inputClass()} />
         <div>
-          <input required type="tel" name="phone" placeholder="Phone Number" value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
+          <input type="text" name="name" placeholder="Full Name" value={data.name} onChange={set('name')} className={inputClass(errors.name)} />
+          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+        </div>
+        <div>
+          <input type="tel" name="phone" placeholder="Phone Number" value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
           {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
-        <input required type="email" name="email" placeholder="Email Address" value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
+        <input type="email" name="email" placeholder="Email Address" value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
       </div>
       <div>
@@ -101,9 +128,9 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
       <textarea name="message" placeholder="Tell us about your roof (optional)" rows={3} value={data.message} onChange={set('message')} className={inputClass()} />
       <input type="text" name="code" placeholder="Use Code" value={data.code} onChange={set('code')}
         className="w-full bg-amber-50 border border-brand-gold rounded-input px-4 py-3 text-brand-brown font-bold placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors tracking-widest" />
-      <button type="submit" disabled={loading}
+      <button type="button" onClick={handleClick} disabled={status === 'loading'}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
-        {loading ? 'Sending...' : 'Claim Free Upgrade'}
+        {status === 'loading' ? 'Sending...' : 'Claim Free Upgrade'}
       </button>
       <p className="text-center text-xs text-brand-muted">Restrictions apply.</p>
     </form>
@@ -112,7 +139,7 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
 
 // ── Referral Form ─────────────────────────────────────────────────────────────
 
-type ReferralErrors = { phone?: string; email?: string; referred_phone?: string; referred_address?: string }
+type ReferralErrors = { name?: string; phone?: string; email?: string; referred_name?: string; referred_phone?: string; referred_address?: string }
 
 function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
   const [data, setData] = useState({
@@ -121,25 +148,31 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
     code: 'SAVE500',
   })
   const [errors, setErrors] = useState<ReferralErrors>({})
-  const { loading, submitted, submit } = useFormSubmit('referral')
+  const { status, apiError, submit, reset } = useFormSubmit('referral')
 
   const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setData(prev => ({ ...prev, [key]: e.target.value }))
+    if (key === 'name' && errors.name) setErrors(prev => ({ ...prev, name: undefined }))
     if (key === 'phone' && errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
     if (key === 'email' && errors.email) setErrors(prev => ({ ...prev, email: undefined }))
+    if (key === 'referred_name' && errors.referred_name) setErrors(prev => ({ ...prev, referred_name: undefined }))
     if (key === 'referred_phone' && errors.referred_phone) setErrors(prev => ({ ...prev, referred_phone: undefined }))
     if (key === 'referred_address' && errors.referred_address) setErrors(prev => ({ ...prev, referred_address: undefined }))
   }
 
-  if (submitted) return <SuccessMessage />
+  if (status === 'success') return <SuccessMessage />
+  if (status === 'error') return <ErrorMessage message={apiError} onRetry={reset} />
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = () => {
     const newErrors: ReferralErrors = {}
+    const nameError = validateName(data.name)
+    if (nameError) newErrors.name = nameError
     const phoneError = validatePhone(data.phone)
     if (phoneError) newErrors.phone = phoneError
     const emailError = validateEmail(data.email)
     if (emailError) newErrors.email = emailError
+    const refNameError = validateName(data.referred_name)
+    if (refNameError) newErrors.referred_name = refNameError
     const refPhoneError = validatePhone(data.referred_phone)
     if (refPhoneError) newErrors.referred_phone = refPhoneError
     const refAddressError = validateAddress(data.referred_address)
@@ -152,17 +185,20 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
   }
 
   return (
-    <form id="referral-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <p className="text-brand-muted text-sm">Your information</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <input required type="text" name="name" placeholder="Your Full Name" value={data.name} onChange={set('name')} className={inputClass()} />
         <div>
-          <input required type="tel" name="phone" placeholder="Your Phone" value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
+          <input type="text" name="name" placeholder="Your Full Name" value={data.name} onChange={set('name')} className={inputClass(errors.name)} />
+          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+        </div>
+        <div>
+          <input type="tel" name="phone" placeholder="Your Phone" value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
           {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
-        <input required type="email" name="email" placeholder="Your Email" value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
+        <input type="email" name="email" placeholder="Your Email" value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
       </div>
 
@@ -170,9 +206,12 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
         <p className="text-brand-muted text-sm mb-4">Who are you referring?</p>
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input required type="text" name="referred_name" placeholder="Their Full Name" value={data.referred_name} onChange={set('referred_name')} className={inputClass()} />
             <div>
-              <input required type="tel" name="referred_phone" placeholder="Their Phone" value={data.referred_phone} onChange={set('referred_phone')} className={inputClass(errors.referred_phone)} />
+              <input type="text" name="referred_name" placeholder="Their Full Name" value={data.referred_name} onChange={set('referred_name')} className={inputClass(errors.referred_name)} />
+              {errors.referred_name && <p className="text-red-500 text-xs mt-1">{errors.referred_name}</p>}
+            </div>
+            <div>
+              <input type="tel" name="referred_phone" placeholder="Their Phone" value={data.referred_phone} onChange={set('referred_phone')} className={inputClass(errors.referred_phone)} />
               {errors.referred_phone && <p className="text-red-500 text-xs mt-1">{errors.referred_phone}</p>}
             </div>
           </div>
@@ -185,12 +224,12 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
 
       <input type="text" name="code" placeholder="Use Code" value={data.code} onChange={set('code')}
         className="w-full bg-amber-50 border border-brand-gold rounded-input px-4 py-3 text-brand-brown font-bold placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors tracking-widest" />
-      <button type="submit" disabled={loading}
+      <button type="button" onClick={handleSubmit} disabled={status === 'loading'}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
-        {loading ? 'Sending...' : 'Submit Referral'}
+        {status === 'loading' ? 'Sending...' : 'Submit Referral'}
       </button>
       <p className="text-center text-xs text-brand-muted">Reward issued upon job completion &amp; final payment.</p>
-    </form>
+    </div>
   )
 }
 
