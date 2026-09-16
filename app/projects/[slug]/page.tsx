@@ -71,9 +71,10 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
   const beforePhoto = photos.find((p) => p.type === 'before')
   const afterPhoto = photos.find((p) => p.type === 'after')
 
-  // Build gallery: tagged photos or fallback to cover
-  const galleryPhotos: Photo[] = photos.length > 0
-    ? photos
+  // Build gallery: only photos tagged 'gallery' in CompanyCam, or fallback to cover
+  const tagged = photos.filter((p) => p.type === 'gallery')
+  const galleryPhotos: Photo[] = tagged.length > 0
+    ? tagged
     : [{ id: 'cover', url: project.cover_photo_url, order: 0 }]
 
   return (
