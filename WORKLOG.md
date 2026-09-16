@@ -435,3 +435,21 @@ Added client-side form validation to all 4 Kingdom Care forms — phone (10-digi
 **Status:** ✅ Complete
 
 ---
+
+## 2026-09-16 — 15:31
+
+Kingdom Care — Form validation & cleanup. Fixed validateAddress to require address (was passing on empty). Made referral form's referred_address optional. Removed static /service-area page (redundant with /service-areas/[slug]). Updated GHL connect skill with validation patterns. All 5 remaining forms now properly validate before submission.
+
+**Status:** ✅ Complete
+
+---
+
+## 2026-09-16 — 15:31
+
+Darkened before image overlay in ComparisonSlider (removed grayscale, added bg-black/40 overlay). Added Service Areas dropdown to Header nav (desktop + mobile) with all 28 cities in two-column layout.
+
+**Files:** src/components/ComparisonSlider.tsx, src/components/Header.tsx
+
+**Status:** ✅ Complete
+
+---
