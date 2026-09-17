@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${project.seoTitle} | KingdomCare Roofing & Construction`,
     description: project.metaDescription ?? project.description.slice(0, 155),
+    alternates: { canonical: `/projects/${slug}` },
   }
 }
 

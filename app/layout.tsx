@@ -21,6 +21,10 @@ export const viewport: Viewport = {
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://kingdomcareroofingandconstruction.com'),
+  alternates: {
+    canonical: './',
+  },
   title: 'Kingdom Care Roofing & Construction - Burleson, TX',
   description: 'Local roofing contractor based in Burleson, TX. Expert roof replacements, storm damage repair, and exterior services throughout the DFW area. Free estimates, fully insured, warranty backed.',
   openGraph: {
