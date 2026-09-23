@@ -74,3 +74,20 @@ export async function getProjectPhotos(slug: string): Promise<Photo[]> {
     return [];
   }
 }
+
+/**
+ * Check if a project has before/after photos and return them separated.
+ * Only show the before/after slider if BOTH before AND after photos exist.
+ */
+export function getBeforeAfterPhotos(photos: Photo[]) {
+  const beforePhotos = photos.filter(p => p.type === 'before');
+  const afterPhotos = photos.filter(p => p.type === 'after');
+  const galleryPhotos = photos.filter(p => p.type !== 'before' && p.type !== 'after');
+
+  return {
+    hasBeforeAfter: beforePhotos.length > 0 && afterPhotos.length > 0,
+    beforePhotos,
+    afterPhotos,
+    galleryPhotos,
+  };
+}

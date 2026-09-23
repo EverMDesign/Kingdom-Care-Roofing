@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { TopBar, Header, Footer, FloatingCTA, ComparisonSlider, EstimateModal } from '@/components'
 import { ProjectGallery } from '@/components/ProjectGallery'
 import ServiceAreaMap from '@/components/ServiceAreaMap'
-import { getProject, getProjects, getProjectPhotos } from '@/lib/workpress-api'
+import { getProject, getProjects, getProjectPhotos, getBeforeAfterPhotos } from '@/lib/workpress-api'
 import { generateProjectSchema } from '@/lib/workpress-schema'
 import type { Project, Photo } from '@/lib/workpress-types'
 
@@ -68,14 +68,12 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
   const review = project.review ?? null
 
-  // Before/after photos — typed in WorkPress by the company
-  const beforePhoto = photos.find((p) => p.type === 'before')
-  const afterPhoto = photos.find((p) => p.type === 'after')
+  // Separate photos by type — slider only renders when BOTH before AND after exist
+  const { hasBeforeAfter, beforePhotos, afterPhotos, galleryPhotos: taggedGallery } = getBeforeAfterPhotos(photos)
 
-  // Build gallery: only photos tagged 'gallery' in CompanyCam, or fallback to cover
-  const tagged = photos.filter((p) => p.type === 'gallery')
-  const galleryPhotos: Photo[] = tagged.length > 0
-    ? tagged
+  // Gallery fallback to cover photo if no gallery-tagged photos exist
+  const galleryPhotos: Photo[] = taggedGallery.length > 0
+    ? taggedGallery
     : [{ id: 'cover', url: project.cover_photo_url, order: 0 }]
 
   return (
@@ -112,11 +110,21 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
               {/* Left: slider + description + gallery + testimonial */}
               <div className="lg:col-span-2 space-y-10">
-                <ComparisonSlider
-                  afterImage={afterPhoto?.url ?? project.cover_photo_url}
-                  afterAlt={project.seoTitle}
-                  beforeImage={beforePhoto?.url}
-                />
+                {hasBeforeAfter ? (
+                  <ComparisonSlider
+                    afterImage={afterPhotos[0].url}
+                    afterAlt={project.seoTitle}
+                    beforeImage={beforePhotos[0].url}
+                  />
+                ) : (
+                  <div className="rounded-img overflow-hidden shadow-card-xl border-4 border-white aspect-[4/3]">
+                    <img
+                      src={project.cover_photo_url}
+                      alt={project.seoTitle}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+                )}
                 <div className="space-y-4">
                   {project.description.split(/\n+/).map((para, i) => (
                     <p key={i} className="text-body text-brand-muted">{para}</p>
