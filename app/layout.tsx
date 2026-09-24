@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://kingdomcareroofingandconstruction.com'),
+  metadataBase: new URL('https://www.kingdomcareroofingandconstruction.com'),
   alternates: {
     canonical: './',
   },

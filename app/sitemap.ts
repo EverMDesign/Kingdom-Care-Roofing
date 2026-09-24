@@ -3,7 +3,7 @@ import { getProjects } from '@/lib/workpress-api'
 import { SERVICES } from '@/lib/services-data'
 import { serviceAreas } from '@/lib/service-areas-data'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://kingdomcareroofingandconstruction.com'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.kingdomcareroofingandconstruction.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()

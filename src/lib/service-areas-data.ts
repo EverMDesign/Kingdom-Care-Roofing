@@ -285,7 +285,7 @@ export function getServiceArea(slug: string): ServiceArea | undefined {
   return serviceAreas.find((a) => a.slug === slug)
 }
 
-const BASE_URL = 'https://kingdomcareroofingandconstruction.com'
+const BASE_URL = 'https://www.kingdomcareroofingandconstruction.com'
 
 const SERVICE_OFFERS = [
   'Roof Replacement',
