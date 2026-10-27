@@ -1,6 +1,7 @@
 import { Project } from './workpress-types';
 import { CompanySettings } from './workpress-types';
 import { getCompanySettings } from './workpress-api';
+import { serviceAreas } from './service-areas-data';
 
 /**
  * WorkPress Schema.org Generator
@@ -32,7 +33,6 @@ import { getCompanySettings } from './workpress-api';
  *   - sameAs           → Google Business Profile URL, BBB, social profiles
  *   - logo             → company logo URL
  *   - openingHoursSpecification → business hours
- *   - geo              → business's own coordinates (for GeoCircle serviceArea)
  *   - hasMap           → Google Maps listing URL
  *   - priceRange       → "$" / "$$" / "$$$"
  *
@@ -40,6 +40,12 @@ import { getCompanySettings } from './workpress-api';
  * expire. Verify longevity — a dead image URL in structured data wastes rich-result
  * opportunities months down the line.
  */
+
+// Shop's own coordinates (not a job-site address) — verified against the
+// Google Maps pin for the address WorkPress's Organization Settings return.
+// GeoCoordinates for a customer job site come from project.coordinates
+// instead; never conflate the two.
+const BUSINESS_GEO = { latitude: 32.5214881, longitude: -97.2979779 };
 
 const FALLBACK_COMPANY: CompanySettings = {
   company_name: 'Your Company Name',
@@ -81,15 +87,6 @@ function truncate(text: string, maxLength: number): string {
   return (lastSpace > 0 ? cut.substring(0, lastSpace) : cut) + '…';
 }
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
-}
-
 export async function generateProjectSchema(project: Project, city: string) {
   const company = await getCompanySettings();
   const companyInfo = company || FALLBACK_COMPANY;
@@ -101,7 +98,21 @@ export async function generateProjectSchema(project: Project, city: string) {
     console.warn('[WorkPress Schema] website_url is not set in Organization Settings. Schema @id values will be relative/invalid. Set it in the WorkPress dashboard.');
   }
 
-  const projectUrl = `${domain}/${slugify(city)}/${project.slug}`;
+  // Real route is app/projects/[slug]/page.tsx — no city segment in the URL.
+  // (See canonical in that page's generateMetadata: `/projects/${slug}`.)
+  const projectUrl = `${domain}/projects/${project.slug}`;
+
+  // The city hub page is app/service-areas/[slug]/page.tsx, keyed by a
+  // hand-curated slug (e.g. "burleson-tx") that can't be derived from the
+  // city name alone — look it up by city, falling back to the
+  // /service-areas index (a real page) rather than guessing a slug that
+  // might 404.
+  const matchedServiceArea = serviceAreas.find(
+    (a) => a.city.toLowerCase() === city.toLowerCase()
+  );
+  const cityHubUrl = matchedServiceArea
+    ? `${domain}/service-areas/${matchedServiceArea.slug}`
+    : `${domain}/service-areas`;
 
   const coordinates = project.coordinates
     ? {
@@ -149,6 +160,11 @@ export async function generateProjectSchema(project: Project, city: string) {
       'addressRegion': parsedAddress.addressRegion, // from company address parse — reliable
       'postalCode': parsedAddress.postalCode,
       'addressCountry': 'US',
+    },
+    'geo': {
+      '@type': 'GeoCoordinates',
+      'latitude': BUSINESS_GEO.latitude,
+      'longitude': BUSINESS_GEO.longitude,
     },
     // serviceArea intentionally omitted — coverage claims belong in GBP, not schema.
     // Embedding a serviceArea here creates a contradiction on project pages where
@@ -205,14 +221,18 @@ export async function generateProjectSchema(project: Project, city: string) {
   };
 
   // ── 2. Breadcrumb schema ────────────────────────────────────────────────────
+  // Matches the real visible breadcrumb on the page: Projects > {city} (see
+  // app/projects/[slug]/page.tsx). Home is added as the schema root per
+  // convention even though it isn't a separate visible crumb.
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     '@id': `${projectUrl}#breadcrumb`,
     'itemListElement': [
       { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': domain },
-      { '@type': 'ListItem', 'position': 2, 'name': city, 'item': `${domain}/${slugify(city)}` },
-      { '@type': 'ListItem', 'position': 3, 'name': project.seoTitle, 'item': projectUrl },
+      { '@type': 'ListItem', 'position': 2, 'name': 'Projects', 'item': `${domain}/projects` },
+      { '@type': 'ListItem', 'position': 3, 'name': city, 'item': cityHubUrl },
+      { '@type': 'ListItem', 'position': 4, 'name': project.seoTitle, 'item': projectUrl },
     ],
   };
 
