@@ -2,6 +2,10 @@ import { notFound } from 'next/navigation'
 import { TopBar, Header, Footer, FloatingCTA } from '@/components'
 import { getServiceBySlug, SERVICES, SERVICES_NAV } from '@/lib/services-data'
 import { getProjects } from '@/lib/workpress-api'
+import { generateServicePageSchema } from '@/lib/schema'
+import type { SchemaServicePage } from '@/lib/schema-types'
+import { BUSINESS } from '@/lib/schema-business'
+import { serviceAreas } from '@/lib/service-areas-data'
 import ServiceFAQ from './ServiceFAQ'
 import ServiceCTA from './ServiceCTA'
 import ServiceBannerCTA from './ServiceBannerCTA'
@@ -52,8 +56,29 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
     .filter((p) => (p.services ?? []).some((s) => service.projectTags.some((tag) => s.toLowerCase().includes(tag.toLowerCase()))))
     .slice(0, 3)
 
+  const schemaService: SchemaServicePage = {
+    name: service.title,
+    description: service.tagline,
+    slug: service.slug,
+    serviceTypes: [service.title],
+    serviceAreas: serviceAreas.map((a) => a.city),
+    state: 'TX',
+    image: { url: service.image, alt: service.title },
+  }
+
+  // #business is already built once in the root layout — reference it
+  // instead of rebuilding it here (see src/lib/schema-business.ts).
+  const schemas = generateServicePageSchema(schemaService, BUSINESS, { includeSitewide: false })
+
   return (
     <div className="bg-white text-brand-charcoal antialiased">
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <TopBar />
       <Header />
 

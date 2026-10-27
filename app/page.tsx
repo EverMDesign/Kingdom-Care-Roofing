@@ -16,6 +16,8 @@ import {
 } from '@/components'
 
 export default function Home() {
+  // #business + #website are already emitted sitewide by the root layout
+  // (see src/lib/schema-business.ts) — the homepage doesn't rebuild them.
   return (
     <main className="bg-white">
       <TopBar />

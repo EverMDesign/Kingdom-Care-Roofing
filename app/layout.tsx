@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Libre_Baskerville } from 'next/font/google';
+import { generateBusinessSchema } from '@/lib/schema';
+import { BUSINESS } from '@/lib/schema-business';
 import './globals.css';
 
 const inter = Inter({
@@ -39,9 +41,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // #business + #website, built exactly once, sitewide. Every other page
+  // references these by @id — see src/lib/schema-business.ts.
+  const schemas = generateBusinessSchema(BUSINESS);
+
   return (
     <html lang="en" className={`scroll-smooth ${inter.variable} ${libreBaskerville.variable}`}>
       <head>
+        {schemas.map((schema, i) => (
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
         <script src="https://api.everreach.link/js/external-tracking.js" data-tracking-id="tk_bbb46529a4404483982d4b615ed53501"></script>
       </head>
       <body suppressHydrationWarning className="font-sans text-brand-charcoal bg-white antialiased overflow-x-hidden">

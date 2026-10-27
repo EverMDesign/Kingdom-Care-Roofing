@@ -1,7 +1,6 @@
 import { Project } from './workpress-types';
-import { CompanySettings } from './workpress-types';
-import { getCompanySettings } from './workpress-api';
 import { serviceAreas } from './service-areas-data';
+import { BUSINESS } from './schema-business';
 
 /**
  * WorkPress Schema.org Generator
@@ -24,15 +23,17 @@ import { serviceAreas } from './service-areas-data';
  *   - containedInPlace nests city inside state for hierarchical geo confidence.
  *   - State names use the value from company address parsing (not project.address.state)
  *     to avoid DB truncation issues with that field.
- *   - Consistent provider.@id across ALL pages = entity consolidation.
+ *   - #business is referenced by @id, never rebuilt — the root layout
+ *     builds the full node once from src/lib/schema-business.ts. Rebuilding
+ *     it here from a second source is exactly how a page ends up with a
+ *     #business that disagrees with the layout's (different @type, phone
+ *     format, etc.) — see src/lib/schema-business.ts for the full rationale.
  *   - Per-project service.@id = each page is its own distinct service entity.
  *   - Description truncated to last full word + ellipsis (no mid-word cuts).
  *
  * To strengthen further (requires additional WorkPress dashboard fields):
  *   - aggregateRating  → reviews (single biggest local SEO lever)
  *   - sameAs           → Google Business Profile URL, BBB, social profiles
- *   - logo             → company logo URL
- *   - openingHoursSpecification → business hours
  *   - hasMap           → Google Maps listing URL
  *   - priceRange       → "$" / "$$" / "$$$"
  *
@@ -40,19 +41,6 @@ import { serviceAreas } from './service-areas-data';
  * expire. Verify longevity — a dead image URL in structured data wastes rich-result
  * opportunities months down the line.
  */
-
-// Shop's own coordinates (not a job-site address) — verified against the
-// Google Maps pin for the address WorkPress's Organization Settings return.
-// GeoCoordinates for a customer job site come from project.coordinates
-// instead; never conflate the two.
-const BUSINESS_GEO = { latitude: 32.5214881, longitude: -97.2979779 };
-
-const FALLBACK_COMPANY: CompanySettings = {
-  company_name: 'Your Company Name',
-  company_phone: '+1-214-555-0100',
-  company_address: '123 Main Street, Dallas, Texas 75201, United States',
-  website_url: 'https://yoursite.com',
-};
 
 /**
  * Parse "Street, City, State ZIP[, Country]" into components.
@@ -88,15 +76,12 @@ function truncate(text: string, maxLength: number): string {
 }
 
 export async function generateProjectSchema(project: Project, city: string) {
-  const company = await getCompanySettings();
-  const companyInfo = company || FALLBACK_COMPANY;
-  const parsedAddress = parseAddress(companyInfo.company_address);
-
-  // Guard: warn if website_url is missing — all @id values will be invalid without it
-  const domain = companyInfo.website_url.replace(/\/$/, '');
-  if (!domain || domain === 'https://yoursite.com') {
-    console.warn('[WorkPress Schema] website_url is not set in Organization Settings. Schema @id values will be relative/invalid. Set it in the WorkPress dashboard.');
-  }
+  // Business facts (name, phone, address, @type, geo) come from the static
+  // BUSINESS config — the same one the root layout builds #business from —
+  // never from a live WorkPress fetch. Only state-name parsing reuses
+  // parseAddress() here; the business node itself is referenced, not rebuilt.
+  const parsedAddress = parseAddress(BUSINESS.fullAddress);
+  const domain = BUSINESS.websiteUrl.replace(/\/$/, '');
 
   // Real route is app/projects/[slug]/page.tsx — no city segment in the URL.
   // (See canonical in that page's generateMetadata: `/projects/${slug}`.)
@@ -130,54 +115,13 @@ export async function generateProjectSchema(project: Project, city: string) {
       ? project.services
       : ['Professional Services'];
 
-  // E.164 telephone normalization — strip non-digits, prepend +1 if no country code
-  const normalizePhone = (raw: string): string => {
-    if (raw.startsWith('+')) return raw;
-    const digits = raw.replace(/\D/g, '');
-    return digits.length === 10 ? `+1${digits}` : `+${digits}`;
-  };
-  const phone = normalizePhone(companyInfo.company_phone);
-
   const shortDescription = project.metaDescription
     ? project.metaDescription
     : truncate(project.description, 160);
 
-  // ── LocalBusiness entity ────────────────────────────────────────────────────
-  // serviceArea = business home city only — NOT the whole state.
-  // Claiming statewide reach on a city case-study page is too broad and generic.
-  // contactPoint.areaServed matches serviceArea (same scope = coherent signals).
-  // Customize @type per client: RoofingContractor, GeneralContractor, Plumber, etc.
-  const businessEntity = {
-    '@type': ['LocalBusiness', 'HomeAndConstructionBusiness'],
-    '@id': `${domain}/#business`,
-    'name': companyInfo.company_name,
-    'url': domain,
-    'telephone': phone,
-    'address': {
-      '@type': 'PostalAddress',
-      'streetAddress': parsedAddress.streetAddress,
-      'addressLocality': parsedAddress.addressLocality,
-      'addressRegion': parsedAddress.addressRegion, // from company address parse — reliable
-      'postalCode': parsedAddress.postalCode,
-      'addressCountry': 'US',
-    },
-    'geo': {
-      '@type': 'GeoCoordinates',
-      'latitude': BUSINESS_GEO.latitude,
-      'longitude': BUSINESS_GEO.longitude,
-    },
-    // serviceArea intentionally omitted — coverage claims belong in GBP, not schema.
-    // Embedding a serviceArea here creates a contradiction on project pages where
-    // the job was done in a different city than the business's home address.
-    // contactPoint.areaServed omitted — no accurate scope to assert here.
-    'contactPoint': {
-      '@type': 'ContactPoint',
-      'telephone': phone,
-      'contactType': 'customer service',
-      'availableLanguage': 'English',
-    },
-    'knowsAbout': serviceTypes,
-  };
+  // #business is built once, in the root layout, from src/lib/schema-business.ts —
+  // reference it by @id here rather than rebuilding it a second time.
+  const businessRef = { '@id': `${domain}/#business` };
 
   // ── 1. Service schema ───────────────────────────────────────────────────────
   // areaServed = single City object with geo nested inside.
@@ -192,7 +136,7 @@ export async function generateProjectSchema(project: Project, city: string) {
     'description': project.description,
     'serviceType': serviceTypes[0],
     ...(serviceTypes.length > 1 ? { 'additionalType': serviceTypes.slice(1) } : {}),
-    'provider': businessEntity,
+    'provider': businessRef,
     'areaServed': {
       '@type': 'City',
       'name': city,
