@@ -1,371 +1,580 @@
 /**
- * Schema Builder — Schema.org JSON-LD Generator
- * Optimized for geo-targeted local SEO for service businesses.
+ * Schema.ts — All four Schema.org JSON-LD generators.
  *
- * Data-source agnostic: pass in plain objects, get back schema blocks.
- * No external imports — pure functions only.
+ * Every generator returns BuildResult { jsonLd, issues }.
+ * Every generator uses @graph to link nodes by @id.
+ * Every generator shares one BusinessConfig for the business entity.
  *
- * Two public generators, one set of shared internals:
+ *   buildProjectSchema(business, project, options?)
+ *     For completed job / case study pages (e.g. /dallas/roof-replacement-oak-lawn)
+ *     Breadcrumb: Home > City > Project Title
  *
- *   generateServicePageSchema(service, business, options?)
+ *   buildServicePageSchema(business, service, options?)
  *     For service offering pages (e.g. /services/roof-repair)
  *     Breadcrumb: Home > Services > Service Name
- *     Pass { includeSitewide: false } once the root layout owns #business/#website.
  *
- *   generateBusinessSchema(business)
- *     For the root layout only — builds #business + #website once, sitewide.
- *     Every other page references #business by @id instead of calling this.
+ *   buildBusinessSchema(business, options?)
+ *     For homepage / static pages — LocalBusiness + WebSite only
  *
- * Project (completed job / case study) pages are NOT handled here — that
- * logic lives in workpress-schema.ts, which builds Service/BreadcrumbList/
- * WebPage from live WorkPress project data against the real app routes
- * (/projects/{slug}, /service-areas/{slug}), importing BUSINESS from
- * schema-business.ts for the same #business reference used everywhere else.
- *
- * Geo-targeting design decisions:
- *   - provider.serviceArea is intentionally omitted on project pages.
- *     Coverage claims belong in GBP, not structured data.
- *   - service.areaServed = City object with geo nested inside (not a sibling).
- *     GeoCoordinates is not a valid standalone areaServed type.
- *   - containedInPlace nests city inside state for hierarchical geo confidence.
- *   - Consistent provider.@id across ALL pages = entity consolidation.
- *   - Per-page service.@id = each page is its own distinct service entity.
- *   - Description truncated to last full word + ellipsis (no mid-word cuts).
- *
- * To strengthen further (add to your data source):
- *   - aggregateRating  -> reviews (single biggest local SEO lever)
- *   - sameAs           -> Google Business Profile URL, BBB, social profiles
- *   - openingHoursSpecification -> business hours
- *   - hasMap            -> Google Maps listing URL
+ *   buildServiceAreaSchema(business, area, options?)
+ *     For city / service area pages (e.g. /areas/crowley)
+ *     Breadcrumb: Home > [Hub] > City
+ *     Uses templates from BusinessConfig to generate titles and descriptions
  */
 
-import type {
-  SchemaBusiness,
-  SchemaServicePage,
-  SchemaImage,
-  SchemaOffers,
-  SchemaOptions,
-} from './schema-types';
+import {
+  type BusinessConfig,
+  type FaqItem,
+  type ImageConfig,
+  type ServiceDef,
+  type BuildOptions,
+  type BuildResult,
+  type Node,
+  SchemaValidationError,
+  trimSlash,
+  ensureLeadingSlash,
+  joinUrl,
+  fill,
+  naturalList,
+  capitalizeFirst,
+  slugify,
+  truncate,
+  clean,
+  cityPlace,
+  validateGraph,
+  validateBusinessConfig,
+  validateFaqs,
+  validateServiceIds,
+  buildBusinessNode,
+  buildWebsiteNode,
+  buildFaqNode,
+  buildImageNode,
+  resolveServices,
+  buildResult,
+} from './schema-common';
+
+export type {
+  BusinessConfig,
+  BusinessType,
+  PostalAddressConfig,
+  ServiceDef,
+  FaqItem,
+  ImageConfig,
+  BuildOptions,
+  BuildResult,
+  JsonLdDocument,
+} from './schema-common';
+export { SchemaValidationError, toScriptTag, verifyImageUrls } from './schema-common';
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// SHARED INTERNALS — used by all generators, never exported
+// Config types — one per generator (BusinessConfig is shared)
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function parseAddress(addressFull: string) {
-  const parts = addressFull.split(',').map((p) => p.trim());
-  if (parts.length >= 3) {
-    const street = parts[0];
-    const city = parts[1];
-    const stateZipStr = parts[2].trim();
-    const stateZipMatch = stateZipStr.match(/^(.+?)\s+(\d{5}(?:-\d{4})?)$/);
-    const state = stateZipMatch ? stateZipMatch[1] : stateZipStr;
-    const zip = stateZipMatch
-      ? stateZipMatch[2]
-      : parts[3]?.trim().match(/\d{5}/)?.[0] || '';
-    return { streetAddress: street, addressLocality: city, addressRegion: state, postalCode: zip };
-  }
-  return { streetAddress: addressFull, addressLocality: '', addressRegion: '', postalCode: '' };
+// ── Project (completed job / case study) ──────────────────────────────────────
+
+export interface ProjectConfig {
+  /** SEO title, e.g. "Roof Replacement in Dallas, TX" */
+  title: string;
+  /** Project description / body content */
+  description: string;
+  /** URL-safe slug */
+  slug: string;
+  /** City where the work was done */
+  city: string;
+  /** State full name, e.g. "Texas" */
+  state: string;
+  /** State code, e.g. "TX" */
+  stateCode: string;
+  /**
+   * Service type strings describing WHAT was done, not WHO did it.
+   * Correct: ["Roof Replacement", "Leak Repair"]
+   * Wrong:   ["Roofing Contractor"]
+   * First entry is the primary serviceType.
+   */
+  serviceTypes: string[];
+  /** Project image */
+  image?: ImageConfig;
+  /** Meta description — falls back to truncated description */
+  metaDescription?: string;
+  /** Approximate coordinates (offset for privacy) */
+  coordinates?: { latitude: number; longitude: number };
+  /** Additional cities relevant to this project */
+  additionalCities?: string[];
+  /** ISO date — when published */
+  datePublished?: string;
+  /** ISO date — when last updated */
+  dateModified?: string;
+  /** FAQ items for the page */
+  faqs?: FaqItem[];
+  /** URL pattern. Tokens: {city}, {slug}. Default: "/{city}/{slug}" */
+  urlPattern?: string;
+  /**
+   * Optional intermediate breadcrumb crumb between Home and the city
+   * (e.g. a "/projects" index page). Omit for a flat Home > City > Title
+   * breadcrumb — most sites with no projects hub page want that default.
+   */
+  breadcrumbParent?: { name: string; path: string } | null;
+  /**
+   * Overrides the city breadcrumb item's URL. Use this when the site's
+   * city hub pages don't follow business.areaPathPrefix + slugify(city)
+   * (e.g. hand-curated slugs like "burleson-tx"). Pass the full URL,
+   * including the business's own domain.
+   */
+  cityUrl?: string;
 }
 
-function truncate(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text;
-  const cut = text.substring(0, maxLength);
-  const lastSpace = cut.lastIndexOf(' ');
-  return (lastSpace > 0 ? cut.substring(0, lastSpace) : cut) + '...';
+// ── Service Page (service offering / marketing page) ──────────────────────────
+
+export interface ServicePageConfig {
+  /** Service name as page heading, e.g. "Roof Repair" */
+  name: string;
+  /** Page description / body content */
+  description: string;
+  /** URL-safe slug */
+  slug: string;
+  /**
+   * Service type strings. Same rules as ProjectConfig.serviceTypes.
+   * First entry is the primary serviceType.
+   */
+  serviceTypes: string[];
+  /** Cities where this service is offered */
+  serviceAreas: { city: string; state: string }[];
+  /** Service page image */
+  image?: ImageConfig;
+  /** Meta description — falls back to truncated description */
+  metaDescription?: string;
+  /** Coordinates for the primary service area */
+  coordinates?: { latitude: number; longitude: number };
+  /** ISO date — when published */
+  datePublished?: string;
+  /** ISO date — when last updated */
+  dateModified?: string;
+  /** FAQ items for the page */
+  faqs?: FaqItem[];
+  /** Breadcrumb parent. Default: { name: "Services", path: "/services" } */
+  breadcrumbParent?: { name: string; path: string };
+  /** URL pattern. Tokens: {slug}. Default: "/services/{slug}" */
+  urlPattern?: string;
 }
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+// ── Service Area (city page) ──────────────────────────────────────────────────
+
+export interface AreaConfig {
+  city: string;
+  state: string; // "Texas"
+  stateCode: string; // "TX"
+  slug: string; // "crowley"
+  /** Service ids offered in this area. Defaults to all business services. First is the primary. */
+  services?: string[];
+  /** Overrides the pageDescription template. */
+  description?: string;
+  /** Overrides the pageTitle template. */
+  pageTitle?: string;
+  image?: { url: string; name: string };
+  /** Wikipedia/Wikidata URLs to disambiguate the city. */
+  citySameAs?: string[];
+  faqs?: FaqItem[];
 }
 
-function normalizePhone(raw: string): string {
-  if (raw.startsWith('+')) return raw;
-  const digits = raw.replace(/\D/g, '');
-  return digits.length === 10 ? `+1${digits}` : `+${digits}`;
-}
+// ═══════════════════════════════════════════════════════════════════════════════
+// buildProjectSchema — completed job / case study pages
+// ═══════════════════════════════════════════════════════════════════════════════
 
-function normalizeCoords(coords?: { lat: number; lon: number }) {
-  if (!coords) return null;
-  return {
-    latitude: typeof coords.lat === 'string'
-      ? parseFloat(coords.lat as unknown as string)
-      : coords.lat,
-    longitude: typeof coords.lon === 'string'
-      ? parseFloat(coords.lon as unknown as string)
-      : coords.lon,
-  };
-}
+export function buildProjectSchema(
+  business: BusinessConfig,
+  project: ProjectConfig,
+  options: BuildOptions = {},
+): BuildResult {
+  const { includeSitewide = true, strict = true } = options;
+  const base = trimSlash(business.url);
+  const pattern = project.urlPattern ?? "/{city}/{slug}";
+  const pageUrl = `${base}${pattern
+    .replace("{city}", slugify(project.city))
+    .replace("{slug}", project.slug)}`;
+  const shortDesc = project.metaDescription || truncate(project.description, 160);
+  const serviceTypes =
+    project.serviceTypes.length > 0 ? project.serviceTypes : ["Professional Services"];
 
-/** Validate serviceType isn't duplicating the business @type */
-function warnIfServiceMatchesBusinessType(
-  primaryService: string,
-  businessType: string | string[],
-) {
-  const types = Array.isArray(businessType) ? businessType : [businessType];
-  if (types.some((bt) => bt.toLowerCase() === primaryService.toLowerCase())) {
-    console.warn(
-      `[Schema] serviceType "${primaryService}" matches the business @type. ` +
-      `serviceType should describe the service performed (e.g. "Roof Repair"), ` +
-      `not the business classification (e.g. "RoofingContractor"). ` +
-      `The business type is already in the provider entity.`
-    );
-  }
-}
-
-/** Build the LocalBusiness entity — identical across all page types */
-function buildBusinessEntity(
-  business: SchemaBusiness,
-  domain: string,
-  phone: string,
-  parsedAddress: ReturnType<typeof parseAddress>,
-  businessType: string | string[],
-  serviceTypes: string[],
-): Record<string, unknown> {
-  const entity: Record<string, unknown> = {
-    '@type': businessType,
-    '@id': `${domain}/#business`,
-    'name': business.name,
-    'url': domain,
-    'telephone': phone,
-    'address': {
-      '@type': 'PostalAddress',
-      'streetAddress': parsedAddress.streetAddress,
-      'addressLocality': parsedAddress.addressLocality,
-      'addressRegion': parsedAddress.addressRegion,
-      'postalCode': parsedAddress.postalCode,
-      'addressCountry': 'US',
-    },
-    'contactPoint': {
-      '@type': 'ContactPoint',
-      'telephone': phone,
-      'contactType': 'customer service',
-      'availableLanguage': business.languages || ['English'],
-    },
-    'knowsAbout': serviceTypes,
-  };
-  if (business.logo) {
-    entity['logo'] = { '@type': 'ImageObject', 'url': business.logo };
-  }
-  if (business.geo) {
-    entity['geo'] = {
-      '@type': 'GeoCoordinates',
-      'latitude': business.geo.latitude,
-      'longitude': business.geo.longitude,
+  // areaServed: primary city (with coords) + additional cities
+  const allCities = [project.city, ...(project.additionalCities || [])];
+  const areaServed = allCities.map((city, i) => {
+    const place: Record<string, unknown> = {
+      ...(cityPlace(city, project.state) as Record<string, unknown>),
     };
-  }
-  return entity;
-}
-
-/** Build an ImageObject from SchemaImage fields */
-function buildImageObject(
-  image: SchemaImage | undefined,
-  name: string,
-  fallbackDescription: string,
-): Record<string, unknown> | null {
-  if (!image?.url) {
-    console.warn(
-      `[Schema] No image provided for "${name}". ` +
-      `Schema will omit image — this reduces rich result eligibility.`
-    );
-    return null;
-  }
-  return {
-    '@type': 'ImageObject',
-    'url': image.url,
-    'name': name,
-    'description': image.alt || fallbackDescription,
-    'width': image.width || 1200,
-    'height': image.height || 630,
-  };
-}
-
-/** Build an Offer block from SchemaOffers */
-function buildOffersBlock(offers: SchemaOffers | undefined): Record<string, unknown> | null {
-  if (!offers) return null;
-  const block: Record<string, unknown> = { '@type': 'Offer' };
-  if (offers.priceRange) {
-    block['priceSpecification'] = {
-      '@type': 'PriceSpecification',
-      'price': offers.priceRange,
-    };
-  }
-  if (offers.availability) {
-    block['availability'] = `https://schema.org/${offers.availability}`;
-  }
-  if (offers.description) {
-    block['description'] = offers.description;
-  }
-  return block;
-}
-
-/** Build areaServed from a list of city names + optional coordinates + optional state */
-function buildAreaServed(
-  cities: string[],
-  stateName: string,
-  coordinates: ReturnType<typeof normalizeCoords>,
-  includeState?: boolean,
-): unknown {
-  if (cities.length === 0) return undefined;
-
-  const cityObjects = cities.map((cityName, i) => {
-    const city: Record<string, unknown> = {
-      '@type': 'City',
-      'name': cityName,
-      'containedInPlace': { '@type': 'State', 'name': stateName },
-    };
-    // First city gets coordinates (if available)
-    if (i === 0 && coordinates) {
-      city['geo'] = {
-        '@type': 'GeoCoordinates',
-        'latitude': coordinates.latitude,
-        'longitude': coordinates.longitude,
+    if (i === 0 && project.coordinates) {
+      place["geo"] = {
+        "@type": "GeoCoordinates",
+        latitude: project.coordinates.latitude,
+        longitude: project.coordinates.longitude,
       };
     }
-    return city;
+    return place;
   });
 
-  if (includeState && stateName) {
-    cityObjects.push({ '@type': 'State', 'name': stateName } as Record<string, unknown>);
-  }
+  const imageNode = buildImageNode(project.image, project.title, shortDesc);
 
-  return cityObjects.length === 1 ? cityObjects[0] : cityObjects;
+  // ── Service ─────────────────────────────────────────────────────────────
+  const service: Node = clean({
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    name: project.title,
+    description: project.description,
+    serviceType: serviceTypes[0],
+    ...(serviceTypes.length > 1 ? { additionalType: serviceTypes.slice(1) } : {}),
+    provider: { "@id": `${base}/#business` },
+    areaServed: areaServed.length === 1 ? areaServed[0] : areaServed,
+    url: pageUrl,
+    image: imageNode,
+    dateModified: project.dateModified,
+  } as Node);
+
+  // ── Breadcrumb: Home > [Parent] > City > Title ───────────────────────────
+  // City links through business.areaPathPrefix (e.g. "/areas") so this
+  // points at the real per-city hub page instead of a bare, unrouted
+  // "/{city}" segment. breadcrumbParent is opt-in for sites with a
+  // projects index page.
+  const cityItemUrl = project.cityUrl ?? `${base}${business.areaPathPrefix ?? ""}/${slugify(project.city)}`;
+  const parent = project.breadcrumbParent;
+  const breadcrumbItems: Node[] = [
+    { "@type": "ListItem", position: 1, name: "Home", item: base },
+    ...(parent
+      ? [{ "@type": "ListItem", position: 2, name: parent.name, item: `${base}${parent.path}` }]
+      : []),
+    {
+      "@type": "ListItem",
+      position: parent ? 3 : 2,
+      name: project.city,
+      item: cityItemUrl,
+    },
+    {
+      "@type": "ListItem",
+      position: parent ? 4 : 3,
+      name: project.title,
+      item: pageUrl,
+    },
+  ];
+  const breadcrumb: Node = {
+    "@type": "BreadcrumbList",
+    "@id": `${pageUrl}#breadcrumb`,
+    itemListElement: breadcrumbItems,
+  };
+
+  // ── WebPage ─────────────────────────────────────────────────────────────
+  const faqs = project.faqs ?? [];
+  const webpage: Node = clean({
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: project.title,
+    description: shortDesc,
+    inLanguage: business.language ?? "en-US",
+    isPartOf: { "@id": `${base}/#website` },
+    about: { "@id": `${pageUrl}#service` },
+    breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+    publisher: { "@id": `${base}/#business` },
+    primaryImageOfPage: imageNode
+      ? { "@type": "ImageObject", url: imageNode.url, width: imageNode.width, height: imageNode.height }
+      : undefined,
+    datePublished: project.datePublished,
+    dateModified: project.dateModified,
+    hasPart: faqs.length ? { "@id": `${pageUrl}#faq` } : undefined,
+  } as Node);
+
+  const nodes: Node[] = [service, breadcrumb, webpage];
+  if (faqs.length) nodes.push(buildFaqNode(faqs, `${pageUrl}#faq`));
+
+  const graph: Node[] = [
+    ...(includeSitewide ? [buildBusinessNode(business), buildWebsiteNode(business)] : []),
+    ...nodes,
+  ];
+
+  const issues = [
+    ...validateBusinessConfig(business),
+    ...validateFaqs(faqs),
+    ...validateGraph(graph).filter(
+      (i) => includeSitewide || !i.includes("no node with that @id"),
+    ),
+  ];
+
+  return buildResult(graph, issues, strict);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// PUBLIC: generateServicePageSchema — service offering / marketing pages
+// buildServicePageSchema — service offering / marketing pages
 // ═══════════════════════════════════════════════════════════════════════════════
 
-/**
- * Generate Service + BreadcrumbList + WebPage for a service offering page.
- * Breadcrumb: Home > Services > Service Name  (customizable via breadcrumbParent)
- * URL default: /services/{slug}
- */
-export function generateServicePageSchema(
-  service: SchemaServicePage,
-  business: SchemaBusiness,
-  options?: SchemaOptions,
-) {
-  const parsedAddress = parseAddress(business.fullAddress);
-  const domain = business.websiteUrl.replace(/\/$/, '');
-  const phone = normalizePhone(business.phone);
-  const businessType = business.type || ['LocalBusiness', 'HomeAndConstructionBusiness'];
-  const stateName = service.state || parsedAddress.addressRegion;
-  const coordinates = normalizeCoords(service.coordinates);
-
-  const serviceTypes =
-    service.serviceTypes?.length > 0 ? service.serviceTypes : ['Professional Services'];
-  warnIfServiceMatchesBusinessType(serviceTypes[0], businessType);
-
+export function buildServicePageSchema(
+  business: BusinessConfig,
+  service: ServicePageConfig,
+  options: BuildOptions = {},
+): BuildResult {
+  const { includeSitewide = true, strict = true } = options;
+  const base = trimSlash(business.url);
+  const pattern = service.urlPattern ?? "/services/{slug}";
+  const pageUrl = `${base}${pattern.replace("{slug}", service.slug)}`;
   const shortDesc = service.metaDescription || truncate(service.description, 160);
+  const serviceTypes =
+    service.serviceTypes.length > 0 ? service.serviceTypes : ["Professional Services"];
 
-  const pattern = options?.urlPattern || '/services/{slug}';
-  const pageUrl = `${domain}${pattern.replace('{slug}', service.slug)}`;
+  // areaServed: all service areas, first gets coords
+  const areaServed = service.serviceAreas.map((a, i) => {
+    const place: Record<string, unknown> = {
+      ...(cityPlace(a.city, a.state) as Record<string, unknown>),
+    };
+    if (i === 0 && service.coordinates) {
+      place["geo"] = {
+        "@type": "GeoCoordinates",
+        latitude: service.coordinates.latitude,
+        longitude: service.coordinates.longitude,
+      };
+    }
+    return place;
+  });
 
-  // includeSitewide: false means the root layout already built the full
-  // #business node once — this page only ever references it by @id, so a
-  // second independently-built version (with its own phone format, @type)
-  // never has the chance to disagree with the layout's.
-  const businessRef = options?.includeSitewide === false
-    ? { '@id': `${domain}/#business` }
-    : buildBusinessEntity(business, domain, phone, parsedAddress, businessType, serviceTypes);
-  const imageObj = buildImageObject(service.image, service.name, shortDesc);
-  const offersObj = buildOffersBlock(service.offers);
+  const imageNode = buildImageNode(service.image, service.name, shortDesc);
 
-  // areaServed: all service areas
-  const areaServed = buildAreaServed(
-    service.serviceAreas, stateName, coordinates, options?.includeStateArea,
-  );
+  // ── Service ─────────────────────────────────────────────────────────────
+  const serviceNode: Node = clean({
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    name: service.name,
+    description: service.description,
+    serviceType: serviceTypes[0],
+    ...(serviceTypes.length > 1 ? { additionalType: serviceTypes.slice(1) } : {}),
+    provider: { "@id": `${base}/#business` },
+    areaServed:
+      areaServed.length === 1
+        ? areaServed[0]
+        : areaServed.length > 0
+          ? areaServed
+          : undefined,
+    url: pageUrl,
+    image: imageNode,
+    dateModified: service.dateModified,
+  } as Node);
 
-  // ── Service ───────────────────────────────────────────────────────────────
-  const serviceSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    '@id': `${pageUrl}#service`,
-    'name': service.name,
-    'description': service.description,
-    'serviceType': serviceTypes[0],
-    ...(serviceTypes.length > 1 ? { 'additionalType': serviceTypes.slice(1) } : {}),
-    'provider': businessRef,
-    'url': pageUrl,
-  };
-  if (areaServed) serviceSchema['areaServed'] = areaServed;
-  if (imageObj) serviceSchema['image'] = imageObj;
-  if (service.dateModified) serviceSchema['dateModified'] = service.dateModified;
-  if (offersObj) serviceSchema['offers'] = offersObj;
-
-  // ── Breadcrumb: Home > Services > Name ────────────────────────────────────
-  const parent = service.breadcrumbParent || { name: 'Services', path: '/services' };
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    '@id': `${pageUrl}#breadcrumb`,
-    'itemListElement': [
-      { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': domain },
-      { '@type': 'ListItem', 'position': 2, 'name': parent.name, 'item': `${domain}${parent.path}` },
-      { '@type': 'ListItem', 'position': 3, 'name': service.name, 'item': pageUrl },
+  // ── Breadcrumb: Home > Parent > Name ────────────────────────────────────
+  const parent = service.breadcrumbParent ?? { name: "Services", path: "/services" };
+  const breadcrumb: Node = {
+    "@type": "BreadcrumbList",
+    "@id": `${pageUrl}#breadcrumb`,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: base },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: parent.name,
+        item: `${base}${parent.path}`,
+      },
+      { "@type": "ListItem", position: 3, name: service.name, item: pageUrl },
     ],
   };
 
-  // ── WebPage ───────────────────────────────────────────────────────────────
-  const webPageSchema: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    '@id': `${pageUrl}#webpage`,
-    'url': pageUrl,
-    'name': service.name,
-    'description': shortDesc,
-    'isPartOf': { '@id': `${domain}/#website` },
-    'about': { '@id': `${pageUrl}#service` },
-    'breadcrumb': { '@id': `${pageUrl}#breadcrumb` },
-    'publisher': { '@id': `${domain}/#business` },
-  };
-  if (imageObj) {
-    webPageSchema['primaryImageOfPage'] = {
-      '@type': 'ImageObject',
-      'url': imageObj.url,
-      'width': imageObj.width,
-      'height': imageObj.height,
-    };
-  }
-  if (service.datePublished) webPageSchema['datePublished'] = service.datePublished;
-  if (service.dateModified) webPageSchema['dateModified'] = service.dateModified;
+  // ── WebPage ─────────────────────────────────────────────────────────────
+  const faqs = service.faqs ?? [];
+  const webpage: Node = clean({
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: service.name,
+    description: shortDesc,
+    inLanguage: business.language ?? "en-US",
+    isPartOf: { "@id": `${base}/#website` },
+    about: { "@id": `${pageUrl}#service` },
+    breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+    publisher: { "@id": `${base}/#business` },
+    primaryImageOfPage: imageNode
+      ? { "@type": "ImageObject", url: imageNode.url, width: imageNode.width, height: imageNode.height }
+      : undefined,
+    datePublished: service.datePublished,
+    dateModified: service.dateModified,
+    hasPart: faqs.length ? { "@id": `${pageUrl}#faq` } : undefined,
+  } as Node);
 
-  return [serviceSchema, breadcrumbSchema, webPageSchema];
+  const nodes: Node[] = [serviceNode, breadcrumb, webpage];
+  if (faqs.length) nodes.push(buildFaqNode(faqs, `${pageUrl}#faq`));
+
+  const graph: Node[] = [
+    ...(includeSitewide ? [buildBusinessNode(business), buildWebsiteNode(business)] : []),
+    ...nodes,
+  ];
+
+  const issues = [
+    ...validateBusinessConfig(business),
+    ...validateFaqs(faqs),
+    ...validateGraph(graph).filter(
+      (i) => includeSitewide || !i.includes("no node with that @id"),
+    ),
+  ];
+
+  return buildResult(graph, issues, strict);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// PUBLIC: generateBusinessSchema — homepage / static pages
+// buildBusinessSchema — homepage / static pages
 // ═══════════════════════════════════════════════════════════════════════════════
 
-/**
- * Generate LocalBusiness + WebSite for a homepage or static page.
- * No service or project context — just the business entity.
- */
-export function generateBusinessSchema(business: SchemaBusiness) {
-  const parsedAddress = parseAddress(business.fullAddress);
-  const domain = business.websiteUrl.replace(/\/$/, '');
-  const phone = normalizePhone(business.phone);
-  const businessType = business.type || ['LocalBusiness', 'HomeAndConstructionBusiness'];
+export function buildBusinessSchema(
+  business: BusinessConfig,
+  options: BuildOptions = {},
+): BuildResult {
+  const { strict = true } = options;
 
-  const entity = buildBusinessEntity(
-    business, domain, phone, parsedAddress, businessType, [],
-  );
-  // Wrap with @context for standalone use
-  const localBusinessSchema = { '@context': 'https://schema.org', ...entity };
+  const graph: Node[] = [buildBusinessNode(business), buildWebsiteNode(business)];
 
-  const webSiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    '@id': `${domain}/#website`,
-    'url': domain,
-    'name': business.name,
-    'publisher': { '@id': `${domain}/#business` },
+  const issues = [
+    ...validateBusinessConfig(business),
+    ...validateGraph(graph),
+  ];
+
+  return buildResult(graph, issues, strict);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// buildServiceAreaSchema — city / service area pages
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function areaIds(business: BusinessConfig, area: AreaConfig) {
+  const base = trimSlash(business.url);
+  const prefix = ensureLeadingSlash(business.areaPathPrefix ?? "/areas");
+  const pageUrl = joinUrl(base, prefix, area.slug);
+  return {
+    base,
+    business: `${base}/#business`,
+    website: `${base}/#website`,
+    pageUrl,
+    service: `${pageUrl}#service`,
+    breadcrumb: `${pageUrl}#breadcrumb`,
+    webpage: `${pageUrl}#webpage`,
+    faq: `${pageUrl}#faq`,
+  };
+}
+
+function areaTemplateVars(business: BusinessConfig, area: AreaConfig, services: ServiceDef[]) {
+  return {
+    city: area.city,
+    state: area.state,
+    stateCode: area.stateCode,
+    business: business.name,
+    primaryService: services[0]?.name ?? "",
+    services: naturalList(services.map((s) => s.phrase ?? s.name)),
+  };
+}
+
+function buildAreaNodes(business: BusinessConfig, area: AreaConfig): Node[] {
+  const id = areaIds(business, area);
+  const services = resolveServices(business, area.services);
+  const vars = areaTemplateVars(business, area, services);
+  const templates = business.templates;
+
+  const description = area.description
+    ?? (templates ? capitalizeFirst(fill(templates.pageDescription, vars)) : `Services in ${area.city}, ${area.stateCode}`);
+  const pageTitle = area.pageTitle
+    ?? (templates ? fill(templates.pageTitle, vars) : `${area.city}, ${area.stateCode}`);
+  const serviceName = templates
+    ? fill(templates.serviceName, vars)
+    : `Services in ${area.city}, ${area.stateCode}`;
+
+  const place = cityPlace(area.city, area.state, area.citySameAs);
+
+  const service: Node = clean({
+    "@type": "Service",
+    "@id": id.service,
+    name: serviceName,
+    description,
+    serviceType: services.map((s) => s.name),
+    provider: { "@id": id.business },
+    areaServed: place,
+    url: id.pageUrl,
+    image: area.image && {
+      "@type": "ImageObject",
+      url: area.image.url,
+      name: area.image.name,
+    },
+  } as Node);
+
+  const crumbs: { name: string; item: string }[] = [{ name: "Home", item: id.base }];
+  const hub = business.areasHub === undefined ? null : business.areasHub;
+  if (hub) crumbs.push({ name: hub.name, item: joinUrl(id.base, hub.path) });
+  crumbs.push({ name: area.city, item: id.pageUrl });
+
+  const breadcrumb: Node = {
+    "@type": "BreadcrumbList",
+    "@id": id.breadcrumb,
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: c.item,
+    })),
   };
 
-  return [localBusinessSchema, webSiteSchema];
+  const faqs = area.faqs ?? [];
+
+  const webpage: Node = clean({
+    "@type": "WebPage",
+    "@id": id.webpage,
+    url: id.pageUrl,
+    name: pageTitle,
+    description,
+    inLanguage: business.language ?? "en-US",
+    isPartOf: { "@id": id.website },
+    about: { "@id": id.service },
+    breadcrumb: { "@id": id.breadcrumb },
+    publisher: { "@id": id.business },
+    hasPart: faqs.length ? { "@id": id.faq } : undefined,
+  } as Node);
+
+  const nodes = [service, breadcrumb, webpage];
+  if (faqs.length) nodes.push(buildFaqNode(faqs, id.faq));
+
+  return nodes;
+}
+
+export function buildServiceAreaSchema(
+  business: BusinessConfig,
+  area: AreaConfig,
+  options: BuildOptions = {},
+): BuildResult {
+  const { includeSitewide = true, strict = true } = options;
+
+  const graph: Node[] = [
+    ...(includeSitewide ? [buildBusinessNode(business), buildWebsiteNode(business)] : []),
+    ...buildAreaNodes(business, area),
+  ];
+
+  const issues = [
+    ...validateBusinessConfig(business),
+    ...validateServiceIds(business, area.services),
+    ...(area.slug && /\s|\//.test(area.slug)
+      ? [`area.slug must be a single URL segment -> "${area.slug}"`]
+      : []),
+    ...(area.city && /,/.test(area.city)
+      ? [`area.city should be the city name only -> "${area.city}"`]
+      : []),
+    ...validateFaqs(area.faqs ?? []),
+    ...validateGraph(graph).filter(
+      (i) => includeSitewide || !i.includes("no node with that @id"),
+    ),
+  ];
+
+  return buildResult(graph, issues, strict);
+}
+
+/** Build every area page at once. Returns a map of slug -> result. */
+export function buildAllAreas(
+  business: BusinessConfig,
+  areas: AreaConfig[],
+  options: BuildOptions = {},
+): Map<string, BuildResult> {
+  const slugs = areas.map((a) => a.slug);
+  const dupes = slugs.filter((s, i) => slugs.indexOf(s) !== i);
+  if (dupes.length) {
+    throw new SchemaValidationError([
+      `duplicate area slugs: ${[...new Set(dupes)].join(", ")}`,
+    ]);
+  }
+  return new Map(
+    areas.map((a) => [a.slug, buildServiceAreaSchema(business, a, options)]),
+  );
 }

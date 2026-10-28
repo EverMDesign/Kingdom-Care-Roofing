@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Project } from '@/lib/workpress-types';
+import { citySlug } from '@/lib/project-url';
 
 // ── Brand colors — customize per project ─────────────────────────────────────
 // These are the only values you need to change to match the project's palette.
@@ -241,7 +242,7 @@ export default function ServiceAreaMap({ projects, mapStyle = 'mapbox://styles/m
                   `<div style="font-family: sans-serif; color: ${POPUP_TEXT_COLOR}; padding: 8px;">
                     <strong style="color: ${POPUP_TITLE_COLOR}; display: block; margin-bottom: 8px;">${props.title}</strong>
                     <p style="margin: 0 0 8px 0; font-size: 14px;">${props.city}, ${props.state}</p>
-                    <a href="/projects/${props.slug}"
+                    <a href="/${citySlug(props.city)}/${props.slug}"
                        style="color: ${POPUP_LINK_COLOR}; text-decoration: none; font-weight: 500; font-size: 13px;">
                       View Project →
                     </a>

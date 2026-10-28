@@ -4,28 +4,29 @@ import { ProjectGallery } from '@/components/ProjectGallery'
 import ServiceAreaMap from '@/components/ServiceAreaMap'
 import { getProject, getProjects, getProjectPhotos, getBeforeAfterPhotos } from '@/lib/workpress-api'
 import { generateProjectSchema } from '@/lib/workpress-schema'
+import { citySlug } from '@/lib/project-url'
 import type { Project, Photo } from '@/lib/workpress-types'
 
 export async function generateStaticParams() {
   const projects = await getProjects()
-  return projects.map((p) => ({ slug: p.slug }))
+  return projects.map((p) => ({ city: citySlug(p.address.city), slug: p.slug }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
+export async function generateMetadata({ params }: { params: Promise<{ city: string; slug: string }> }) {
+  const { city, slug } = await params
   const project = await getProject(slug)
   if (!project) return {}
   return {
     title: `${project.seoTitle} | KingdomCare Roofing & Construction`,
     description: project.metaDescription ?? project.description.slice(0, 155),
-    alternates: { canonical: `/projects/${slug}` },
+    alternates: { canonical: `/${city}/${slug}` },
   }
 }
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-export default async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
+export default async function ProjectDetail({ params }: { params: Promise<{ city: string; slug: string }> }) {
+  const { city: cityParam, slug } = await params
   const [project, allProjects, photos] = await Promise.all([
     getProject(slug),
     getProjects(),
@@ -35,7 +36,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
   if (!project) notFound()
 
   const city = project.address.city
-  const schemas = await generateProjectSchema(project, city)
+  const schemas = await generateProjectSchema(project, cityParam)
   const services = project.services ?? []
 
   // Score by shared city (2 pts) + shared services (1 pt each), fall back to most recent
@@ -242,7 +243,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
                 {related.map((rel) => (
                   <a
                     key={rel.id}
-                    href={`/projects/${rel.slug}`}
+                    href={`/${citySlug(rel.address.city)}/${rel.slug}`}
                     className="group block bg-white rounded-card overflow-hidden shadow-card hover:shadow-card-lg transition-shadow duration-300 border border-brand-border"
                   >
                     <div className="relative h-service-card overflow-hidden">

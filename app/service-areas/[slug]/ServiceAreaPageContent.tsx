@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import type { ServiceArea } from '@/lib/service-areas-data'
 import { validateName, validatePhone, validateEmail, validateAddress, validateRequired } from '@/lib/validation'
+import { citySlug } from '@/lib/project-url'
 
 const servicesList = [
   { title: 'Roof Replacement', desc: 'Premium architectural shingles & metal roofing systems.' },
@@ -63,7 +64,7 @@ function ContentSection({ area, latestProject }: { area: ServiceArea; latestProj
 
             {latestProject && (
               <a
-                href={`/projects/${latestProject.slug}`}
+                href={`/${citySlug(area.city)}/${latestProject.slug}`}
                 className="block relative w-full h-[300px] rounded-img my-8 shadow-sm overflow-hidden group"
               >
                 <img

@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { getProjects } from '@/lib/workpress-api'
 import { SERVICES } from '@/lib/services-data'
 import { serviceAreas } from '@/lib/service-areas-data'
+import { citySlug } from '@/lib/project-url'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.kingdomcareroofingandconstruction.com'
 
@@ -55,7 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic project pages from WorkPress API
   const projects = await getProjects()
   const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: `${BASE_URL}/projects/${project.slug}`,
+    url: `${BASE_URL}/${citySlug(project.address.city)}/${project.slug}`,
     lastModified: new Date(project.updated_at || project.created_at),
     changeFrequency: 'monthly' as const,
     priority: 0.6,

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { Project } from '@/lib/workpress-types'
+import { citySlug } from '@/lib/project-url'
 
 const ITEMS_PER_PAGE = 6
 
@@ -13,7 +14,7 @@ function ProjectCard({ project }: { project: Project }) {
 
   return (
     <a
-      href={`/projects/${project.slug}`}
+      href={`/${citySlug(project.address.city)}/${project.slug}`}
       className="card group overflow-hidden shadow-card hover:shadow-card-lg transition-shadow duration-300 block"
     >
       <div className="relative h-service-card overflow-hidden">
