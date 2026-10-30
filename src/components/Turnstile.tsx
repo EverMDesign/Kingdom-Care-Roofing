@@ -24,13 +24,23 @@ export default function Turnstile({ onToken }: TurnstileProps) {
     const el = ref.current
     if (!el) return
 
+    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+    if (!siteKey) {
+      console.warn("[Turnstile] NEXT_PUBLIC_TURNSTILE_SITE_KEY is not set — skipping widget render.")
+      return
+    }
+
     const renderWidget = () => {
       if (!window.turnstile || widgetId.current) return
-      widgetId.current = window.turnstile.render(el, {
-        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "",
-        callback: (token: string) => onToken(token),
-        "refresh-expired": "auto",
-      })
+      try {
+        widgetId.current = window.turnstile.render(el, {
+          sitekey: siteKey,
+          callback: (token: string) => onToken(token),
+          "refresh-expired": "auto",
+        })
+      } catch (err) {
+        console.error("[Turnstile] Failed to render widget:", err)
+      }
     }
 
     if (window.turnstile) {
