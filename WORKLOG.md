@@ -453,3 +453,35 @@ Darkened before image overlay in ComparisonSlider (removed grayscale, added bg-b
 **Status:** ✅ Complete
 
 ---
+
+## 2026-10-28 — 11:39
+
+Migrated project pages from the one-off /projects/{slug} route to the standard /{city}/{slug} pattern used by every other WorkPress client. Replaced the hand-rolled schema generator (workpress-schema.ts/schema.ts/schema-types.ts) with the actual shared schema-builder library copied from 41Roofing, plus a schema-business.ts BUSINESS_CONFIG in the same shape — #business/#website are now built once in the root layout and referenced by @id everywhere else instead of being rebuilt per page (was causing conflicting business entities with different @type/phone format on the homepage vs service pages vs project pages). Updated every internal link, the sitemap, and added geo to the business entity (verified against Google Maps). Also fixed NEXT_PUBLIC_SITE_URL — it was set to the bare domain, which 308-redirects to www in production, meaning every sitemap URL required an extra redirect hop before Google could index it. Fixed in both .env.local and the production Vercel env var.
+
+**Files:** src/lib/schema-business.ts, src/lib/schema-common.ts, src/lib/schema.ts, src/lib/workpress-schema.ts, src/lib/project-url.ts, app/[city]/[slug]/page.tsx, app/layout.tsx, app/page.tsx, app/services/[slug]/page.tsx, app/sitemap.ts, app/projects/client.tsx, app/service-areas/[slug]/ServiceAreaPageContent.tsx, src/components/Projects.tsx, src/components/ServiceAreaMap.tsx, .env.local
+
+**Status:** ✅ Complete
+**Next Steps:** Form-hardening work (Turnstile/honeypot across EstimateModal.tsx, HeroForm.tsx, OfferModals.tsx, validation.ts) is still sitting uncommitted intentionally — review and commit separately when ready
+
+---
+
+## 2026-10-28 — 16:13
+
+Fixed state abbreviation typo (TE -> TX) on a Kingdom Care project record directly in the WorkPress database (project id 41, Burleson); confirmed the bug was WorkPress-side data, not client-side code. Created docs/business-profile.md and generated 29 service-area research docs (one per city) in docs/Service Areas/ via the service-area-research skill.
+
+**Files:** docs/business-profile.md, docs/Service Areas/*.md (29 files)
+
+**Status:** ✅ Complete
+
+---
+
+## 2026-10-28 — 16:55
+
+Fixed service-area schema generation to use the shared BUSINESS_CONFIG via buildServiceAreaSchema (was hardcoding business name/phone/address inline in service-areas-data.ts, causing JSON-LD drift risk from the real business config). Built the previously-missing service-area archive page (app/service-areas/page.tsx, grid of all 30 cities). Wired a 'View All Service Areas' link into Header.tsx (desktop + mobile) and Footer.tsx, which previously dead-ended. Ran service-area-research to generate real, verified research docs for all 30 service-area cities (docs/Service Areas/*.md). Rewrote all 30 cities' intro/rooferSection/neighborhoods content from that research, replacing generic AI-sounding filler ('nestled,' 'vibrant community,' 'bustling,' 'hidden gem') with grounded, differentiated copy; added per-city services and FAQs, rendered via two new template sections (ServicesSection, FaqSection) matching existing design tokens. Verified clean via tsc --noEmit and live browser testing (direct load + nav click-through).
+
+**Files:** src/lib/service-areas-data.ts, app/service-areas/page.tsx, app/service-areas/[slug]/ServiceAreaPageContent.tsx, src/components/Header.tsx, src/components/Footer.tsx, docs/Service Areas/*.md (30 files)
+
+**Status:** ✅ Complete
+**Next Steps:** Set NEXT_PUBLIC_TURNSTILE_SITE_KEY in .env.local for local dev — pre-existing gap found during testing, unrelated to this work, currently throws a console error on every page.
+
+---
