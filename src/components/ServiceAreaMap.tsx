@@ -150,6 +150,21 @@ export default function ServiceAreaMap({ projects, mapStyle = 'mapbox://styles/m
               clusterRadius: 50,    // Pins within 50px merge into a cluster
             });
 
+            // ── Fit viewport to actual pins ──────────────────────────────────────
+            // Centroid + fixed zoom leaves huge empty space when pins are tightly
+            // clustered (e.g. a handful of jobs in the same city) and clips pins
+            // when they're spread wide. Fit bounds to whatever pins exist instead,
+            // so this scales automatically as more projects get added over time.
+            if (geojson.features.length > 0) {
+              const bounds = new mapboxgl.LngLatBounds();
+              geojson.features.forEach((f: any) => bounds.extend(f.geometry.coordinates));
+              map.current.fitBounds(bounds, {
+                padding: 80,
+                maxZoom: 13,   // Don't zoom in past street level for a single pin
+                duration: 0,
+              });
+            }
+
             // ── Load pin images ────────────────────────────────────────────────
 
             const singlePinImg = new Image();
