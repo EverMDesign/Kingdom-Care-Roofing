@@ -19,11 +19,14 @@ export function validatePhone(raw: string): string | null {
 }
 
 export function validateAddress(raw: string): string | null {
-  if (!raw.trim()) return 'Address is required'
-  if (raw.trim().length < 5) return 'Enter a valid address'
-  if (!/\d/.test(raw)) return 'Address should include a street number'
-  if (!/\s/.test(raw.trim())) return 'Enter a valid address'
-  if (!/\b\d{5}\b/.test(raw)) return 'Please include a zip code'
+  const trimmed = raw.trim()
+  if (!trimmed) return 'Address is required'
+  if (!/\d/.test(trimmed)) return 'Include a street number'
+  if (!/[a-zA-Z]/.test(trimmed)) return 'Include a street name'
+  const commas = (trimmed.match(/,/g) || []).length
+  if (commas < 2) return 'Use format: 123 Main St, City, TX 76036'
+  if (!/\b[A-Z]{2}\b/.test(trimmed)) return 'Include a 2-letter state abbreviation (e.g., TX)'
+  if (!/\b\d{5}\b/.test(trimmed)) return 'Include a 5-digit ZIP code'
   return null
 }
 

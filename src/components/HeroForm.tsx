@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { validateName, validatePhone, validateAddress, validateRequired } from '@/lib/validation'
+import Turnstile from '@/components/Turnstile'
 
 export function HeroForm() {
   const formRef = useRef<HTMLFormElement>(null)
@@ -9,6 +10,8 @@ export function HeroForm() {
   const [errors, setErrors] = useState<{ name?: string; phone?: string; address?: string; service?: string }>({})
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [apiError, setApiError] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const handleToken = useCallback((token: string) => setTurnstileToken(token), [])
 
   const submitToApi = async () => {
     setStatus('loading')
@@ -16,7 +19,7 @@ export function HeroForm() {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, form_type: 'hero' }),
+        body: JSON.stringify({ ...formData, form_type: 'hero', 'cf-turnstile-response': turnstileToken }),
       })
       const result = await res.json()
       if (result.success) {
@@ -81,12 +84,14 @@ export function HeroForm() {
         </div>
       ) : (
         <form ref={formRef} id="hero-estimate-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
           <div>
             <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Full Name</label>
             <input
               type="text"
               name="name"
               placeholder="John Smith"
+              required
               className={fieldClass(errors.name)}
               value={formData.name}
               onChange={e => {
@@ -103,11 +108,12 @@ export function HeroForm() {
               type="tel"
               name="phone"
               placeholder="(817) 555-0100"
+              required
               className={fieldClass(errors.phone)}
               value={formData.phone}
               onChange={e => {
                 setFormData({ ...formData, phone: e.target.value })
-                if (errors.phone) setErrors({})
+                if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
               }}
             />
             {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
@@ -118,7 +124,8 @@ export function HeroForm() {
             <input
               type="text"
               name="address"
-              placeholder="123 Main St, Fort Worth, TX"
+              placeholder="123 Main St, City, TX 76036"
+              required
               className={fieldClass(errors.address)}
               value={formData.address}
               onChange={e => {
@@ -133,6 +140,7 @@ export function HeroForm() {
             <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Service Needed</label>
             <select
               name="service"
+              required
               className={fieldClass(errors.service)}
               value={formData.service}
               onChange={e => {
@@ -152,6 +160,7 @@ export function HeroForm() {
             {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
           </div>
 
+          <Turnstile onToken={handleToken} />
           <button type="button" onClick={handleClick} disabled={status === 'loading'} className="btn-cta w-full h-btn text-base font-bold shadow-sm mt-1 disabled:opacity-70">
             {status === 'loading' ? 'Sending...' : 'Request Free Estimate'}
           </button>

@@ -68,6 +68,11 @@ export async function Footer() {
           <div className="flex flex-col">
             <h3 className="font-bold text-lg mb-6 border-b border-white/10 pb-2 inline-block w-max">Service Areas</h3>
             <ul className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm text-white/80">
+              <li className="col-span-2">
+                <a href="/service-areas" className="font-bold text-white hover:text-brand-cta transition-colors">
+                  View All Areas
+                </a>
+              </li>
               {serviceAreas.map((area) => (
                   <li key={area.slug}>
                     <a href={`/service-areas/${area.slug}`} className="hover:text-brand-cta transition-colors">

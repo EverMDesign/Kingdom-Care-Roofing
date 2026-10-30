@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { validateName, validatePhone, validateEmail, validateAddress, validateRequired } from '@/lib/validation'
+import Turnstile from '@/components/Turnstile'
 
 const inputBase = 'w-full bg-white border rounded-input px-4 py-3 text-brand-charcoal placeholder:text-gray-400 focus:outline-none transition-colors'
 const inputClass = (error?: string) =>
@@ -18,6 +19,8 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
   const [errors, setErrors] = useState<Errors>({})
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [apiError, setApiError] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const handleToken = useCallback((token: string) => setTurnstileToken(token), [])
 
   const submitToApi = async () => {
     setStatus('loading')
@@ -25,7 +28,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, form_type: 'estimate' }),
+        body: JSON.stringify({ ...formData, form_type: 'estimate', 'cf-turnstile-response': turnstileToken }),
       })
       const result = await res.json()
       if (result.success) {
@@ -93,9 +96,10 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <form ref={formRef} id="estimate-modal-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <input type="text" name="name" placeholder="Full Name"
+          <input type="text" name="name" placeholder="Full Name" required
             className={inputClass(errors.name)} value={formData.name}
             onChange={e => {
               setFormData({ ...formData, name: e.target.value })
@@ -104,7 +108,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
           {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
         </div>
         <div>
-          <input type="tel" name="phone" placeholder="Phone Number"
+          <input type="tel" name="phone" placeholder="Phone Number" required
             className={inputClass(errors.phone)} value={formData.phone}
             onChange={e => {
               setFormData({ ...formData, phone: e.target.value })
@@ -114,7 +118,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
         </div>
       </div>
       <div>
-        <input type="email" name="email" placeholder="Email Address"
+        <input type="email" name="email" placeholder="Email Address" required
           className={inputClass(errors.email)} value={formData.email}
           onChange={e => {
             setFormData({ ...formData, email: e.target.value })
@@ -123,7 +127,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
       </div>
       <div>
-        <input type="text" name="address" placeholder="Property Address"
+        <input type="text" name="address" placeholder="123 Main St, City, TX 76036" required
           className={inputClass(errors.address)} value={formData.address}
           onChange={e => {
             setFormData({ ...formData, address: e.target.value })
@@ -132,7 +136,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
         {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
       </div>
       <div>
-        <select name="service"
+        <select name="service" required
           className={inputClass(errors.service)} value={formData.service}
           onChange={e => {
             setFormData({ ...formData, service: e.target.value })
@@ -152,6 +156,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
       <textarea name="message" placeholder="Tell us about your project" rows={3}
         className={inputClass()} value={formData.message}
         onChange={e => setFormData({ ...formData, message: e.target.value })} />
+      <Turnstile onToken={handleToken} />
       <button type="button" onClick={handleClick} disabled={status === 'loading'}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
         {status === 'loading' ? 'Sending...' : 'Request Free Estimate'}

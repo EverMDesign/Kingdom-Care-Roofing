@@ -6,8 +6,21 @@ import ServiceAreaMap from '@/components/ServiceAreaMap'
 export default async function ProjectsArchive() {
   const projects = await getProjects()
 
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.kingdomcareroofingandconstruction.com' },
+      { '@type': 'ListItem', position: 2, name: 'Projects', item: 'https://www.kingdomcareroofingandconstruction.com/projects' },
+    ],
+  }
+
   return (
     <div className="bg-white text-brand-charcoal antialiased">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
       <TopBar />
       <Header />
 

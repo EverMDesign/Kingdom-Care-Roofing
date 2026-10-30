@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import type { ServiceArea } from '@/lib/service-areas-data'
 import { validateName, validatePhone, validateEmail, validateAddress, validateRequired } from '@/lib/validation'
+import Turnstile from '@/components/Turnstile'
 import { citySlug } from '@/lib/project-url'
 
 const servicesList = [
@@ -130,6 +131,63 @@ function ContentSection({ area, latestProject }: { area: ServiceArea; latestProj
   )
 }
 
+function ServicesSection({ city, services }: { city: string; services: ServiceArea['services'] }) {
+  if (!services || services.length === 0) return null
+
+  return (
+    <section className="py-section-mb md:py-section-dt bg-white border-t border-brand-border">
+      <div className="max-w-content mx-auto px-4 md:px-8">
+        <div className="text-center mb-12">
+          <span className="text-brand-gold font-bold tracking-wider uppercase text-sm mb-4 block">What We Do</span>
+          <h2 className="section-heading text-brand-charcoal mb-4">
+            Roofing Services for {city} Homes
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((service, idx) => (
+            <div key={idx} className="card p-6 md:p-8">
+              <h3 className="font-serif text-xl text-brand-charcoal mb-3">{service.title}</h3>
+              <p className="text-brand-muted text-[15px] leading-relaxed">{service.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FaqSection({ city, faqs }: { city: string; faqs: ServiceArea['faqs'] }) {
+  if (!faqs || faqs.length === 0) return null
+
+  return (
+    <section className="py-section-mb md:py-section-dt bg-white border-t border-brand-border">
+      <div className="max-w-content mx-auto px-4 md:px-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-brand-gold font-bold tracking-wider uppercase text-sm mb-4 block">FAQ</span>
+            <h2 className="section-heading text-brand-charcoal mb-4">
+              {city} Roofing Questions
+            </h2>
+          </div>
+          <div className="flex flex-col gap-4">
+            {faqs.map((faq, idx) => (
+              <details key={idx} className="card p-6 group">
+                <summary className="flex items-center justify-between gap-4 cursor-pointer font-bold text-brand-charcoal text-[17px] list-none">
+                  {faq.question}
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 shrink-0 text-brand-cta transition-transform group-open:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                </summary>
+                <p className="text-brand-muted text-[15px] leading-relaxed mt-3">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 const testimonials = [
   {
     dark: true,
@@ -204,6 +262,8 @@ function EstimateSection({ area }: { area: ServiceArea }) {
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [apiError, setApiError] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const handleToken = useCallback((token: string) => setTurnstileToken(token), [])
 
   const submitToApi = async () => {
     setStatus('loading')
@@ -211,7 +271,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, form_type: 'estimate' }),
+        body: JSON.stringify({ ...formData, form_type: 'estimate', 'cf-turnstile-response': turnstileToken }),
       })
       const result = await res.json()
       if (result.success) {
@@ -277,11 +337,13 @@ function EstimateSection({ area }: { area: ServiceArea }) {
             </div>
           ) : (
             <form ref={formRef} id="service-area-estimate-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <input
                     type="text"
                     name="name"
+                    required
                     placeholder="Full Name"
                     className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none transition-colors ${errors.name ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
                     value={formData.name}
@@ -296,6 +358,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                   <input
                     type="tel"
                     name="phone"
+                    required
                     placeholder="Phone Number"
                     className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none transition-colors ${errors.phone ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
                     value={formData.phone}
@@ -311,6 +374,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                 <input
                   type="email"
                   name="email"
+                  required
                   placeholder="Email Address"
                   className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none transition-colors ${errors.email ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
                   value={formData.email}
@@ -325,7 +389,8 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                 <input
                   type="text"
                   name="address"
-                  placeholder="Property Address"
+                  required
+                  placeholder="123 Main St, City, TX 76036"
                   className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white placeholder:text-white/50 focus:outline-none transition-colors ${errors.address ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
                   value={formData.address}
                   onChange={e => {
@@ -338,6 +403,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
               <div>
                 <select
                   name="service"
+                  required
                   className={`w-full bg-white/10 border rounded-input px-4 py-3 text-white focus:outline-none transition-colors ${errors.service ? 'border-red-400 focus:border-red-500' : 'border-white/20 focus:border-brand-gold'}`}
                   value={formData.service}
                   onChange={e => {
@@ -362,6 +428,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                 value={formData.message}
                 onChange={e => setFormData({ ...formData, message: e.target.value })}
               />
+              <Turnstile onToken={handleToken} />
               <button
                 type="button"
                 onClick={handleClick}
@@ -383,7 +450,9 @@ export function ServiceAreaPageContent({ area, latestProject }: { area: ServiceA
     <>
       <HeroSection area={area} />
       <ContentSection area={area} latestProject={latestProject} />
+      <ServicesSection city={area.city} services={area.services} />
       <TestimonialsSection area={area} />
+      <FaqSection city={area.city} faqs={area.faqs} />
       <EstimateSection area={area} />
     </>
   )

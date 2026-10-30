@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { validateName, validatePhone, validateEmail, validateAddress } from '@/lib/validation'
+import Turnstile from '@/components/Turnstile'
 
 const inputBase = 'w-full bg-white border rounded-input px-4 py-3 text-brand-charcoal placeholder:text-gray-400 focus:outline-none transition-colors'
 const inputClass = (error?: string) =>
@@ -32,13 +33,13 @@ function useFormSubmit(formType: string) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [apiError, setApiError] = useState('')
 
-  const submit = async (data: Record<string, string>, onSuccess: () => void) => {
+  const submit = async (data: Record<string, string>, onSuccess: () => void, turnstileToken: string) => {
     setStatus('loading')
     try {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, form_type: formType }),
+        body: JSON.stringify({ ...data, form_type: formType, 'cf-turnstile-response': turnstileToken }),
       })
       const result = await res.json()
       if (result.success) {
@@ -71,6 +72,8 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
   const [data, setData] = useState({ name: '', phone: '', email: '', address: '', message: '', code: 'FreeUp' })
   const [errors, setErrors] = useState<FreeUpErrors>({})
   const { status, apiError, submit, reset } = useFormSubmit('freeup')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const handleToken = useCallback((token: string) => setTurnstileToken(token), [])
 
   const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setData(prev => ({ ...prev, [key]: e.target.value }))
@@ -98,7 +101,7 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
       return
     }
     formRef.current?.requestSubmit()
-    submit(data, onSuccess)
+    submit(data, onSuccess, turnstileToken)
   }
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -107,27 +110,29 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <form ref={formRef} id="freeup-offer-form" onSubmit={handleFormSubmit} className="flex flex-col gap-4">
+      <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <input type="text" name="name" placeholder="Full Name" value={data.name} onChange={set('name')} className={inputClass(errors.name)} />
+          <input type="text" name="name" placeholder="Full Name" required value={data.name} onChange={set('name')} className={inputClass(errors.name)} />
           {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
         </div>
         <div>
-          <input type="tel" name="phone" placeholder="Phone Number" value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
+          <input type="tel" name="phone" placeholder="Phone Number" required value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
           {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
-        <input type="email" name="email" placeholder="Email Address" value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
+        <input type="email" name="email" placeholder="Email Address" required value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
       </div>
       <div>
-        <input type="text" name="address" placeholder="Property Address" value={data.address} onChange={set('address')} className={inputClass(errors.address)} />
+        <input type="text" name="address" placeholder="123 Main St, City, TX 76036" required value={data.address} onChange={set('address')} className={inputClass(errors.address)} />
         {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
       </div>
       <textarea name="message" placeholder="Tell us about your roof (optional)" rows={3} value={data.message} onChange={set('message')} className={inputClass()} />
       <input type="text" name="code" placeholder="Use Code" value={data.code} onChange={set('code')}
         className="w-full bg-amber-50 border border-brand-gold rounded-input px-4 py-3 text-brand-brown font-bold placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors tracking-widest" />
+      <Turnstile onToken={handleToken} />
       <button type="button" onClick={handleClick} disabled={status === 'loading'}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
         {status === 'loading' ? 'Sending...' : 'Claim Free Upgrade'}
@@ -150,6 +155,8 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
   })
   const [errors, setErrors] = useState<ReferralErrors>({})
   const { status, apiError, submit, reset } = useFormSubmit('referral')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const handleToken = useCallback((token: string) => setTurnstileToken(token), [])
 
   const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setData(prev => ({ ...prev, [key]: e.target.value }))
@@ -185,7 +192,7 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
       return
     }
     formRef.current?.requestSubmit()
-    submit(data, onSuccess)
+    submit(data, onSuccess, turnstileToken)
   }
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -194,19 +201,20 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <form ref={formRef} id="referral-form" onSubmit={handleFormSubmit} className="flex flex-col gap-4">
+      <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <p className="text-brand-muted text-sm">Your information</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <input type="text" name="name" placeholder="Your Full Name" value={data.name} onChange={set('name')} className={inputClass(errors.name)} />
+          <input type="text" name="name" placeholder="Your Full Name" required value={data.name} onChange={set('name')} className={inputClass(errors.name)} />
           {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
         </div>
         <div>
-          <input type="tel" name="phone" placeholder="Your Phone" value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
+          <input type="tel" name="phone" placeholder="Your Phone" required value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
           {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
-        <input type="email" name="email" placeholder="Your Email" value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
+        <input type="email" name="email" placeholder="Your Email" required value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
       </div>
 
@@ -215,11 +223,11 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <input type="text" name="referred_name" placeholder="Their Full Name" value={data.referred_name} onChange={set('referred_name')} className={inputClass(errors.referred_name)} />
+              <input type="text" name="referred_name" placeholder="Their Full Name" required value={data.referred_name} onChange={set('referred_name')} className={inputClass(errors.referred_name)} />
               {errors.referred_name && <p className="text-red-500 text-xs mt-1">{errors.referred_name}</p>}
             </div>
             <div>
-              <input type="tel" name="referred_phone" placeholder="Their Phone" value={data.referred_phone} onChange={set('referred_phone')} className={inputClass(errors.referred_phone)} />
+              <input type="tel" name="referred_phone" placeholder="Their Phone" required value={data.referred_phone} onChange={set('referred_phone')} className={inputClass(errors.referred_phone)} />
               {errors.referred_phone && <p className="text-red-500 text-xs mt-1">{errors.referred_phone}</p>}
             </div>
           </div>
@@ -232,6 +240,7 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
 
       <input type="text" name="code" placeholder="Use Code" value={data.code} onChange={set('code')}
         className="w-full bg-amber-50 border border-brand-gold rounded-input px-4 py-3 text-brand-brown font-bold placeholder:text-gray-400 focus:outline-none focus:border-brand-brown transition-colors tracking-widest" />
+      <Turnstile onToken={handleToken} />
       <button type="button" onClick={handleClick} disabled={status === 'loading'}
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
         {status === 'loading' ? 'Sending...' : 'Submit Referral'}

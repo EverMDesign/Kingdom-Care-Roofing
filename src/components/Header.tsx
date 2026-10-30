@@ -69,6 +69,12 @@ export function Header() {
             </button>
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 hidden group-hover:block z-50">
               <div className="bg-white border border-brand-border rounded-card shadow-card-lg p-2 w-[28rem] grid grid-cols-2 gap-x-2">
+                <a
+                  href="/service-areas"
+                  className="col-span-2 block px-4 py-2.5 text-sm font-bold text-brand-charcoal hover:text-brand-cta rounded-btn transition-colors border-b border-brand-border/50 mb-1"
+                >
+                  View All Service Areas
+                </a>
                 {serviceAreas.map((a) => (
                   <a
                     key={a.slug}
@@ -143,6 +149,13 @@ export function Header() {
             </button>
             {areasOpen && (
               <div className="flex flex-col border-b border-brand-border/50 bg-brand-cream max-h-60 overflow-y-auto">
+                <a
+                  href="/service-areas"
+                  className="py-2.5 px-4 text-sm font-bold text-brand-charcoal hover:text-brand-cta transition-colors border-b border-brand-border/30"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  View All Service Areas
+                </a>
                 {serviceAreas.map((a) => (
                   <a
                     key={a.slug}
