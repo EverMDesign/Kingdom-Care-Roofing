@@ -27,6 +27,7 @@ import {
   type FaqItem,
   type ImageConfig,
   type ServiceDef,
+  type ReviewConfig,
   type BuildOptions,
   type BuildResult,
   type Node,
@@ -49,6 +50,7 @@ import {
   buildWebsiteNode,
   buildFaqNode,
   buildImageNode,
+  buildReviewNode,
   resolveServices,
   buildResult,
 } from './schema-common';
@@ -60,6 +62,7 @@ export type {
   ServiceDef,
   FaqItem,
   ImageConfig,
+  ReviewConfig,
   BuildOptions,
   BuildResult,
   JsonLdDocument,
@@ -106,6 +109,8 @@ export interface ProjectConfig {
   dateModified?: string;
   /** FAQ items for the page */
   faqs?: FaqItem[];
+  /** Customer review for this specific completed job, if one exists. */
+  review?: ReviewConfig;
   /** URL pattern. Tokens: {city}, {slug}. Default: "/{city}/{slug}" */
   urlPattern?: string;
   /**
@@ -226,6 +231,7 @@ export function buildProjectSchema(
     url: pageUrl,
     image: imageNode,
     dateModified: project.dateModified,
+    review: project.review ? buildReviewNode(project.review) : undefined,
   } as Node);
 
   // ── Breadcrumb: Home > [Parent] > City > Title ───────────────────────────
@@ -577,4 +583,99 @@ export function buildAllAreas(
   return new Map(
     areas.map((a) => [a.slug, buildServiceAreaSchema(business, a, options)]),
   );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// buildListPageSchema — archive / index pages (e.g. /projects, /service-areas)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface ListPageItem {
+  name: string;
+  /** Full absolute URL of the linked page */
+  url: string;
+  image?: string;
+}
+
+export interface ListPageConfig {
+  /** Page heading, e.g. "Our Completed Work Across DFW" */
+  title: string;
+  description: string;
+  /** URL-safe slug, e.g. "projects" or "service-areas" */
+  slug: string;
+  items: ListPageItem[];
+  /** Meta description — falls back to truncated description */
+  metaDescription?: string;
+  /** URL pattern. Tokens: {slug}. Default: "/{slug}" */
+  urlPattern?: string;
+}
+
+/**
+ * For listing/archive pages with no single "about" entity of their own —
+ * a WebPage whose mainEntity is an ItemList of the linked items, plus a
+ * two-level Home > Title breadcrumb. Items are lightweight ListItems
+ * (name/url/image), not full nodes — link to the real Service/Project
+ * pages for the full entity, this just represents the index itself.
+ */
+export function buildListPageSchema(
+  business: BusinessConfig,
+  config: ListPageConfig,
+  options: BuildOptions = {},
+): BuildResult {
+  const { includeSitewide = true, strict = true } = options;
+  const base = trimSlash(business.url);
+  const pattern = config.urlPattern ?? "/{slug}";
+  const pageUrl = `${base}${pattern.replace("{slug}", config.slug)}`;
+  const shortDesc = config.metaDescription || truncate(config.description, 160);
+
+  const itemList: Node = {
+    "@type": "ItemList",
+    "@id": `${pageUrl}#itemlist`,
+    itemListElement: config.items.map((item, i) =>
+      clean({
+        "@type": "ListItem",
+        position: i + 1,
+        name: item.name,
+        url: item.url,
+        image: item.image,
+      } as Node),
+    ),
+  };
+
+  const breadcrumb: Node = {
+    "@type": "BreadcrumbList",
+    "@id": `${pageUrl}#breadcrumb`,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: base },
+      { "@type": "ListItem", position: 2, name: config.title, item: pageUrl },
+    ],
+  };
+
+  const webpage: Node = clean({
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: config.title,
+    description: shortDesc,
+    inLanguage: business.language ?? "en-US",
+    isPartOf: { "@id": `${base}/#website` },
+    mainEntity: { "@id": `${pageUrl}#itemlist` },
+    breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+    publisher: { "@id": `${base}/#business` },
+  } as Node);
+
+  const graph: Node[] = [
+    ...(includeSitewide ? [buildBusinessNode(business), buildWebsiteNode(business)] : []),
+    itemList,
+    breadcrumb,
+    webpage,
+  ];
+
+  const issues = [
+    ...validateBusinessConfig(business),
+    ...validateGraph(graph).filter(
+      (i) => includeSitewide || !i.includes("no node with that @id"),
+    ),
+  ];
+
+  return buildResult(graph, issues, strict);
 }

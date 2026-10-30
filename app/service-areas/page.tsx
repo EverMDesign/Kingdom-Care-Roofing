@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { TopBar, Header, Footer, FloatingCTA } from '@/components'
 import { serviceAreas } from '@/lib/service-areas-data'
 import { serviceAreaHero } from '@/lib/images'
+import { buildListPageSchema } from '@/lib/schema'
+import { BUSINESS_CONFIG } from '@/lib/schema-business'
 
 export const metadata: Metadata = {
   title: 'Service Areas | Kingdom Care Roofing & Construction',
@@ -12,8 +14,29 @@ export const metadata: Metadata = {
 }
 
 export default function ServiceAreasPage() {
+  // #business + #website are built once in the root layout — reference by
+  // @id here instead of rebuilding them a second time.
+  const { jsonLd: schema } = buildListPageSchema(
+    BUSINESS_CONFIG,
+    {
+      title: 'Service Areas',
+      description: metadata.description as string,
+      slug: 'service-areas',
+      items: serviceAreas.map((area) => ({
+        name: `${area.city}, ${area.state}`,
+        url: `${BUSINESS_CONFIG.url}/service-areas/${area.slug}`,
+        image: serviceAreaHero(area.slug),
+      })),
+    },
+    { includeSitewide: false, strict: false },
+  )
+
   return (
     <main className="bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <TopBar />
       <Header />
 

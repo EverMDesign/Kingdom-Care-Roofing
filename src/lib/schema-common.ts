@@ -96,6 +96,17 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface ReviewConfig {
+  /** Reviewer's name */
+  author: string;
+  /** The review text */
+  reviewBody: string;
+  /** 1-5. Omit if no numeric rating is available — never invent one. */
+  ratingValue?: number;
+  /** ISO date the review was given */
+  datePublished?: string;
+}
+
 export interface ImageConfig {
   url: string;
   name: string;
@@ -308,6 +319,16 @@ export function buildBusinessNode(business: BusinessConfig): Node {
     openingHours: business.openingHours,
     areaServed: business.areaServed?.map((c) => cityPlace(c.city, c.state)),
     sameAs: business.sameAs,
+    hasOfferCatalog: business.services.length
+      ? {
+          "@type": "OfferCatalog",
+          name: `${business.name} Services`,
+          itemListElement: business.services.map((s) => ({
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: s.name },
+          })),
+        }
+      : undefined,
   } as Node);
 }
 
@@ -333,6 +354,18 @@ export function buildFaqNode(faqs: FaqItem[], faqId: string): Node {
       acceptedAnswer: { "@type": "Answer", text: f.answer.trim() },
     })),
   };
+}
+
+export function buildReviewNode(review: ReviewConfig): Node {
+  return clean({
+    "@type": "Review",
+    author: { "@type": "Person", name: review.author },
+    reviewBody: review.reviewBody,
+    reviewRating: review.ratingValue
+      ? { "@type": "Rating", ratingValue: review.ratingValue, bestRating: 5, worstRating: 1 }
+      : undefined,
+    datePublished: review.datePublished,
+  } as Node);
 }
 
 export function buildImageNode(

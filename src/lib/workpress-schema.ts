@@ -78,6 +78,13 @@ function toProjectConfig(project: Project): ProjectConfig {
     // Matches the real site structure: Home > Projects > City > Title
     breadcrumbParent: { name: 'Projects', path: '/projects' },
     cityUrl: cityUrlFor(project.address.city),
+    review: project.review
+      ? {
+          author: project.review.name,
+          reviewBody: project.review.quote,
+          ratingValue: project.review.rating,
+        }
+      : undefined,
   };
 }
 

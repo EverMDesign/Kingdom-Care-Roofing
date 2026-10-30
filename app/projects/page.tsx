@@ -2,24 +2,36 @@ import { TopBar, Header, Footer, FloatingCTA, EstimateModal } from '@/components
 import { getProjects } from '@/lib/workpress-api'
 import { ProjectsGridClient } from './client'
 import ServiceAreaMap from '@/components/ServiceAreaMap'
+import { buildListPageSchema } from '@/lib/schema'
+import { BUSINESS_CONFIG } from '@/lib/schema-business'
+import { citySlug } from '@/lib/project-url'
 
 export default async function ProjectsArchive() {
   const projects = await getProjects()
 
-  const breadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    'itemListElement': [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.kingdomcareroofingandconstruction.com' },
-      { '@type': 'ListItem', position: 2, name: 'Projects', item: 'https://www.kingdomcareroofingandconstruction.com/projects' },
-    ],
-  }
+  // #business + #website are built once in the root layout — reference by
+  // @id here instead of rebuilding them a second time.
+  const { jsonLd: schema } = buildListPageSchema(
+    BUSINESS_CONFIG,
+    {
+      title: 'Our Completed Work Across DFW',
+      description:
+        'Based in Burleson, KingdomCare handles everything from minor repairs to full exterior transformations across Fort Worth, Arlington, Dallas, and the surrounding DFW Metroplex.',
+      slug: 'projects',
+      items: projects.map((p) => ({
+        name: p.seoTitle,
+        url: `${BUSINESS_CONFIG.url}/${citySlug(p.address.city)}/${p.slug}`,
+        image: p.cover_photo_url || undefined,
+      })),
+    },
+    { includeSitewide: false, strict: false },
+  )
 
   return (
     <div className="bg-white text-brand-charcoal antialiased">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <TopBar />
       <Header />
