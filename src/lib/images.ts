@@ -1,6 +1,11 @@
 const BASE = 'https://pub-e208ced336924f319590ff630e2d3a92.r2.dev'
 const HP = `${BASE}/images/homepage`
 
+/** Per-city Service Area hero image — one file per slug, uploaded to R2 under images/service-area. */
+export function serviceAreaHero(slug: string): string {
+  return `${BASE}/images/service-area/kingdom-care-area-${slug}.webp`
+}
+
 export const IMAGES = {
   // Favicon & Logo
   favicon: `${HP}/kingdom-care-favicon.png`,

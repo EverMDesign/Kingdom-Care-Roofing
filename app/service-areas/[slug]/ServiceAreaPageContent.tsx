@@ -5,6 +5,7 @@ import type { ServiceArea } from '@/lib/service-areas-data'
 import { validateName, validatePhone, validateEmail, validateAddress, validateRequired } from '@/lib/validation'
 import Turnstile from '@/components/Turnstile'
 import { citySlug } from '@/lib/project-url'
+import { serviceAreaHero } from '@/lib/images'
 
 const servicesList = [
   { title: 'Roof Replacement', desc: 'Premium architectural shingles & metal roofing systems.' },
@@ -22,7 +23,7 @@ function HeroSection({ area }: { area: ServiceArea }) {
     <section className="relative w-full h-[550px] lg:h-[600px] bg-brand-charcoal flex items-center pb-16">
       <div className="absolute inset-0 z-0">
         <img
-          src={`/images/service-area/kingdom-care-area-${area.slug}.webp`}
+          src={serviceAreaHero(area.slug)}
           alt={`Roofing services in ${area.city}, ${area.state}`}
           className="w-full h-full object-cover object-center"
         />

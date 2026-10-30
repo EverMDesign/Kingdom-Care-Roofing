@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { TopBar, Header, Footer, FloatingCTA } from '@/components'
 import { serviceAreas } from '@/lib/service-areas-data'
+import { serviceAreaHero } from '@/lib/images'
 
 export const metadata: Metadata = {
   title: 'Service Areas | Kingdom Care Roofing & Construction',
@@ -43,7 +44,7 @@ export default function ServiceAreasPage() {
               >
                 <div className="relative h-[180px] overflow-hidden">
                   <img
-                    src={`/images/service-area/kingdom-care-area-${area.slug}.webp`}
+                    src={serviceAreaHero(area.slug)}
                     alt={`Roofing services in ${area.city}, ${area.state}`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
