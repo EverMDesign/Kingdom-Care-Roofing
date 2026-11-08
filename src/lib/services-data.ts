@@ -1,4 +1,4 @@
-const S = 'https://pub-e208ced336924f319590ff630e2d3a92.r2.dev/images/services'
+const S = 'https://kcmedia.evermdesign.com/images/services'
 
 export interface FAQ {
   q: string

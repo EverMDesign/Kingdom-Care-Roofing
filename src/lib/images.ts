@@ -1,4 +1,4 @@
-const BASE = 'https://pub-e208ced336924f319590ff630e2d3a92.r2.dev'
+const BASE = 'https://kcmedia.evermdesign.com'
 const HP = `${BASE}/images/homepage`
 
 /** Per-city Service Area hero image — one file per slug, uploaded to R2 under images/service-area. */
