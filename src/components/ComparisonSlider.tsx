@@ -12,18 +12,7 @@ type Props = {
 export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
   const [sliderPosition, setSliderPosition] = useState(50)
   const [isDragging, setIsDragging] = useState(false)
-  const [containerWidth, setContainerWidth] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-    const update = () => setContainerWidth(el.offsetWidth)
-    update()
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
 
   const handleMove = useCallback((clientX: number) => {
     if (!containerRef.current) return
@@ -50,34 +39,39 @@ export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
   }, [isDragging, handleMove])
 
   const before = beforeImage ?? afterImage
-  const isRealBefore = !!beforeImage
 
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden rounded-img shadow-card-xl border-4 border-white aspect-[4/3] cursor-ew-resize select-none"
+      className="relative overflow-hidden rounded-img shadow-card-xl border-4 border-white aspect-[4/3] cursor-ew-resize select-none touch-pan-y"
       onMouseDown={(e) => { e.preventDefault(); setIsDragging(true); handleMove(e.clientX) }}
       onTouchStart={(e) => { setIsDragging(true); handleMove(e.touches[0].clientX) }}
     >
       {/* AFTER — full width base layer */}
-      <img src={afterImage} alt={`${afterAlt} — after`} className="block w-full h-full object-cover object-top" />
+      <img src={afterImage} alt={`${afterAlt} — after`} className="absolute inset-0 block w-full h-full object-cover object-top" draggable={false} />
 
-      {/* BEFORE — clipped overlay */}
+      {/* BEFORE — same box as AFTER, revealed with clip-path so both images stay aligned */}
       <div
-        className="absolute top-0 left-0 h-full overflow-hidden z-20 border-r-4 border-brand-cta"
-        style={{ width: `${sliderPosition}%` }}
+        className="absolute inset-0 z-20"
+        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
       >
         <img
           src={before}
           alt={`${afterAlt} — before`}
-          className="block h-full object-cover object-top"
-          style={{ width: `${containerWidth}px`, maxWidth: 'none' }}
+          className="block w-full h-full object-cover object-top"
+          draggable={false}
         />
-        <div className="absolute inset-0 bg-black/40 z-[25] pointer-events-none" />
+        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
         <div className="absolute top-6 left-6 bg-brand-charcoal/80 text-white px-4 py-2 rounded-btn font-bold text-xs-fine tracking-widest z-30">
           BEFORE
         </div>
       </div>
+
+      {/* Divider line */}
+      <div
+        className="absolute top-0 bottom-0 z-[25] w-1 bg-brand-cta pointer-events-none"
+        style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
+      />
 
       {/* AFTER label */}
       <div className="absolute top-6 right-6 bg-brand-gold text-white px-4 py-2 rounded-btn font-bold text-xs-fine tracking-widest z-30">
