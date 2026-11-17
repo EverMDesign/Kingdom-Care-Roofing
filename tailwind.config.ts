@@ -8,6 +8,19 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    // Type scale — multiples of 7px. Replaces (not extends) Tailwind's defaults: only these steps exist.
+    fontSize: {
+      sm: ['14px', { lineHeight: '1.6' }],   // smallest: labels, small print, buttons
+      base: ['17.5px', { lineHeight: '1.6' }], // body copy, lists, nav (2.5 x 7)
+      md: ['21px', { lineHeight: '1.5' }],
+      lg: ['28px', { lineHeight: '1.4' }],
+      xl: ['35px', { lineHeight: '1.3' }],
+      '2xl': ['42px', { lineHeight: '1.2' }],
+      '3xl': ['49px', { lineHeight: '1.15' }],
+      '4xl': ['63px', { lineHeight: '1.1' }],
+      '5xl': ['70px', { lineHeight: '1.1' }],
+      '6xl': ['77px', { lineHeight: '1.1' }], // hero H1 only
+    },
     extend: {
       // ─── Brand Colors ──────────────────────────────────────────────────────
       colors: {
@@ -30,17 +43,6 @@ const config: Config = {
         serif: ['var(--font-libre-baskerville)', 'serif'],
         sans: ['var(--font-inter)', 'sans-serif'],
       },
-      fontSize: {
-        'xs-fine':    ['11px', { lineHeight: '1.4' }],   // fine print, labels
-        nav:          ['15px', { lineHeight: '1.5' }],   // desktop nav links
-        body:         ['18px', { lineHeight: '1.9' }],  // review / body text
-        subheading:   ['18px', { lineHeight: '1.4' }],   // footer brand, callouts
-        heading:      ['46px', { lineHeight: '1.25' }],   // standard h2 sections
-        'display-sm': ['52px', { lineHeight: '1.2'  }],  // large CTAs (mobile)
-        display:      ['60px', { lineHeight: '1.2'  }],  // large CTAs (desktop)
-        hero:         ['72px', { lineHeight: '1.15' }],  // hero h1
-      },
-
       // ─── Spacing scale (section padding) ───────────────────────────────────
       spacing: {
         'section-dt': '96px',   // section py desktop
@@ -63,7 +65,7 @@ const config: Config = {
 
       // ─── Max widths ────────────────────────────────────────────────────────
       maxWidth: {
-        content:   '1400px',  // primary content container
+        content:   '1440px',  // primary content container
         wide:      '1440px',  // full-bleed / wide layouts
         'prose-sm': '600px',  // section subheadings, short paragraphs
         'prose-md': '650px',  // slightly wider paragraph blocks

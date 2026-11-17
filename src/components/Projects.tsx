@@ -9,7 +9,7 @@ export async function Projects() {
     <section className="py-section-mb md:py-section-dt bg-white">
       <div className="max-w-content mx-auto px-4 md:px-8">
         <h2 className="section-heading text-brand-charcoal mb-4">Explore Our Recent Projects</h2>
-        <p className="text-brand-muted text-lg mb-12 max-w-prose-md">From Burleson rooftops to neighborhoods across the DFW Metroplex, this is the work we do every day. Texas weather is tough on homes, and we show up ready for it.</p>
+        <p className="text-brand-muted text-base mb-12 max-w-prose-md">From Burleson rooftops to neighborhoods across the DFW Metroplex, this is the work we do every day. Texas weather is tough on homes, and we show up ready for it.</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           {projects.map((project) => (

@@ -13,13 +13,13 @@ export default function PrivacyPage() {
       <Header />
 
       <main className="max-w-3xl mx-auto px-4 md:px-8 py-20">
-        <h1 className="font-serif text-4xl text-brand-charcoal mb-2">Privacy Policy</h1>
+        <h1 className="font-serif text-xl text-brand-charcoal mb-2">Privacy Policy</h1>
         <p className="text-sm text-brand-muted mb-10">Last updated: January 1, 2025</p>
 
         <div className="prose prose-neutral max-w-none space-y-8 text-brand-muted leading-relaxed">
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">1. Information We Collect</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">1. Information We Collect</h2>
             <p>When you request an estimate, contact us, or submit a form on our website, we may collect the following information:</p>
             <ul className="list-disc pl-6 mt-3 space-y-1">
               <li>Full name</li>
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">2. How We Use Your Information</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">2. How We Use Your Information</h2>
             <p>We use the information you provide to:</p>
             <ul className="list-disc pl-6 mt-3 space-y-1">
               <li>Respond to estimate requests and service inquiries</li>
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">3. How We Share Your Information</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">3. How We Share Your Information</h2>
             <p>We may share your information only in the following circumstances:</p>
             <ul className="list-disc pl-6 mt-3 space-y-1">
               <li><strong>Service providers:</strong> Trusted third-party tools we use to operate our business (e.g., CRM platforms, email services) under strict confidentiality agreements.</li>
@@ -55,17 +55,17 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">4. Cookies & Tracking</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">4. Cookies & Tracking</h2>
             <p>Our website uses cookies and similar tracking technologies to enhance your experience and analyze site traffic. You can control cookie settings through your browser preferences. Disabling cookies may limit some functionality on our site.</p>
           </section>
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">5. Data Retention</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">5. Data Retention</h2>
             <p>We retain your personal information for as long as necessary to fulfill the purposes described in this policy, or as required by applicable law. Customer project records are typically retained for seven (7) years for warranty and legal purposes.</p>
           </section>
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">6. Your Rights</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">6. Your Rights</h2>
             <p>You have the right to:</p>
             <ul className="list-disc pl-6 mt-3 space-y-1">
               <li>Request access to the personal information we hold about you</li>
@@ -77,22 +77,22 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">7. Security</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">7. Security</h2>
             <p>We implement reasonable administrative, technical, and physical safeguards to protect your information against unauthorized access, disclosure, or destruction. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
           </section>
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">8. Children&apos;s Privacy</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">8. Children&apos;s Privacy</h2>
             <p>Our website is not directed to children under the age of 13, and we do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us immediately.</p>
           </section>
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">9. Changes to This Policy</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">9. Changes to This Policy</h2>
             <p>We may update this Privacy Policy from time to time. When we do, we will revise the &ldquo;Last updated&rdquo; date at the top of this page. We encourage you to review this policy periodically.</p>
           </section>
 
           <section>
-            <h2 className="font-bold text-xl text-brand-charcoal mb-3">10. Contact Us</h2>
+            <h2 className="font-bold text-md text-brand-charcoal mb-3">10. Contact Us</h2>
             <p>If you have questions or concerns about this Privacy Policy, please reach out:</p>
             <div className="mt-3 space-y-1">
               <p><strong>KingdomCare Roofing &amp; Construction LLC</strong></p>

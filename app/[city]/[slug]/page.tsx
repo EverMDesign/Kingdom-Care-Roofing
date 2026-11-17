@@ -95,14 +95,14 @@ export default async function ProjectDetail({ params }: { params: Promise<{ city
           <div className="max-w-content mx-auto px-4 md:px-8">
 
             {/* Breadcrumb + Title */}
-            <nav className="flex items-center gap-2 text-xs-fine font-bold uppercase tracking-widest text-brand-gold mb-4">
+            <nav className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-brand-gold mb-4">
               <a href="/projects" className="hover:underline">Projects</a>
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
               <span className="text-brand-muted">{city}</span>
             </nav>
-            <h1 className="font-serif text-4xl md:text-display-sm text-brand-charcoal leading-tight mb-14">
+            <h1 className="font-serif text-xl md:text-3xl text-brand-charcoal leading-tight mb-14">
               {project.seoTitle}
             </h1>
 
@@ -128,7 +128,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ city
                 )}
                 <div className="space-y-4">
                   {project.description.split(/\n+/).map((para, i) => (
-                    <p key={i} className="text-body text-brand-muted">{para}</p>
+                    <p key={i} className="text-base text-brand-muted">{para}</p>
                   ))}
                 </div>
 
@@ -153,17 +153,17 @@ export default async function ProjectDetail({ params }: { params: Promise<{ city
                           </svg>
                         ))}
                       </div>
-                      <blockquote className="font-serif text-2xl text-white italic mb-8 leading-relaxed">
+                      <blockquote className="font-serif text-md text-white italic mb-8 leading-relaxed">
                         &ldquo;{review.quote}&rdquo;
                       </blockquote>
                       <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 bg-brand-gold rounded-full flex items-center justify-center font-bold text-white text-xl border-2 border-brand-cta shrink-0">
+                        <div className="w-14 h-14 bg-brand-gold rounded-full flex items-center justify-center font-bold text-white text-md border-2 border-brand-cta shrink-0">
                           {review.name.charAt(0)}
                         </div>
                         <div>
-                          <p className="font-bold text-white text-subheading">{review.name}</p>
+                          <p className="font-bold text-white text-base">{review.name}</p>
                           {review.location && (
-                            <p className="text-brand-cta text-xs-fine font-semibold tracking-wide uppercase">{review.location}</p>
+                            <p className="text-brand-cta text-sm font-semibold tracking-wide uppercase">{review.location}</p>
                           )}
                         </div>
                       </div>
@@ -177,7 +177,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ city
 
                 {/* Services Performed */}
                 <div className="bg-white rounded-card p-6">
-                  <h3 className="text-xs-fine uppercase font-bold text-brand-muted tracking-widest mb-4">Services Performed</h3>
+                  <h3 className="text-sm uppercase font-bold text-brand-muted tracking-widest mb-4">Services Performed</h3>
                   <ul className="space-y-3">
                     {services.map((service, i) => (
                       <li key={i} className="flex items-center gap-3">
@@ -190,7 +190,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ city
 
                 {/* CTA */}
                 <div className="bg-brand-gold text-white p-6 rounded-card">
-                  <h3 className="font-serif text-2xl mb-2">Want these results?</h3>
+                  <h3 className="font-serif text-md mb-2">Want these results?</h3>
                   <p className="text-white/80 text-sm mb-4 leading-relaxed">
                     Schedule a free damage inspection or get a quote for your next project.
                   </p>
@@ -212,8 +212,8 @@ export default async function ProjectDetail({ params }: { params: Promise<{ city
         {project.coordinates && (
           <section className="bg-brand-cream border-t border-brand-border">
             <div className="max-w-content mx-auto px-4 md:px-8 py-section-mb md:py-section-dt">
-              <span className="text-brand-gold font-bold tracking-wider uppercase text-xs-fine mb-2 block">Location</span>
-              <h2 className="font-serif text-3xl text-brand-charcoal mb-8">Project Site</h2>
+              <span className="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2 block">Location</span>
+              <h2 className="font-serif text-lg text-brand-charcoal mb-8">Project Site</h2>
               <div className="rounded-map overflow-hidden shadow-sm border border-brand-border h-[400px]">
                 <ServiceAreaMap
                   projects={[project]}
@@ -231,8 +231,8 @@ export default async function ProjectDetail({ params }: { params: Promise<{ city
 
               <div className="flex justify-between items-end mb-12">
                 <div>
-                  <span className="text-brand-gold font-bold tracking-wider uppercase text-xs-fine mb-2 block">More Work</span>
-                  <h2 className="font-serif text-3xl md:text-4xl text-brand-charcoal">Related Projects</h2>
+                  <span className="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2 block">More Work</span>
+                  <h2 className="font-serif text-lg md:text-xl text-brand-charcoal">Related Projects</h2>
                 </div>
                 <a href="/projects" className="text-brand-brown font-bold border-b-2 border-brand-cta pb-1 hover:text-brand-gold transition-colors whitespace-nowrap">
                   See All Projects
@@ -253,7 +253,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ city
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-4 left-4 flex gap-2">
-                        <span className="bg-brand-brown/90 text-white text-xs-fine font-bold uppercase tracking-widest px-3 py-1 rounded-btn">
+                        <span className="bg-brand-brown/90 text-white text-sm font-bold uppercase tracking-widest px-3 py-1 rounded-btn">
                           {rel.address.city}
                         </span>
                       </div>

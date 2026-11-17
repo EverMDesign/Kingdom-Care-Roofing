@@ -93,13 +93,13 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           />
           <div className="absolute inset-0 bg-brand-charcoal/65" />
           <div className="relative z-10 max-w-content mx-auto w-full px-4 md:px-8 pb-12 lg:pb-16">
-            <span className="text-brand-cta font-bold tracking-widest uppercase text-xs-fine mb-3 block">
+            <span className="text-brand-cta font-bold tracking-widest uppercase text-sm mb-3 block">
               {service.category}
             </span>
-            <h1 className="font-serif text-4xl lg:text-5xl text-white mb-4 leading-tight">
+            <h1 className="font-serif text-xl lg:text-3xl text-white mb-4 leading-tight">
               {service.title}
             </h1>
-            <p className="text-white/80 text-lg mb-8 max-w-2xl">{service.tagline}</p>
+            <p className="text-white/80 text-base mb-8 max-w-2xl">{service.tagline}</p>
             <ServiceBannerCTA />
           </div>
         </section>
@@ -112,7 +112,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               {/* Body */}
               <div className="lg:col-span-8 space-y-6">
                 {service.body.map((para, i) => (
-                  <p key={i} className="text-body text-brand-muted leading-relaxed">{para}</p>
+                  <p key={i} className="text-base text-brand-muted leading-relaxed">{para}</p>
                 ))}
               </div>
 
@@ -121,7 +121,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 <div className="bg-brand-cream rounded-card border border-brand-border p-6 sticky top-28 space-y-6">
 
                   <div>
-                    <h3 className="font-bold text-brand-charcoal text-subheading mb-4 pb-3 border-b border-brand-border">
+                    <h3 className="font-bold text-brand-charcoal text-base mb-4 pb-3 border-b border-brand-border">
                       Our Services
                     </h3>
                     <ul className="space-y-1">
@@ -172,8 +172,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
               <div className="flex justify-between items-end mb-12">
                 <div>
-                  <span className="text-brand-gold font-bold tracking-wider uppercase text-xs-fine mb-2 block">Our Work</span>
-                  <h2 className="font-serif text-3xl md:text-4xl text-brand-charcoal">Related Projects</h2>
+                  <span className="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2 block">Our Work</span>
+                  <h2 className="font-serif text-lg md:text-xl text-brand-charcoal">Related Projects</h2>
                 </div>
                 <a
                   href="/projects"
@@ -197,7 +197,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-4 left-4 flex gap-2">
-                        <span className="bg-brand-brown/90 text-white text-xs-fine font-bold uppercase tracking-widest px-3 py-1 rounded-btn">
+                        <span className="bg-brand-brown/90 text-white text-sm font-bold uppercase tracking-widest px-3 py-1 rounded-btn">
                           {project.address.city}
                         </span>
                       </div>
@@ -220,8 +220,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         <section className="py-section-mb md:py-section-dt bg-white border-t border-brand-border">
           <div className="max-w-content mx-auto px-4 md:px-8">
             <div className="max-w-3xl mx-auto">
-              <span className="text-brand-gold font-bold tracking-wider uppercase text-xs-fine mb-2 block">FAQ</span>
-              <h2 className="font-serif text-3xl md:text-4xl text-brand-charcoal mb-10">
+              <span className="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2 block">FAQ</span>
+              <h2 className="font-serif text-lg md:text-xl text-brand-charcoal mb-10">
                 Frequently Asked Questions
               </h2>
               <ServiceFAQ faqs={service.faqs} />
@@ -233,7 +233,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         <section className="py-section-mb md:py-section-dt bg-brand-cream border-t border-brand-border">
           <div className="max-w-content mx-auto px-4 md:px-8">
             <div className="text-center mb-12">
-              <span className="text-brand-gold font-bold tracking-wider uppercase text-xs-fine mb-2 block">Customer Reviews</span>
+              <span className="text-brand-gold font-bold tracking-wider uppercase text-sm mb-2 block">Customer Reviews</span>
               <h2 className="section-heading text-brand-charcoal">What Our Customers Say</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -270,7 +270,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         <section id="contact" className="py-section-mb md:py-section-dt bg-brand-deep">
           <div className="max-w-content mx-auto px-4 md:px-8 flex flex-col items-center text-center">
             <h2 className="section-heading text-white mb-4">Ready to Get Started?</h2>
-            <p className="text-white/80 text-body mb-10 max-w-prose-sm">
+            <p className="text-white/80 text-base mb-10 max-w-prose-sm">
               Call us or request an estimate and we will get back to you the same day.
             </p>
             <ServiceCTA />

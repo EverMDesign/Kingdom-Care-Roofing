@@ -28,14 +28,14 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
       <div className="p-6">
-        <h3 className="font-bold text-lg text-brand-charcoal mb-4 leading-snug group-hover:text-brand-brown transition-colors">
+        <h3 className="font-bold text-base text-brand-charcoal mb-4 leading-snug group-hover:text-brand-brown transition-colors">
           {project.seoTitle}
         </h3>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span
               key={tag}
-              className="bg-brand-cream text-brand-gold text-xs-fine font-bold uppercase px-2 py-1 rounded-btn border border-brand-border"
+              className="bg-brand-cream text-brand-gold text-sm font-bold uppercase px-2 py-1 rounded-btn border border-brand-border"
             >
               {tag}
             </span>
@@ -142,7 +142,7 @@ export function ProjectsGridClient({ projects }: { projects: Project[] }) {
 
         {/* Filter bar */}
         <div className="mb-10 pb-8 border-b border-brand-border flex flex-wrap items-center gap-3">
-          <span className="font-bold text-xs-fine uppercase tracking-widest text-brand-muted w-full md:w-auto mb-1 md:mb-0">
+          <span className="font-bold text-sm uppercase tracking-widest text-brand-muted w-full md:w-auto mb-1 md:mb-0">
             Filter By City:
           </span>
           {cities.map((city) => (
@@ -156,7 +156,7 @@ export function ProjectsGridClient({ projects }: { projects: Project[] }) {
               }`}
             >
               {city}
-              <span className={`ml-1.5 text-xs ${activeCity === city ? 'text-white/70' : 'text-brand-muted'}`}>
+              <span className={`ml-1.5 text-sm ${activeCity === city ? 'text-white/70' : 'text-brand-muted'}`}>
                 ({city === 'All Cities' ? projects.length : projects.filter((p) => p.address.city === city).length})
               </span>
             </button>

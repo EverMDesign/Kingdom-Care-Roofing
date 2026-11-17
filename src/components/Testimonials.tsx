@@ -42,7 +42,7 @@ export function Testimonials() {
                     <StarIcon key={i} />
                   ))}
                 </div>
-                <p className={`text-body leading-relaxed mb-6 ${review.featured ? 'font-medium' : 'text-brand-muted'}`}>"{review.text}"</p>
+                <p className={`text-base leading-relaxed mb-6 ${review.featured ? 'font-medium' : 'text-brand-muted'}`}>"{review.text}"</p>
               </div>
               <div className="flex items-center justify-between">
                 <div>

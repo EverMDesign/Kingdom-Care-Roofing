@@ -34,15 +34,15 @@ function HeroSection({ area }: { area: ServiceArea }) {
         <span className="text-brand-cta font-bold tracking-widest uppercase text-sm mb-4">
           Kingdom Care Serving
         </span>
-        <h1 className="text-white font-sans font-extrabold text-4xl lg:text-[64px] leading-[1.1] mb-6">
+        <h1 className="text-white font-sans font-extrabold text-xl lg:text-4xl leading-[1.1] mb-6">
           {area.city}, {area.state} Roofing
         </h1>
-        <p className="text-white/90 text-lg lg:text-xl mb-8 max-w-[700px] font-medium leading-relaxed">
+        <p className="text-white/90 text-base lg:text-md mb-8 max-w-[700px] font-medium leading-relaxed">
           Local roofers who show up on time, do honest work, and stand behind it.
         </p>
         <a
           href="#estimate"
-          className="btn-cta h-btn px-8 text-lg flex items-center justify-center shadow-lg"
+          className="btn-cta h-btn px-8 text-base flex items-center justify-center shadow-lg"
         >
           Get a Free Estimate
         </a>
@@ -89,7 +89,7 @@ function ContentSection({ area, latestProject }: { area: ServiceArea; latestProj
               </a>
             )}
 
-            <h3 className="font-serif text-2xl text-brand-charcoal mb-4 mt-8">
+            <h3 className="font-serif text-md text-brand-charcoal mb-4 mt-8">
               Your Trusted Local Contractor in {area.city}
             </h3>
             <p className="mb-6">{area.rooferSection}</p>
@@ -106,7 +106,7 @@ function ContentSection({ area, latestProject }: { area: ServiceArea; latestProj
 
         <div className="lg:col-span-4">
           <div className="bg-brand-cream rounded-card p-6 md:p-8 border border-brand-border sticky top-28">
-            <h3 className="font-serif text-2xl text-brand-charcoal mb-6 border-b border-brand-border pb-4">
+            <h3 className="font-serif text-md text-brand-charcoal mb-6 border-b border-brand-border pb-4">
               Services in {area.city}
             </h3>
             <div className="flex flex-col gap-5">
@@ -118,7 +118,7 @@ function ContentSection({ area, latestProject }: { area: ServiceArea; latestProj
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-bold text-brand-charcoal text-[15px] mb-0.5">{service.title}</h4>
+                    <h4 className="font-bold text-brand-charcoal text-sm mb-0.5">{service.title}</h4>
                     <p className="text-sm text-brand-muted leading-tight">{service.desc}</p>
                   </div>
                 </div>
@@ -147,8 +147,8 @@ function ServicesSection({ city, services }: { city: string; services: ServiceAr
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, idx) => (
             <div key={idx} className="card p-6 md:p-8">
-              <h3 className="font-serif text-xl text-brand-charcoal mb-3">{service.title}</h3>
-              <p className="text-brand-muted text-[15px] leading-relaxed">{service.description}</p>
+              <h3 className="font-serif text-md text-brand-charcoal mb-3">{service.title}</h3>
+              <p className="text-brand-muted text-sm leading-relaxed">{service.description}</p>
             </div>
           ))}
         </div>
@@ -173,13 +173,13 @@ function FaqSection({ city, faqs }: { city: string; faqs: ServiceArea['faqs'] })
           <div className="flex flex-col gap-4">
             {faqs.map((faq, idx) => (
               <details key={idx} className="card p-6 group">
-                <summary className="flex items-center justify-between gap-4 cursor-pointer font-bold text-brand-charcoal text-[17px] list-none">
+                <summary className="flex items-center justify-between gap-4 cursor-pointer font-bold text-brand-charcoal text-base list-none">
                   {faq.question}
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 shrink-0 text-brand-cta transition-transform group-open:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </summary>
-                <p className="text-brand-muted text-[15px] leading-relaxed mt-3">{faq.answer}</p>
+                <p className="text-brand-muted text-sm leading-relaxed mt-3">{faq.answer}</p>
               </details>
             ))}
           </div>
@@ -241,7 +241,7 @@ function TestimonialsSection({ area }: { area: ServiceArea }) {
                 <div className="flex mb-4 text-brand-cta">
                   {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
                 </div>
-                <p className={`text-[16px] leading-relaxed mb-6 ${t.dark ? 'font-medium' : 'text-brand-muted'}`}>{t.text}</p>
+                <p className={`text-base leading-relaxed mb-6 ${t.dark ? 'font-medium' : 'text-brand-muted'}`}>{t.text}</p>
               </div>
               <div className="flex items-center justify-between">
                 <p className={`font-bold ${!t.dark ? 'text-brand-charcoal' : ''}`}>{t.name}</p>
@@ -353,7 +353,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                       if (errors.name) setErrors(prev => ({ ...prev, name: undefined }))
                     }}
                   />
-                  {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
+                  {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
                 </div>
                 <div>
                   <input
@@ -368,7 +368,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                       if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
                     }}
                   />
-                  {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
+                  {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
                 </div>
               </div>
               <div>
@@ -384,7 +384,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                     if (errors.email) setErrors(prev => ({ ...prev, email: undefined }))
                   }}
                 />
-                {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+                {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
               </div>
               <div>
                 <input
@@ -399,7 +399,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                     if (errors.address) setErrors(prev => ({ ...prev, address: undefined }))
                   }}
                 />
-                {errors.address && <p className="text-red-400 text-xs mt-1">{errors.address}</p>}
+                {errors.address && <p className="text-red-400 text-sm mt-1">{errors.address}</p>}
               </div>
               <div>
                 <select
@@ -419,7 +419,7 @@ function EstimateSection({ area }: { area: ServiceArea }) {
                   <option value="Interior/Exterior Remodeling" className="text-brand-charcoal">Interior/Exterior Remodeling</option>
                   <option value="Gutters & Construction" className="text-brand-charcoal">Gutters & Construction</option>
                 </select>
-                {errors.service && <p className="text-red-400 text-xs mt-1">{errors.service}</p>}
+                {errors.service && <p className="text-red-400 text-sm mt-1">{errors.service}</p>}
               </div>
               <textarea
                 name="message"

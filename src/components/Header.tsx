@@ -36,7 +36,7 @@ export function Header() {
           />
         </a>
 
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-medium text-nav">
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 font-medium text-sm">
           <a href="/" className="text-brand-brown hover:text-brand-gold transition-colors">Home</a>
           <div className="relative group">
             <button className="flex items-center gap-1 hover:text-brand-gold transition-colors">

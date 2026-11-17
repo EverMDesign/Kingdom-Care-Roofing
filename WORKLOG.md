@@ -485,3 +485,11 @@ Fixed service-area schema generation to use the shared BUSINESS_CONFIG via build
 **Next Steps:** Set NEXT_PUBLIC_TURNSTILE_SITE_KEY in .env.local for local dev — pre-existing gap found during testing, unrelated to this work, currently throws a console error on every page.
 
 ---
+
+---
+
+## 2026-11-16
+
+Type scale and container standardization. tailwind.config.ts now replaces Tailwind's font sizes with the 7px-multiple scale (sm 14, base 17.5, md 21, lg 28, xl 35, 2xl 42, 3xl 49, 4xl 63, 5xl 70, 6xl 77) with line-heights; the custom size names (xs-fine, nav, body, subheading, heading, display, display-sm, hero) were removed and every size class in src and app was mapped to the nearest step, including arbitrary px sizes and two @apply lines in globals.css. max-w-content changed from 1400px to 1440px. Body default set to 14px. A blanket text-sm to text-base change was applied and then reverted by comparing against the last commit (122 text-sm, 40 text-base now). The 14px tweaks made on 41 Roofing (CTAs, hero form, reviews) were not applied here.
+
+**Files:** tailwind.config.ts, app/globals.css, src and app components (size class swaps). **Open:** not checked in a browser; headings render one or two steps smaller than before; npm build passes.

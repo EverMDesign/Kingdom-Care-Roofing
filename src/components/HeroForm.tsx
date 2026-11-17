@@ -69,7 +69,7 @@ export function HeroForm() {
 
   return (
     <div className="bg-white rounded-card shadow-card-xl p-6 md:p-8 w-full">
-      <h3 className="font-serif text-2xl text-brand-charcoal mb-1">Get a Free Estimate</h3>
+      <h3 className="font-serif text-md text-brand-charcoal mb-1">Get a Free Estimate</h3>
       <p className="text-brand-muted text-sm mb-6">No obligation. We'll respond within 24 hours.</p>
 
       {status === 'success' ? (
@@ -86,7 +86,7 @@ export function HeroForm() {
         <form ref={formRef} id="hero-estimate-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
           <div>
-            <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Full Name</label>
+            <label className="block text-sm font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Full Name</label>
             <input
               type="text"
               name="name"
@@ -99,11 +99,11 @@ export function HeroForm() {
                 if (errors.name) setErrors(prev => ({ ...prev, name: undefined }))
               }}
             />
-            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Phone Number</label>
+            <label className="block text-sm font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Phone Number</label>
             <input
               type="tel"
               name="phone"
@@ -116,11 +116,11 @@ export function HeroForm() {
                 if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
               }}
             />
-            {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Property Address</label>
+            <label className="block text-sm font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Property Address</label>
             <input
               type="text"
               name="address"
@@ -133,11 +133,11 @@ export function HeroForm() {
                 if (errors.address) setErrors(prev => ({ ...prev, address: undefined }))
               }}
             />
-            {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+            {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Service Needed</label>
+            <label className="block text-sm font-semibold text-brand-muted uppercase tracking-wider mb-1.5">Service Needed</label>
             <select
               name="service"
               required
@@ -157,7 +157,7 @@ export function HeroForm() {
               <option value="Gutters & Construction">Gutters & Construction</option>
               <option value="Free Inspection">Free Inspection</option>
             </select>
-            {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
+            {errors.service && <p className="text-red-500 text-sm mt-1">{errors.service}</p>}
           </div>
 
           <Turnstile onToken={handleToken} />
@@ -165,7 +165,7 @@ export function HeroForm() {
             {status === 'loading' ? 'Sending...' : 'Request Free Estimate'}
           </button>
 
-          <p className="text-center text-xs text-brand-muted">
+          <p className="text-center text-sm text-brand-muted">
             Or call us directly at{' '}
             <a href="tel:8178888282" className="text-brand-gold font-semibold hover:text-brand-brown transition-colors">
               (817) 888-8282

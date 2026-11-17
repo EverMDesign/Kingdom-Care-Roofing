@@ -19,12 +19,12 @@ export function About() {
 
             <div className="mt-8 flex items-center gap-6">
               <div className="flex flex-col">
-                <span className="text-3xl font-bold text-brand-brown">150+</span>
+                <span className="text-lg font-bold text-brand-brown">150+</span>
                 <span className="text-sm font-medium text-brand-muted">Years Combined Exp.</span>
               </div>
               <div className="w-px h-12 bg-brand-border" />
               <div className="flex flex-col">
-                <span className="text-3xl font-bold text-brand-brown">5★</span>
+                <span className="text-lg font-bold text-brand-brown">5★</span>
                 <span className="text-sm font-medium text-brand-muted">Google Rating</span>
               </div>
             </div>

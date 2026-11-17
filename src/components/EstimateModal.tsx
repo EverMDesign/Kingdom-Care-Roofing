@@ -105,7 +105,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
               setFormData({ ...formData, name: e.target.value })
               if (errors.name) setErrors(prev => ({ ...prev, name: undefined }))
             }} />
-          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
         </div>
         <div>
           <input type="tel" name="phone" placeholder="Phone Number" required
@@ -114,7 +114,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
               setFormData({ ...formData, phone: e.target.value })
               if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }))
             }} />
-          {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
@@ -124,7 +124,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
             setFormData({ ...formData, email: e.target.value })
             if (errors.email) setErrors(prev => ({ ...prev, email: undefined }))
           }} />
-        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
       </div>
       <div>
         <input type="text" name="address" placeholder="123 Main St, City, TX 76036" required
@@ -133,7 +133,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
             setFormData({ ...formData, address: e.target.value })
             if (errors.address) setErrors(prev => ({ ...prev, address: undefined }))
           }} />
-        {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+        {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
       </div>
       <div>
         <select name="service" required
@@ -151,7 +151,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
         <option value="Gutters & Construction">Gutters & Construction</option>
         <option value="Free Inspection">Free Inspection</option>
         </select>
-        {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
+        {errors.service && <p className="text-red-500 text-sm mt-1">{errors.service}</p>}
       </div>
       <textarea name="message" placeholder="Tell us about your project" rows={3}
         className={inputClass()} value={formData.message}
@@ -161,7 +161,7 @@ function EstimateForm({ onSuccess }: { onSuccess: () => void }) {
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
         {status === 'loading' ? 'Sending...' : 'Request Free Estimate'}
       </button>
-      <p className="text-center text-xs text-brand-muted">
+      <p className="text-center text-sm text-brand-muted">
         Or call us at{' '}
         <a href="tel:8178888282" className="text-brand-brown font-semibold hover:text-brand-gold transition-colors">
           (817) 888-8282
@@ -199,8 +199,8 @@ export function EstimateModal({ children, triggerClassName }: EstimateModalProps
       <div className="relative z-10 w-full max-w-lg bg-white rounded-card shadow-2xl overflow-y-auto max-h-[90vh]">
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-200">
           <div>
-            <span className="text-brand-brown font-bold tracking-widest uppercase text-xs block mb-1">Free Estimate</span>
-            <h2 className="font-serif text-2xl text-brand-charcoal">Get a Free Estimate</h2>
+            <span className="text-brand-brown font-bold tracking-widest uppercase text-sm block mb-1">Free Estimate</span>
+            <h2 className="font-serif text-md text-brand-charcoal">Get a Free Estimate</h2>
           </div>
           <button onClick={close}
             className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-brand-charcoal transition-colors"

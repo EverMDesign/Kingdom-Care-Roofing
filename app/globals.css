@@ -6,6 +6,10 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  font-size: 14px;
+}
+
 /* ─── Component Classes ──────────────────────────────────────────────────────
    Reusable patterns built on design tokens. Add layout utilities (flex,
    padding, sizing) per-use in components; only shared style is captured here.
@@ -51,7 +55,7 @@ html {
 
   /* Category / label pill */
   .badge {
-    @apply text-white text-xs font-bold uppercase tracking-wider
+    @apply text-white text-sm font-bold uppercase tracking-wider
            px-3 py-1 rounded-full w-max;
   }
 
@@ -60,7 +64,7 @@ html {
 
   /* Standard section h2: serif, responsive 3xl → 40px */
   .section-heading {
-    @apply font-serif text-3xl md:text-heading;
+    @apply font-serif text-2xl md:text-3xl;
   }
 
 }

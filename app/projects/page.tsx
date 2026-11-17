@@ -43,18 +43,18 @@ export default async function ProjectsArchive() {
             <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
               <div className="w-full lg:w-1/2">
-                <span className="text-brand-gold font-bold tracking-wider uppercase text-xs-fine mb-4 block">
+                <span className="text-brand-gold font-bold tracking-wider uppercase text-sm mb-4 block">
                   Our Portfolio
                 </span>
-                <h1 className="font-serif text-display-sm md:text-display leading-tight text-brand-charcoal mb-6">
+                <h1 className="font-serif text-3xl md:text-4xl leading-tight text-brand-charcoal mb-6">
                   Our Completed Work Across DFW
                 </h1>
-                <p className="text-body text-brand-muted mb-8 max-w-prose-sm">
+                <p className="text-base text-brand-muted mb-8 max-w-prose-sm">
                   Based in Burleson, KingdomCare handles everything from minor repairs to full
                   exterior transformations across Fort Worth, Arlington, Dallas, and the surrounding DFW Metroplex.
                 </p>
                 <EstimateModal>
-                  <span className="btn-cta inline-block px-10 py-4 text-lg shadow-card-lg">
+                  <span className="btn-cta inline-block px-10 py-4 text-base shadow-card-lg">
                     Get a Free Estimate
                   </span>
                 </EstimateModal>
@@ -77,17 +77,17 @@ export default async function ProjectsArchive() {
             <h2 className="section-heading text-white mb-6">
               Ready to start your own project?
             </h2>
-            <p className="text-white/80 text-body mb-10 max-w-prose-sm">
+            <p className="text-white/80 text-base mb-10 max-w-prose-sm">
               Join hundreds of DFW homeowners who trust KingdomCare for roofing,
               painting, and exterior construction done right.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <EstimateModal>
-                <span className="btn-cta inline-block px-10 py-4 text-lg shadow-card-lg">
+                <span className="btn-cta inline-block px-10 py-4 text-base shadow-card-lg">
                   Get Free Estimate
                 </span>
               </EstimateModal>
-              <a href="tel:8178888282" className="btn-outline-white border-white px-10 py-4 text-lg">
+              <a href="tel:8178888282" className="btn-outline-white border-white px-10 py-4 text-base">
                 Call (817) 888-8282
               </a>
             </div>

@@ -56,19 +56,19 @@ export async function Hero() {
               <span className="text-white text-sm font-medium">5/5 Google Rating | 80+ Reviews</span>
             </a>
 
-            <h1 className="text-white font-sans font-extrabold text-4xl lg:text-hero mb-6">
+            <h1 className="text-white font-sans font-extrabold text-xl lg:text-5xl mb-6">
               Burleson's Trusted Roofing Contractor
             </h1>
 
-            <p className="text-white/90 text-lg lg:text-xl mb-10 max-w-prose-sm font-medium">
+            <p className="text-white/90 text-base lg:text-md mb-10 max-w-prose-sm font-medium">
               KingdomCare is a local, family-owned roofing contractor based in Burleson, TX. We serve the greater DFW area with roof replacements, storm damage repair, and exterior work, backed by our quality guarantee.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-10 lg:hidden">
-              <a href="#" className="btn-cta h-btn px-8 text-lg flex items-center justify-center shadow-lg">
+              <a href="#" className="btn-cta h-btn px-8 text-base flex items-center justify-center shadow-lg">
                 Get a Free Estimate
               </a>
-              <a href={`tel:${phoneTel}`} className="btn-outline-white border-white h-btn px-8 text-lg flex items-center justify-center">
+              <a href={`tel:${phoneTel}`} className="btn-outline-white border-white h-btn px-8 text-base flex items-center justify-center">
                 Call Now
               </a>
             </div>

@@ -62,7 +62,7 @@ export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
           draggable={false}
         />
         <div className="absolute inset-0 bg-black/40 pointer-events-none" />
-        <div className="absolute top-6 left-6 bg-brand-charcoal/80 text-white px-4 py-2 rounded-btn font-bold text-xs-fine tracking-widest z-30">
+        <div className="absolute top-6 left-6 bg-brand-charcoal/80 text-white px-4 py-2 rounded-btn font-bold text-sm tracking-widest z-30">
           BEFORE
         </div>
       </div>
@@ -74,7 +74,7 @@ export function ComparisonSlider({ afterImage, afterAlt, beforeImage }: Props) {
       />
 
       {/* AFTER label */}
-      <div className="absolute top-6 right-6 bg-brand-gold text-white px-4 py-2 rounded-btn font-bold text-xs-fine tracking-widest z-30">
+      <div className="absolute top-6 right-6 bg-brand-gold text-white px-4 py-2 rounded-btn font-bold text-sm tracking-widest z-30">
         AFTER
       </div>
 

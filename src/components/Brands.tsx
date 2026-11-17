@@ -4,7 +4,7 @@ export function Brands() {
   return (
     <section className="py-12 bg-brand-cream">
       <div className="max-w-3xl mx-auto px-4 md:px-8">
-        <h2 className="text-center font-serif text-xl md:text-2xl text-brand-charcoal mb-8">Brands We Trust</h2>
+        <h2 className="text-center font-serif text-md md:text-md text-brand-charcoal mb-8">Brands We Trust</h2>
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center lg:justify-between items-center gap-8 lg:gap-12">
           <div className="h-12 flex items-center grayscale hover:grayscale-0 transition duration-300">

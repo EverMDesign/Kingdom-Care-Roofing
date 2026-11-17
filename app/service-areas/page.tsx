@@ -46,10 +46,10 @@ export default function ServiceAreasPage() {
           <span className="text-brand-cta font-bold tracking-widest uppercase text-sm mb-4">
             Proudly Serving North Texas
           </span>
-          <h1 className="text-white font-sans font-extrabold text-4xl lg:text-[56px] leading-[1.1] mb-4">
+          <h1 className="text-white font-sans font-extrabold text-xl lg:text-3xl leading-[1.1] mb-4">
             Our Service Areas
           </h1>
-          <p className="text-white/90 text-lg max-w-[700px]">
+          <p className="text-white/90 text-base max-w-[700px]">
             Local roofers who show up on time, do honest work, and stand behind it —
             across {serviceAreas.length} cities in North Texas.
           </p>
@@ -73,7 +73,7 @@ export default function ServiceAreasPage() {
                   />
                 </div>
                 <div className="p-5">
-                  <h2 className="font-serif text-xl text-brand-charcoal mb-1">
+                  <h2 className="font-serif text-md text-brand-charcoal mb-1">
                     {area.city}, {area.state}
                   </h2>
                   <p className="text-sm text-brand-muted">{area.county}</p>

@@ -28,7 +28,7 @@ export function ProjectGallery({ photos, alt }: Props) {
 
   return (
     <div>
-      <h2 className="font-bold text-xl text-brand-charcoal mb-5">Project Photos</h2>
+      <h2 className="font-bold text-md text-brand-charcoal mb-5">Project Photos</h2>
 
       {/* Main image */}
       <div

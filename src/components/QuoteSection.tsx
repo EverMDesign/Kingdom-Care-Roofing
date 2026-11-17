@@ -16,7 +16,7 @@ export function QuoteSection() {
           <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
         </svg>
 
-        <p className="font-serif text-2xl md:text-3xl text-white leading-relaxed mb-8">
+        <p className="font-serif text-md md:text-lg text-white leading-relaxed mb-8">
           "I'm a realtor. My client wanted the entire roof replaced last minute before closing — Ben's team had a new roof up in a couple of hours! He is fast, affordable, and does quality work. Kingdom Care is now my go-to for all my clients' roofing needs."
         </p>
 
@@ -26,7 +26,7 @@ export function QuoteSection() {
           ))}
         </div>
 
-        <p className="text-white font-bold text-lg">Ijeoma Love Obiajulu</p>
+        <p className="text-white font-bold text-base">Ijeoma Love Obiajulu</p>
         <p className="text-white/70 text-sm">Fort Worth, TX • Google Review</p>
       </div>
     </section>

@@ -105,7 +105,7 @@ export function ServicesGrid() {
       <div className="max-w-content mx-auto px-4 md:px-8">
         <div className="mb-12">
           <h2 className="section-heading mb-4">Our Roofing & Construction Services</h2>
-          <p className="text-lg text-white/80 max-w-prose-sm">From complete roof replacements to expert exterior construction, our experienced crews deliver protection and craftsmanship you can trust.</p>
+          <p className="text-base text-white/80 max-w-prose-sm">From complete roof replacements to expert exterior construction, our experienced crews deliver protection and craftsmanship you can trust.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
@@ -120,7 +120,7 @@ export function ServicesGrid() {
                 <h3 className="text-base font-bold mb-1.5 text-white group-hover:text-brand-cta transition-colors leading-snug">
                   {service.title}
                 </h3>
-                <p className="text-xs text-white/75 line-clamp-2">
+                <p className="text-sm text-white/75 line-clamp-2">
                   {service.description}
                 </p>
               </div>

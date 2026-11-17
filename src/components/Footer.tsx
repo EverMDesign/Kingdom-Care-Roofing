@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { getCompanySettings } from '@/lib/workpress-api'
 import { serviceAreas } from '@/lib/service-areas-data'
 import { IMAGES } from '@/lib/images'
@@ -47,7 +48,7 @@ export async function Footer() {
           </div>
 
           <div className="flex flex-col">
-            <h3 className="font-bold text-lg mb-6 border-b border-white/10 pb-2 inline-block w-max">Our Services</h3>
+            <h3 className="font-bold text-base mb-6 border-b border-white/10 pb-2 inline-block w-max">Our Services</h3>
             <ul className="flex flex-col gap-3 text-sm text-white/80">
               {[
                 { label: 'Roof Replacement', slug: 'roof-replacement' },
@@ -66,7 +67,7 @@ export async function Footer() {
           </div>
 
           <div className="flex flex-col">
-            <h3 className="font-bold text-lg mb-6 border-b border-white/10 pb-2 inline-block w-max">Service Areas</h3>
+            <h3 className="font-bold text-base mb-6 border-b border-white/10 pb-2 inline-block w-max">Service Areas</h3>
             <ul className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm text-white/80">
               <li className="col-span-2">
                 <a href="/service-areas" className="font-bold text-white hover:text-brand-cta transition-colors">
@@ -84,11 +85,14 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/60">
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
           <p>© 2024 KingdomCare Roofing & Construction LLC. All Rights Reserved.</p>
           <div className="flex gap-4">
             <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="https://evermdesign.com" target="_blank" rel="noopener" className="inline-flex items-center gap-2 hover:text-white transition-colors">
+              Managed by <Image src="/EMD-Icon-Red-Black-Border.webp" alt="Ever Marketing and Design" width={24} height={23} />
+            </a>
             <span className="hidden md:inline">Burleson, TX</span>
           </div>
         </div>

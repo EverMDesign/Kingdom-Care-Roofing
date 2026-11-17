@@ -114,20 +114,20 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <input type="text" name="name" placeholder="Full Name" required value={data.name} onChange={set('name')} className={inputClass(errors.name)} />
-          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
         </div>
         <div>
           <input type="tel" name="phone" placeholder="Phone Number" required value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
-          {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
         <input type="email" name="email" placeholder="Email Address" required value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
-        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
       </div>
       <div>
         <input type="text" name="address" placeholder="123 Main St, City, TX 76036" required value={data.address} onChange={set('address')} className={inputClass(errors.address)} />
-        {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+        {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
       </div>
       <textarea name="message" placeholder="Tell us about your roof (optional)" rows={3} value={data.message} onChange={set('message')} className={inputClass()} />
       <input type="text" name="code" placeholder="Use Code" value={data.code} onChange={set('code')}
@@ -137,7 +137,7 @@ function FreeUpForm({ onSuccess }: { onSuccess: () => void }) {
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
         {status === 'loading' ? 'Sending...' : 'Claim Free Upgrade'}
       </button>
-      <p className="text-center text-xs text-brand-muted">Restrictions apply.</p>
+      <p className="text-center text-sm text-brand-muted">Restrictions apply.</p>
     </form>
   )
 }
@@ -206,16 +206,16 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <input type="text" name="name" placeholder="Your Full Name" required value={data.name} onChange={set('name')} className={inputClass(errors.name)} />
-          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
         </div>
         <div>
           <input type="tel" name="phone" placeholder="Your Phone" required value={data.phone} onChange={set('phone')} className={inputClass(errors.phone)} />
-          {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
         </div>
       </div>
       <div>
         <input type="email" name="email" placeholder="Your Email" required value={data.email} onChange={set('email')} className={inputClass(errors.email)} />
-        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
       </div>
 
       <div className="border-t border-gray-200 pt-4">
@@ -224,16 +224,16 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <input type="text" name="referred_name" placeholder="Their Full Name" required value={data.referred_name} onChange={set('referred_name')} className={inputClass(errors.referred_name)} />
-              {errors.referred_name && <p className="text-red-500 text-xs mt-1">{errors.referred_name}</p>}
+              {errors.referred_name && <p className="text-red-500 text-sm mt-1">{errors.referred_name}</p>}
             </div>
             <div>
               <input type="tel" name="referred_phone" placeholder="Their Phone" required value={data.referred_phone} onChange={set('referred_phone')} className={inputClass(errors.referred_phone)} />
-              {errors.referred_phone && <p className="text-red-500 text-xs mt-1">{errors.referred_phone}</p>}
+              {errors.referred_phone && <p className="text-red-500 text-sm mt-1">{errors.referred_phone}</p>}
             </div>
           </div>
           <div>
             <input type="text" name="referred_address" placeholder="Their Address (optional)" value={data.referred_address} onChange={set('referred_address')} className={inputClass(errors.referred_address)} />
-            {errors.referred_address && <p className="text-red-500 text-xs mt-1">{errors.referred_address}</p>}
+            {errors.referred_address && <p className="text-red-500 text-sm mt-1">{errors.referred_address}</p>}
           </div>
         </div>
       </div>
@@ -245,7 +245,7 @@ function ReferralForm({ onSuccess }: { onSuccess: () => void }) {
         className="btn-cta w-full py-4 text-base font-bold shadow-lg disabled:opacity-70">
         {status === 'loading' ? 'Sending...' : 'Submit Referral'}
       </button>
-      <p className="text-center text-xs text-brand-muted">Reward issued upon job completion &amp; final payment.</p>
+      <p className="text-center text-sm text-brand-muted">Reward issued upon job completion &amp; final payment.</p>
     </form>
   )
 }
@@ -280,8 +280,8 @@ function OfferModal({
       <div className="relative z-10 w-full max-w-lg bg-white rounded-card shadow-2xl overflow-y-auto max-h-[90vh]">
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-200">
           <div>
-            <span className="text-brand-brown font-bold tracking-widest uppercase text-xs block mb-1">{subtitle}</span>
-            <h2 className="font-serif text-2xl text-brand-charcoal">{title}</h2>
+            <span className="text-brand-brown font-bold tracking-widest uppercase text-sm block mb-1">{subtitle}</span>
+            <h2 className="font-serif text-md text-brand-charcoal">{title}</h2>
           </div>
           <button onClick={onClose}
             className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-brand-charcoal transition-colors"
