@@ -18,14 +18,14 @@ function normalizeProject(project: Project): Project {
   return project;
 }
 
-/** Company details for schema.org markup — cached 1 hour */
+/** Company details for schema.org markup — cached 5 minutes */
 export async function getCompanySettings(): Promise<CompanySettings | null> {
   if (!BASE || !ORG) {
     console.error('[WorkPress] Missing NEXT_PUBLIC_DASHBOARD_URL or NEXT_PUBLIC_CLIENT_ID');
     return null;
   }
   try {
-    const res = await fetch(apiUrl('/settings'), { next: { revalidate: 3600 } });
+    const res = await fetch(apiUrl('/settings'), { next: { revalidate: 300 } });
     if (!res.ok) return null;
     return res.json();
   } catch (err) {
