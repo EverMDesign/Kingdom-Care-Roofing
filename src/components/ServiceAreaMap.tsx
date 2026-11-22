@@ -10,7 +10,7 @@ const PIN_COLOR = '#614A1B';           // Pin fill — brand brown
 const PIN_STROKE = '#EFCD36';          // Pin stroke — brand CTA yellow
 const POPUP_TITLE_COLOR = '#614A1B';   // Popup title — brand brown
 const POPUP_LINK_COLOR = '#9A6F28';    // "View Project" link — brand gold
-const POPUP_TEXT_COLOR = '#e6e5e0';    // Popup body text — adjust for map style
+const POPUP_TEXT_COLOR = '#171512';    // Popup body text — brand-charcoal — readable on the white popup
 
 // Common Mapbox styles:
 //   mapbox://styles/mapbox/dark-v11
@@ -303,17 +303,18 @@ export default function ServiceAreaMap({ projects, companyLocation = null, mapSt
               logo.className = 'h-full w-full object-contain p-1';
               badge.appendChild(logo);
 
-              const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-                companyLocation.address || `${companyLocation.lat},${companyLocation.lon}`
+              // Opens the business's Google listing (profile, reviews, directions) via a name + address search
+              const profileUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                [companyLocation.name, companyLocation.address].filter(Boolean).join(' ')
               )}`;
 
               const companyPopup = new mapboxgl.Popup({ offset: 32 }).setHTML(
                 `<div style="font-family: sans-serif; color: ${POPUP_TEXT_COLOR}; padding: 8px;">
                   <strong style="color: ${POPUP_TITLE_COLOR}; display: block; margin-bottom: 8px;">${escapeHtml(companyLocation.name)}</strong>
                   ${companyLocation.address ? `<p style="margin: 0 0 8px 0; font-size: 14px;">${escapeHtml(companyLocation.address)}</p>` : ''}
-                  <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer"
+                  <a href="${profileUrl}" target="_blank" rel="noopener noreferrer"
                      style="color: ${POPUP_LINK_COLOR}; text-decoration: none; font-weight: 500; font-size: 13px;">
-                    Get Directions →
+                    See Profile →
                   </a>
                 </div>`
               );
