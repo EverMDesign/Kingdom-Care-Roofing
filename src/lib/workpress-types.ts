@@ -44,4 +44,11 @@ export interface CompanySettings {
   company_phone: string;
   company_address: string;
   website_url: string;
+  /** Dashboard toggle: show the company pin on the map */
+  show_company_pin?: boolean;
+  /** Uploaded logo for the pin badge (ImageKit URL); null when none uploaded */
+  company_logo_url?: string | null;
+  /** Geocoded from company_address by WorkPress; null when off/unavailable */
+  company_latitude?: number | null;
+  company_longitude?: number | null;
 }

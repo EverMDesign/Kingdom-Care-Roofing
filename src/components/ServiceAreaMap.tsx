@@ -18,12 +18,29 @@ const POPUP_TEXT_COLOR = '#e6e5e0';    // Popup body text — adjust for map sty
 //   mapbox://styles/mapbox/streets-v12
 //   mapbox://styles/mapbox/satellite-streets-v12
 //   mapbox://styles/mapbox/outdoors-v12
+// Company "our location" pin — larger logo badge, never clustered.
+const COMPANY_PIN_RING_COLOR = '#EFCD36'; // Badge ring color
+
+export interface CompanyLocation {
+  lat: number;
+  lon: number;
+  name: string;
+  address?: string;
+  /** Square-ish logo/icon shown inside the pin badge */
+  logoSrc: string;
+}
+
+const escapeHtml = (value: string) =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
 interface ServiceAreaMapProps {
   projects: Project[];
+  /** Permanent pin for the company's own location. Optional. */
+  companyLocation?: CompanyLocation | null;
   mapStyle?: string;
 }
 
-export default function ServiceAreaMap({ projects, mapStyle = 'mapbox://styles/mapbox/dark-v11' }: ServiceAreaMapProps) {
+export default function ServiceAreaMap({ projects, companyLocation = null, mapStyle = 'mapbox://styles/mapbox/dark-v11' }: ServiceAreaMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<any>(null);
   const [mounted, setMounted] = useState(false);
@@ -37,7 +54,9 @@ export default function ServiceAreaMap({ projects, mapStyle = 'mapbox://styles/m
   // Returns null if no coordinates exist — map will show an error requiring the dev to act.
   const getCenter = (): [number, number] | null => {
     const withCoords = projects.filter(p => p.coordinates);
-    if (withCoords.length === 0) return null;
+    if (withCoords.length === 0) {
+      return companyLocation ? [companyLocation.lon, companyLocation.lat] : null;
+    }
     const avgLat = withCoords.reduce((sum, p) => sum + (typeof p.coordinates!.lat === 'string' ? parseFloat(p.coordinates!.lat) : p.coordinates!.lat), 0) / withCoords.length;
     const avgLon = withCoords.reduce((sum, p) => sum + (typeof p.coordinates!.lon === 'string' ? parseFloat(p.coordinates!.lon) : p.coordinates!.lon), 0) / withCoords.length;
     return [avgLon, avgLat];
@@ -155,9 +174,10 @@ export default function ServiceAreaMap({ projects, mapStyle = 'mapbox://styles/m
             // clustered (e.g. a handful of jobs in the same city) and clips pins
             // when they're spread wide. Fit bounds to whatever pins exist instead,
             // so this scales automatically as more projects get added over time.
-            if (geojson.features.length > 0) {
+            if (geojson.features.length > 0 || companyLocation) {
               const bounds = new mapboxgl.LngLatBounds();
               geojson.features.forEach((f: any) => bounds.extend(f.geometry.coordinates));
+              if (companyLocation) bounds.extend([companyLocation.lon, companyLocation.lat]);
               map.current.fitBounds(bounds, {
                 padding: 80,
                 maxZoom: 13,   // Don't zoom in past street level for a single pin
@@ -266,6 +286,44 @@ export default function ServiceAreaMap({ projects, mapStyle = 'mapbox://styles/m
                 .addTo(map.current);
             });
 
+            // ── Company location pin (logo badge) ──────────────────────────────
+            // Always-visible badge for the business's own location; separate from the
+            // clustered project layer so it never merges into a cluster.
+
+            if (companyLocation) {
+              const badge = document.createElement('div');
+              badge.className = 'h-14 w-14 cursor-pointer overflow-hidden rounded-full bg-white shadow-lg';
+              badge.style.border = `4px solid ${COMPANY_PIN_RING_COLOR}`;
+              badge.setAttribute('role', 'img');
+              badge.setAttribute('aria-label', `${companyLocation.name} location`);
+
+              const logo = document.createElement('img');
+              logo.src = companyLocation.logoSrc;
+              logo.alt = '';
+              logo.className = 'h-full w-full object-contain p-1';
+              badge.appendChild(logo);
+
+              const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+                companyLocation.address || `${companyLocation.lat},${companyLocation.lon}`
+              )}`;
+
+              const companyPopup = new mapboxgl.Popup({ offset: 32 }).setHTML(
+                `<div style="font-family: sans-serif; color: ${POPUP_TEXT_COLOR}; padding: 8px;">
+                  <strong style="color: ${POPUP_TITLE_COLOR}; display: block; margin-bottom: 8px;">${escapeHtml(companyLocation.name)}</strong>
+                  ${companyLocation.address ? `<p style="margin: 0 0 8px 0; font-size: 14px;">${escapeHtml(companyLocation.address)}</p>` : ''}
+                  <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer"
+                     style="color: ${POPUP_LINK_COLOR}; text-decoration: none; font-weight: 500; font-size: 13px;">
+                    Get Directions →
+                  </a>
+                </div>`
+              );
+
+              new mapboxgl.Marker({ element: badge })
+                .setLngLat([companyLocation.lon, companyLocation.lat])
+                .setPopup(companyPopup)
+                .addTo(map.current);
+            }
+
             // ── Cursor ────────────────────────────────────────────────────────
 
             ['clusters', 'unclustered-point'].forEach(layer => {
@@ -293,7 +351,7 @@ export default function ServiceAreaMap({ projects, mapStyle = 'mapbox://styles/m
         map.current = null;
       }
     };
-  }, [mounted, projects]);
+  }, [mounted, projects, companyLocation]);
 
   if (!mounted) {
     return (

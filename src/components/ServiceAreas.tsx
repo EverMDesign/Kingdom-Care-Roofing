@@ -1,4 +1,4 @@
-import { getProjects } from '@/lib/workpress-api'
+import { getProjects, getCompanySettings } from '@/lib/workpress-api'
 import ServiceAreaMap from './ServiceAreaMap'
 
 const areas = [
@@ -17,7 +17,22 @@ const areas = [
 ]
 
 export async function ServiceAreas() {
-  const projects = await getProjects()
+  const [projects, settings] = await Promise.all([getProjects(), getCompanySettings()])
+
+  const companyLocation =
+    settings?.show_company_pin &&
+    settings.company_latitude != null &&
+    settings.company_longitude != null
+      ? {
+          lat: Number(settings.company_latitude),
+          lon: Number(settings.company_longitude),
+          name: settings.company_name || "Kingdom Care Roofing and Construction",
+          address: settings.company_address || undefined,
+          // Uploaded in the WorkPress dashboard; falls back to the site's own logo
+          logoSrc: settings.company_logo_url || "/images/homepage/kingdom-care-logo.webp",
+        }
+      : null;
+
 
   return (
     <section className="py-section-mb md:py-section-dt bg-brand-cream relative">
@@ -52,7 +67,7 @@ export async function ServiceAreas() {
           </div>
 
           <div className="w-full lg:flex-1 h-[400px] lg:h-auto min-h-[500px] relative">
-            <ServiceAreaMap projects={projects} mapStyle="mapbox://styles/mapbox/light-v11" />
+            <ServiceAreaMap projects={projects} companyLocation={companyLocation} mapStyle="mapbox://styles/mapbox/light-v11" />
           </div>
         </div>
       </div>
