@@ -8,10 +8,8 @@ export interface Project {
   metaDescription?: string;
   status: 'published' | 'draft';
   address: {
-    street: string;
     city: string;
     state: string;
-    zip: string;
   };
   services?: string[];
   cover_photo_url: string;
